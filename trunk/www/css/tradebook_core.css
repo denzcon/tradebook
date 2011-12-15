@@ -1,0 +1,232 @@
+/* 
+    Document   : tradebook_core
+    Created on : Dec 7, 2011, 2:11:28 AM
+    Author     : Jonathan
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+*{
+	margin: 0;
+	padding: 0
+}
+root { 
+    display: block;
+}
+.hide
+{
+	display: none;
+}
+body {
+padding-top: 40px;
+}
+
+.footer_container{display: block;position: absolute;bottom: 0; left: 0;right: 0;background: #555;}
+a:hover{color: #ee3d6b !important;}
+.hiliteTBBlue:hover
+{
+	color: #549cfc !important;
+}
+page
+{
+	clear: both;
+	display: block;
+	position: relative;
+}
+.page-header
+{
+/*	overflow: auto;*/
+	height: 40px;
+	margin-bottom: 40px;
+}
+ul.data-grid li
+{
+/*	width: 125px;*/
+	float: left;
+	
+	list-style: none;
+	height: 180px;
+	margin: 0 20px 30px 0;
+	width: 152px;
+}
+.small_user_icon .profile_icon {
+  float: left;
+  height: 20px;
+  margin-right: 5px;
+  margin-top: 4px;
+  overflow: hidden;
+  width: 20px;
+}
+.grid-item-image a .teammark {
+  bottom: 15px;
+  height: 12px;
+  line-height: 14px;
+  padding: 2px 5px;
+  right: 1px;
+}
+.teammark {
+  background-color: #CC0066;
+  color: #FFFFFF;
+  opacity: 0.8;
+  position: absolute;
+}
+.grid-item-image
+{
+	position: relative;	
+	background: url("/images/idea_shadow_m.png") no-repeat scroll left bottom transparent;
+	height: 152px;
+	padding-bottom: 14px;
+	width: 152px;	
+}
+.grid-item-image img
+{
+	border: 1px solid #ddd;
+}
+.hiliteTBBlue
+{
+	color: #3288ff !important;
+}
+.hiliteTBGray
+{
+	color: #bdbdbd !important;
+}
+.topbar h3 a, .topbar .brand
+{
+	color: inherit;
+	font-size: 28px;
+	padding:3px 16px 5px;
+}
+.topbar h3
+{
+	color: #3288ff
+}
+.topbar h3 a img
+{
+	vertical-align: middle;
+	margin-left: -12px;
+	width:44px;
+}
+.clearfix button
+{
+	margin-left: 150px;
+}
+.profile_link a.title
+{
+	font-size: 10px;
+}
+a.oneline {
+  display: block;
+  max-height: 14px;
+  overflow: hidden;
+  font-size: 10px;
+}
+.content
+{
+	position: relative;
+	margin-top: 33px;
+}
+.topbar .topbar-inner .container form input
+{
+
+}
+.container-fluid>.sidebar ul li
+{
+	list-style: none;
+	text-transform: capitalize;
+	color: #666;
+}
+.container-fluid>.sidebar
+{
+	
+	margin-top: 90px;
+	border-top: 1px solid #dedede;
+	padding: 5px;
+	width: 184px;
+	  font-family: "myriad-pro-1",Myriad Web Pro,Myriad Web,Myriad Pro,Segoe,Calibri,Helvetica Neue,Helvetica,Frutiger,Arial,sans-serif;
+  font-size: 12px;
+}
+body>.container
+{
+/*	padding-top: 50px;*/
+}
+.justify p
+{
+	text-align: justify;
+}
+.logoAnchor:hover
+{
+	color: #549cfc !important;
+}
+.modal-header {
+  border-bottom: 1px solid #EEEEEE;
+  padding: 20px 15px;
+}
+.modal-header h3
+{
+	font-size: 35px;
+	margin-left: 55px;
+}
+#signupModal .modal-body {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background: none repeat scroll 0 0 #EEEEEE;
+  border-color: #DDDDDD;
+  border-style: solid;
+  border-width: 1px 0;
+  padding-top: 0;
+}
+#userConnectModal .modal-header h3
+{
+	margin-top: 30px;
+}
+#signupModal .modal-header
+{
+	padding-top: 0;
+}
+div.topPromo {
+  background-color: #E8ECDC;
+  
+  border-bottom: 1px solid #DADFCB;
+  margin: 40px auto 30px;
+  padding: 20px 0 0;
+  width: 100%;
+  height: 376px;
+	z-index: -11000;
+}
+#homePromoHolder h1
+{
+	font-size: 48px;
+	margin-top: 47px;
+	text-align: center;
+	
+}
+#homePromoHolder img
+{
+	width: 80%;
+}
+#homePromoHolder
+{
+/*	height: 430px;*/
+	text-align: center;
+}
+.modal
+{
+	width: 650px;
+}
+#userConnectModal label
+{
+	font-weight: bold;
+	color: #777;
+}
+.pressBadgeHolder
+{
+	text-align: center;
+	margin-top: 40px
+}
