@@ -55,9 +55,7 @@
 		<div class="clearfix">
 			<label>Description: </label>
 			<div class="input">
-				<textarea name="itemDescription" id="itemDescription" cols="10" rows="5">
-
-				</textarea>
+				<textarea name="itemDescription" id="itemDescription" cols="10" rows="5"></textarea>
 			</div>
 		</div>
 		<div class="clearfix">

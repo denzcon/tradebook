@@ -230,3 +230,23 @@ div.topPromo {
 	text-align: center;
 	margin-top: 40px
 }
+form .clearfix.error input, form .clearfix.error textarea
+{
+	background: #fee1e5;
+}
+.editGravatarBtn {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 1px solid #AAAAAA;
+  height: 20px;
+  padding: 4px 3px 1px;
+  position: absolute;
+  right: 1px;
+  text-align: center;
+  top: 1px;
+  width: 20px;
+}
+#settingsGravatarHolder
+{
+	position: relative;
+	display: inline-block;
+}

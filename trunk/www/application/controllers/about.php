@@ -1,12 +1,12 @@
 <?php
-class About extends CI_Controller {
+class About extends MY_Controller {
 
 	function index()
 	{
 		
 		$data = array();
-		$this->load->view('page_head_incl');
-		$this->load->view('header_menu_nav');
+		$data['userInfoArray'] = $this->session->userdata();
+		$this->load->view('page_top.php', $data);
 		$this->load->view('about');
 		
 	}

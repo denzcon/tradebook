@@ -48,12 +48,12 @@ class Membership_model extends CI_Model
 		if ($query->num_rows == 1)
 		{
 			$results = $query->result_array();
-
-			self::$currentUserId = $results[0]['id'];
-			self::$currentUserFirstName = $results[0]['first_name'];
-			self::$currentUserLastName = $results[0]['last_name'];
-			self::$currentUserUsername = $results[0]['username'];
-			self::$currentUserEmailAddress = $results[0]['email_address'];
+			
+			self::$currentUserId			= $results[0]['id'];
+			self::$currentUserFirstName		= $results[0]['first_name'];
+			self::$currentUserLastName		= $results[0]['last_name'];
+			self::$currentUserUsername		= $results[0]['username'];
+			self::$currentUserEmailAddress	= $results[0]['email_address'];
 
 			$return = array(
 				'results' => $results[0]
@@ -69,14 +69,26 @@ class Membership_model extends CI_Model
 	function create_member()
 	{
 		$new_member_insert_data = array(
-			'first_name' => $this->input->post('first_name'),
-			'last_name' => $this->input->post('last_name'),
+			'first_name'	=> $this->input->post('first_name'),
+			'last_name'		=> $this->input->post('last_name'),
 			'email_address' => $this->input->post('email_address'),
-			'username' => $this->input->post('username'),
-			'password' => $this->input->post('password1')
+			'username'		=> $this->input->post('username'),
+			'password'		=> $this->input->post('password1')
 		);
 		$insert = $this->db->insert('users', $new_member_insert_data);
 		return $insert;
+	}
+	function getUserInfoArray()
+	{
+//		$userInfoArray = array(
+//			'currentUserId'				=> self::$currentUserId,
+//			'currentUserUsername'		=> self::$currentUserUsername,
+//			'currentUserFirstName'		=> self::$currentUserFirstName,
+//			'currentUserLastName'		=> self::$currentUserLastName,
+//			'currentUserEmailAddress'	=> self::$currentUserEmailAddress
+//		);
+		
+		return $this->session->userdata();
 	}
 
 }

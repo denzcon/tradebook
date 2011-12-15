@@ -1,14 +1,21 @@
 <?php
-class Settings extends CI_Controller {
+class Settings extends MY_Controller {
 
 	function index()
 	{
 		
-		$data = array();
-		$this->load->model('site_model');
-		$this->load->view('page_head_incl');
-		$this->load->view('header_menu_nav');
-		$this->load->view('settings');
+//		$data = array();
+////		$this->load->model('site_model');
+//		$data['userInfoArray'] = $this->session->userdata();
+//		
+//		echo "<pre>";
+//		print_r($data);
+//		echo "</pre>";
+//		exit;
+////		
+//		$this->load->view('page_top.php', $data);
+//	
+//		$this->load->view('settings', $data);
 		
 	}
 

@@ -1,11 +1,11 @@
 <?php
 
-class User extends CI_Controller
+class User extends MY_Controller
 {
 
 	function index()
 	{
-		$session_data = $this->session->all_userdata();
+		$session_data = $this->session->userdata();
 
 		echo "<pre>";
 		print_r($session_data);
@@ -13,19 +13,19 @@ class User extends CI_Controller
 		exit;
 		$data = array();
 		$data['username'] = $this->uri->segment(2);
-		$this->load->view('page_head_incl');
-		$this->load->view('header_menu_nav');
+		$data['userInfoArray'] = $this->session->userdata();
+		$this->load->view('page_top.php', $data);
 		$this->load->view('user', $data);
 	}
 
 	function settings()
 	{
 		$data = array();
-		$this->load->view('page_head_incl');
-		$this->load->view('header_menu_nav');
+		$data['userInfoArray'] = $this->session->userdata();
+		$this->load->view('page_top.php', $data);
 		if ($this->site_model->is_logged_in())
 		{
-			$this->load->view('settings');
+			$this->load->view('settings', $data);
 		}
 		else
 		{

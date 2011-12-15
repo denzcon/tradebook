@@ -1,25 +1,27 @@
 <?php
 
-class Login extends MY_Controller {
+class Login extends MY_Controller
+{
 
 	function index()
 	{
 		$data['grid'] = $this->site_model->build_grid_for_public();
-		$this->load->view('page_head_incl');
-		$this->load->view('header_menu_nav');
+		$data['userInfoArray'] = $this->session->userdata();
+		$this->load->view('page_top.php', $data);
 		$this->load->view('modals/login_form', $data);
 	}
-	
+
 	function validate_credentials()
 	{
-		
-		$query = $this->membershipModel->validate();;
-		if($query)
+
+		$query = $this->membershipModel->validate();
+		;
+		if ($query)
 		{
 			$test = array();
 			$data = array(
 				'user_info' => $query,
-				'is_logged_in' => true				
+				'is_logged_in' => true
 			);
 
 			$this->site_model->updateSession($data);
@@ -29,12 +31,12 @@ class Login extends MY_Controller {
 		{
 			$data = array(
 				'user_info' => $query,
-				'is_logged_in' => false				
+				'is_logged_in' => false
 			);
 			echo json_encode($data);
 		}
 	}
-	
+
 	function signup()
 	{
 //		echo "<pre>";
@@ -43,49 +45,214 @@ class Login extends MY_Controller {
 //		exit;
 		$this->index();
 	}
-	
-	function createMemberAjax()
-	{
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('first_name', 'Name', 'trim|required');
-		$this->form_validation->set_rules('last_name', 'Last Name', 'trim|required');
-		$this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email');
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]');
-		$this->form_validation->set_rules('password1', 'Password1', 'trim|required|min_length[4]|max_length[32]|md5');
-		$this->form_validation->set_rules('password2', 'Password2', 'trim|required|min_length[4]|max_length[32]|matches[password1]|md5');
-		$validate = $this->form_validation->run();
-		$return = array();
-		$return['validation'] = $validate;
-		if($validate == FALSE)
-		{
-			$return['validation_status'] = 'Validation Error';
-			$return['validation_errors'] = validation_errors();
-			echo json_encode($return);
-		}
-		else
-		{
-			$return['validation_status'] = 'Validation Success';
-			$this->load->model('membership_model');
-			if($query = $this->membership_model->create_member())
-			{
-			$return['signup_status'] = true;
-			$return['signup_status_message'] = 'Successfully created user';
-			echo json_encode($return);
-				
-			}
-		}
-	}
-	
+
+
+
 	function logout()
 	{
-		if($this->session->sess_destroy())
+		if ($this->session->sess_destroy())
 		{
 			echo "LoggedOut";
-			
 		}
 
 //		$this->index();
-		
 	}
-	
+
+	function signupSubmit()
+	{
+		$rules['email_address'] = array(
+			'field_name' => 'Email',
+			'required' => true,
+			'notEmpty' => true,
+			'custom' => array(
+				function ($_fieldName, $rule, $values)
+				{
+					if (preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $values[$_fieldName]))
+					{
+						return true;
+					}
+					else
+					{
+						return 'You must provide a valid email address';
+					}
+				}
+//				function ($_fieldName, $rule, $values)
+//				{
+//					$CI = get_instance();
+//					$result = $CI->user_model->getUserByEmail($values[$_fieldName]);
+//					if (!$result)
+//					{
+//						return true;
+//					}
+//					else
+//					{
+//						return "This email is already used by another organization.";
+//					}
+//				}
+			)
+		);
+
+		$rules['first_name'] = array(
+			'field_name' => 'First Name',
+			'required' => true,
+			'length' => array(
+				'max' => 128
+			)
+		);
+		$rules['username'] = array(
+			'field_name' => 'User Name',
+			'required' => true
+		);
+
+		$rules['last_name'] = array(
+			'field_name' => 'Last Name',
+			'required' => true,
+			'length' => array(
+				'max' => 255
+			)
+		);
+		
+		$rules['password1'] = array(
+			'field_name' => 'New Password',
+			'required' => true,
+			'length' => array(
+				'min' => 5,
+				'max' => 10
+			)
+		);
+
+		$rules['password2'] = array(
+			'field_name' => 'Confirm Password',
+			'required' => true,
+			'length' => array(
+				'min' => 5,
+				'max' => 10
+			),
+			'notEmpty' => true,
+			'custom' => function ($_fieldName, $rule, $values)
+			{
+				if ($values[$_fieldName] == $values['password1'])
+				{
+					return true;
+				}
+				else
+				{
+					return "Passwords don't match";
+				}
+			}
+		);
+
+		if (!count($_POST))
+		{
+			$json_results = array(
+				'status' => false,
+				'message' => 'The form you submitted has no parameters being passed'
+			);
+			echo json_encode($json_results);
+			return;
+		}
+
+		$errors = validateArrays($rules, $_POST);
+
+		if (is_array($errors) && count($errors))
+		{
+			$json_results = array(
+				'status' => false,
+				'message' => 'There have been errors in our validation for your record submit',
+				'errors' => $errors
+			);
+			echo json_encode($json_results);
+			return;
+		}
+
+		$json_results = array(
+			'status' => true,
+			'message' => 'Your form has been successfully Edited, please wait to be redirected',
+			'redirect' => "/settings/organization"
+		);
+		$json_results['create_member'] = $this->membershipModel->create_member();
+		echo json_encode($json_results);
+		return;
+	}
+
+	function loginSubmit()
+	{
+		$rules['email_address'] = array(
+			'field_name' => 'Email',
+			'required' => true,
+			'notEmpty' => true,
+			'custom' => array(
+				function ($_fieldName, $rule, $values)
+				{
+					if (preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $values[$_fieldName]))
+					{
+						return true;
+					}
+					else
+					{
+						return 'You must provide a valid email address';
+					}
+				}
+//				function ($_fieldName, $rule, $values)
+//				{
+//					$CI = get_instance();
+//					$result = $CI->user_model->getUserByEmail($values[$_fieldName]);
+//					if (!$result)
+//					{
+//						return true;
+//					}
+//					else
+//					{
+//						return "This email is already used by another organization.";
+//					}
+//				}
+			)
+		);
+
+		
+		
+		$rules['password1'] = array(
+			'field_name' => 'New Password',
+			'required' => true,
+			'length' => array(
+				'min' => 5,
+				'max' => 10
+			)
+		);
+
+		
+
+		if (!count($_POST))
+		{
+			$json_results = array(
+				'status' => false,
+				'message' => 'The form you submitted has no parameters being passed'
+			);
+			echo json_encode($json_results);
+			return;
+		}
+
+		$errors = validateArrays($rules, $_POST);
+
+		if (is_array($errors) && count($errors))
+		{
+			$json_results = array(
+				'status' => false,
+				'message' => 'There have been errors in our validation for your record submit',
+				'errors' => $errors
+			);
+			echo json_encode($json_results);
+			return;
+		}
+
+		$json_results = array(
+			'status' => true,
+			'message' => 'Your form has been successfully Edited, please wait to be redirected',
+			'redirect' => "/settings/organization"
+		);
+		$json_results['create_member'] = $this->membershipModel->create_member();
+		echo json_encode($json_results);
+		return;		
+	}
+
 }

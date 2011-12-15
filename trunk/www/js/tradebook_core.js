@@ -111,6 +111,7 @@ $(document).ready(
 				return false;
 			});
 			
+			
 		$('#loginSubmit').click(
 			function()
 			{
@@ -187,7 +188,7 @@ $(document).ready(
 			function()
 			{				
 				$.ajax( {
-					url: "/login/createMemberAjax",
+					url: "/login/signupSubmit",
 					type: 'POST',
 					data: $('#signupForm').serialize(),
 					dataType: 'json',
@@ -200,19 +201,37 @@ $(document).ready(
 		function createUserResponse(response)
 		{
 				
-			if(response['signup_status'])
+			var $form = $('#signupForm');
+			if(response['status']==false)
 			{
-				$('#signup-modal-error-message p').text('Congratulations you are now signed up. Login below to begin using tradebook')
-				$('#signup-modal-error-message').removeClass('error');
-				$('#signup-modal-error-message').addClass('success');
-				$('#signup-modal-error-message').fadeIn();
-				$('#signupModal').hide();
-				$('#loginModal').fadeIn();						
+				$.each(response['errors'],function(key,val)
+				{
+					var $input = $('input[name='+key+']',$form);
+					var $container = $input.closest('div.clearfix');
+					$container.addClass('error');
+					$input.addClass('error').after($('<span>').addClass('help-inline').text(val));
+					$('#signup-modal-error-message p').text(response['message']);
+					$('#signup-modal-error-message').addClass('error');
+					$('#signup-modal-error-message').fadeIn();
+				});
+				
+//				$('#signup-modal-error-message p').text('Congratulations you are now signed up. Login below to begin using tradebook')
+//				$('#signup-modal-error-message').removeClass('error');
+//				$('#signup-modal-error-message').addClass('success');
+//				$('#signup-modal-error-message').fadeIn();
+//				$('#signupModal').hide();
+//				$('#loginModal').fadeIn();						
 			}
 			else
 			{
-				$('#signup-modal-error-message p').html(response['validation_errors']);
-				$('#signup-modal-error-message').addClass('error');
+				$('#signup-modal-error-message p').html(response['message']);
+				$('#signup-modal-error-message').hide();
+//				$('#signupForm').fadeOut();
+				$('#signupModal #signupForm').hide();
+				$('#signupModal .modal-footer').hide();
+				$('#signupModal .modal-body .alert-message').removeClass('hide');
+				$('#signupModal .modal-body .alert-message p').text(response['message']);
+				$('#signup-modal-error-message').addClass('success');
 				$('#signup-modal-error-message').show();
 			}
 		}
@@ -261,4 +280,22 @@ $(document).ready(
 		{
 			$html =""
 		}
+		
+		$('#settingsGravatarHolder').hover(
+		function()
+		{
+			$('#settingsGravatarHolder .editGravatarBtn').fadeIn();
+
+			
+		},
+		function()
+		{
+			$('#settingsGravatarHolder .editGravatarBtn').fadeOut();			
+		});
+
+		$('.editGravatarBtn').click(
+		function()
+		{
+			
+		});			
 	});

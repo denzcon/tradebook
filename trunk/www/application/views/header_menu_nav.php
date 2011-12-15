@@ -42,7 +42,8 @@
 						<li class="dropdown login_signup_logout_links">
 							<a href="#" class="dropdown-toggle">
 								<?php 
-								echo USER_USERNAME;
+								$user_info = $this->membershipModel->getUserInfoArray();
+								echo $user_info['user_info']['username'];
 								?>
 							</a>
 							<ul class="dropdown-menu">
@@ -69,9 +70,7 @@
 <!--Modals below-->
 <div class="modal-backdrop fade in hide"></div>
 <div id="userConnectModal" class="modal hide fade">
-	<div id="signup-modal-error-message" class="alert-message hide">				
-		<p></p>				
-	</div>
+
 	<div id="loginModal">
 		<div class="modal-header">
 			<a class="close" href="#" style="margin-top: -8px;">×</a>
@@ -105,6 +104,8 @@
 			<a class="btn secondary" href="#" id="loginCancel">Close</a>
 		</div>
 	</div>
+	
+	
 	<div id="signupModal" class="hide">
 		<div class="modal-header">
 			<a class="close" href="#" style="margin-top: -20px;">×</a>
@@ -115,7 +116,19 @@
 			</h3>
 		</div>
 		<div class="modal-body">
-
+			<div class="alert-message success hide">
+				
+				<p>
+					<strong>Well done!</strong>
+					You successfully read this alert message. 
+					Cum sociis natoque penatibus et magnis dis parturient montes, 
+					nascetur ridiculus mus. Maecenas faucibus mollis interdum.
+				</p>
+				<div class="alert-actions" style="text-align: right;">
+					<a href="#" class="btn small">Take this action</a> 
+					<a href="#" class="btn small">Or do this</a>
+				</div>
+			</div>
 			<?php
 			$attributes = array('id' => 'signupForm');
 			echo form_open('login/signup', $attributes);
@@ -133,7 +146,10 @@
 				<?php
 			}
 			?>
-			</form>
+		</form>
+		<div id="signup-modal-error-message" class="alert-message hide">				
+			<p></p>				
+		</div>			
 		</div>
 		<div class="modal-footer">
 			<a class="btn primary" href="#" id="signupSubmit">Signup</a>

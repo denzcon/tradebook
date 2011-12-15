@@ -1,15 +1,5 @@
 <?php
 
-if($this->site_model->is_logged_in())
-{
-$user_info = $this->session->all_userdata();
-define('USER_USERNAME',			$user_info['user_info']['username']);
-define('USER_EMAIL_ADDRESS',	$user_info['user_info']['email_address']);
-define('USER_FIRST_NAME',		$user_info['user_info']['first_name']);
-define('USER_LAST_NAME',		$user_info['user_info']['last_name']);
-define('USER_USER_ID',			$user_info['user_info']['id']);
-}
-
 ?>
 <!DOCTYPE html>
 <html>
