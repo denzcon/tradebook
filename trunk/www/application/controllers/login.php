@@ -14,14 +14,21 @@ class Login extends MY_Controller
 	function validate_credentials()
 	{
 
-		$query = $this->membershipModel->validate();
-		;
-		if ($query)
+		$query = $this->membershipModel->validate();		
+		
+//		echo "<pre>";
+//		print_r($query);
+//		echo "</pre>";
+//		exit;
+		
+		if($query['loginStatus'] == true)
 		{
-			$test = array();
+			$isAdmin			= $this->membershipModel->isUserAdmin($query['results']['id']);			
+			
 			$data = array(
-				'user_info' => $query,
-				'is_logged_in' => true
+				'user_info'			=> $query['results'],
+				'is_logged_in'		=> true,
+				'isAdmin'			=> isset($isAdmin)
 			);
 
 			$this->site_model->updateSession($data);
@@ -30,8 +37,9 @@ class Login extends MY_Controller
 		else
 		{
 			$data = array(
-				'user_info' => $query,
-				'is_logged_in' => false
+				'user_info'		=> $query,
+				'is_logged_in'	=> false,
+				'isAdmin'		=> false
 			);
 			echo json_encode($data);
 		}
@@ -46,11 +54,9 @@ class Login extends MY_Controller
 		$this->index();
 	}
 
-
-
 	function logout()
 	{
-		if ($this->session->sess_destroy())
+		if ($this->session->destroy())
 		{
 			echo "LoggedOut";
 		}

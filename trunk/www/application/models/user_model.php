@@ -85,16 +85,13 @@ class User_model extends CI_Model
 			'email_address' => $data['email_address'],
 		);
 		$query = $this->db->update('users', $data);
-		$return = array(
-			'status' => $query
-		);
 		if ($query)
 		{
-			return $query;
+			return true;
 		}
 		else
 		{
-			return "error";
+			return false;
 		}
 	}
 

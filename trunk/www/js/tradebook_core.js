@@ -5,7 +5,7 @@
 
 
 $(document).ready(
-	function () {
+	function() {
 		
 		var siteBaseUrl		= 'http://citradebook.com';
 		var messageDelay	= 6000;
@@ -213,14 +213,7 @@ $(document).ready(
 					$('#signup-modal-error-message p').text(response['message']);
 					$('#signup-modal-error-message').addClass('error');
 					$('#signup-modal-error-message').fadeIn();
-				});
-				
-//				$('#signup-modal-error-message p').text('Congratulations you are now signed up. Login below to begin using tradebook')
-//				$('#signup-modal-error-message').removeClass('error');
-//				$('#signup-modal-error-message').addClass('success');
-//				$('#signup-modal-error-message').fadeIn();
-//				$('#signupModal').hide();
-//				$('#loginModal').fadeIn();						
+				});				
 			}
 			else
 			{
@@ -267,18 +260,46 @@ $(document).ready(
 				} );
 				return false;				
 			});
+			
 		function modifyUserResponse(response)
 		{
-				
+			var $form = $('#modifyUserInfoForm');
+			if(response['status']==false)
+			{
+				$.each(response['errors'],function(key,val)
+				{
+					var $input = $('input[name='+key+']',$form);
+					var $container = $input.closest('div.clearfix');
+					$container.addClass('error');
+					$input.addClass('error').after($('<span>').addClass('help-inline').text(val));
+					$('#settingsUpdate-message p').text(response['message']);
+					$('#settingsUpdate-message').addClass('error');
+					$('#settingsUpdate-message').fadeIn();
+				});				
+			}
+			else
+			{
+				$('#settingsUpdate-message p').html(response['message']);
+				$('#settingsUpdate-message').hide();
+//				$('#signupForm').fadeOut();
+//				$('#modifyUserInfoForm').hide();
+//				$('#signupModal .modal-footer').hide();
+				$('#settingsUpdate-message').removeClass('hide');
+				$('#settingsUpdate-message p').text(response['message']);
+				$('#settingsUpdate-message').addClass('success');
+				$('#settingsUpdate-message').show();
+			}				
 		}
+		
 		$('.resetButton').click(
 			function()
 			{
 				
-			})
+			});
+			
 		function successMessage(msg)
 		{
-			$html =""
+			$html ="";
 		}
 		
 		$('#settingsGravatarHolder').hover(

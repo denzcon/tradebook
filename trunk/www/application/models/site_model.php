@@ -239,5 +239,15 @@ class Site_model extends CI_Model{
 
 		$this->session->set_userdata($data);
 	}
+	
+	function getFullTradeServiceList()
+	{
+		$this->db->select('*');
+		$this->db->from('services');
+		$query = $this->db->get();
+		$results = $query->result_array();
+		return $results;
+		
+	}
 }
 //echo "model_loaded";

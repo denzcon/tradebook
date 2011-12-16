@@ -21,7 +21,8 @@ class User extends MY_Controller
 	function settings()
 	{
 		$data = array();
-		$data['userInfoArray'] = $this->session->userdata();
+		$data['services'] = $this->site_model->getFullTradeServiceList();
+		$data['userInfoArray'] = $this->membershipModel->getUserInfoArray();
 		$this->load->view('page_top.php', $data);
 		if ($this->site_model->is_logged_in())
 		{
@@ -72,9 +73,93 @@ class User extends MY_Controller
 
 	function update()
 	{
+		$rules['email_address'] = array(
+			'field_name' => 'Email',
+			'required' => true,
+			'notEmpty' => true,
+			'custom' => array(
+				function ($_fieldName, $rule, $values)
+				{
+					if (preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $values[$_fieldName]))
+					{
+						return true;
+					}
+					else
+					{
+						return 'You must provide a valid email address';
+					}
+				}
+//				function ($_fieldName, $rule, $values)
+//				{
+//					$CI = get_instance();
+//					$result = $CI->user_model->getUserByEmail($values[$_fieldName]);
+//					if (!$result)
+//					{
+//						return true;
+//					}
+//					else
+//					{
+//						return "This email is already used by another organization.";
+//					}
+//				}
+			)
+		);
+
+		$rules['first_name'] = array(
+			'field_name' => 'First Name',
+			'required' => true,
+			'length' => array(
+				'max' => 128
+			)
+		);
+		$rules['username'] = array(
+			'field_name' => 'User Name',
+			'required' => true
+		);
+
+		$rules['last_name'] = array(
+			'field_name' => 'Last Name',
+			'required' => true,
+			'length' => array(
+				'max' => 255
+			)
+		);
+		
+
+		if (!count($_POST))
+		{
+			$json_results = array(
+				'status' => false,
+				'message' => 'The form you submitted has no parameters being passed'
+			);
+			echo json_encode($json_results);
+			return;
+		}
+
+		$errors = validateArrays($rules, $_POST);
+
+		if (is_array($errors) && count($errors))
+		{
+			$json_results = array(
+				'status' => false,
+				'message' => 'There have been errors in our validation for your record submit',
+				'errors' => $errors
+			);
+			echo json_encode($json_results);
+			return;
+		}
+
+		$json_results = array(
+			'status' => true,
+			'message' => 'Your user information has been successfully updated. You can continue to change any info you need to',
+			'redirect' => "/settings/organization"
+		);
 		$this->load->model('user_model');
-		$return = $this->user_model->modifyUserInfo($this->input->post());
-		echo json_encode($return);
+		$modifyStatus = $this->user_model->modifyUserInfo($this->input->post());
+		$json_results['modifyStatus'] = $modifyStatus;
+		echo json_encode($json_results);
+		return;		
+
 	}
 
 }

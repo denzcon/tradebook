@@ -8,13 +8,13 @@
 	<div class="topbar" data-dropdown="dropdown" >	
 		<div class="topbar-inner">
 			<div class="container">
-				<h3>
+<!--				<h3>-->
 					<a href="/home" class="logoAnchor">
-						<span class="hiliteTBBlue" style="margin-right: -9px;">trade</span>
+						<span class="hiliteTBBlue" style="margin-right: -7px;">trade</span>
 						<span class="hiliteTBGray">book</span>
 						<img src="<?php echo base_url(); ?>images/tradebook_mini_trademark.png" alt="tradebook" />
 					</a>
-				</h3>
+<!--				</h3>-->
 				<ul class="nav">
 					<li class="active"><a href="/home">Home</a></li>
 					<li><a href="/about">About <strong><span class="hiliteTBBlue">t</span><span class="hiliteTBGray">b</span></strong></a></li>

@@ -11,11 +11,31 @@
 <div class="page container">
 	<div class="page-header content">
     <h1>Account: <small> Modify your account settings</small></h1>
+	<div class="userCollection">
+		<?php	
+			//	echo '<span class="label warning">Admin</span>';		
+			if(isset($userInfoArray['isAdmin']) && $userInfoArray['isAdmin']== 1)
+			{
+				echo '<span class="label important">Admin</span>';		
+			}
+			if(isset($userInfoArray['user_info']['user2Collection'][1]['collection_id']) && $userInfoArray['user_info']['user2Collection'][1]['collection_id']==2)
+			{
+				echo '<span class="label warning">Moderator</span>';
+			}
+			if(isset($userInfoArray['user_info']['user2Collection'][2]['collection_id']) && $userInfoArray['user_info']['user2Collection'][2]['collection_id']==3)
+			{
+				echo '<span class="label success">User</span>';
+			}
+		?>		
+	</div>
   </div>
 	<form name="Account" action="/user/modifyUserInfo" method="post" class="form-stacked" id="modifyUserInfoForm">
 		<fieldset>
 			<legend>General Settings</legend>
 			<input type="hidden" name="user_id" id="user_id" value="<?php echo $userInfoArray['user_info']['user_id']; ?>" />
+			<div id="settingsUpdate-message" class="alert-message hide">
+				<p></p>
+			</div>
 			<div class="clearfix">
 				<div id="settingsGravatarHolder">
 					<div class="editGravatarBtn hide">
@@ -53,30 +73,16 @@
             <label id="optionsCheckboxes">List of options</label>
             <div class="input">
               <ul class="inputs-list">
+				  <?php	  foreach ($services as $serv): ?>
+					  
                 <li>
                   <label>
-                    <input type="checkbox" value="option1" name="optionsCheckboxes">
-                    <span>Option one is this and that&mdash;be sure to include why it’s great</span>
+                    <input type="checkbox" value="<?php echo $serv['id']; ?>" id="<?php echo $serv['id']; ?>" name="tradeService">
+                    <span><?php echo $serv['service_name']; ?></span>
                   </label>
                 </li>
-                <li>
-                  <label>
-                    <input type="checkbox" value="option2" name="optionsCheckboxes">
-                    <span>Option two can also be checked and included in form results</span>
-                  </label>
-                </li>
-                <li>
-                  <label>
-                    <input type="checkbox" value="option2" name="optionsCheckboxes">
-                    <span>Option three can&mdash;yes, you guessed it&mdash;also be checked and included in form results. Let's make it super long so that everyone can see how it wraps, too.</span>
-                  </label>
-                </li>
-                <li>
-                  <label class="disabled">
-                    <input type="checkbox" disabled="" value="option2" name="optionsCheckboxes">
-                    <span>Option four cannot be checked as it is disabled.</span>
-                  </label>
-                </li>
+				<?php endforeach; ?>
+
               </ul>
               <span class="help-block">
                 <strong>Note:</strong> Labels surround all the options for much larger click areas and a more usable form.
