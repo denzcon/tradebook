@@ -161,5 +161,23 @@ class User extends MY_Controller
 		return;		
 
 	}
+	
+	function scrapeWishFromURLRobert()
+	{
+		$url		= 'http://www.newegg.com/Product/Product.aspx?Item=9SIA016000HY14&cm_sp=Spotlight-_-9SIA016000HY14-_-12102011';
+		$html		= $this->site_model->CURL($url);
 
+		$dom		= new DOMDocument();
+		@$dom->loadHTML($html);
+
+		$xpath		= new DOMXPath($dom);
+		$price		= $xpath->evaluate("//*[@id='synopsis']");
+		
+		echo "<pre>test";
+		print_r($price);
+		echo "</pre>";
+		exit;
+
+		
+	}
 }

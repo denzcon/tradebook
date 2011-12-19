@@ -133,6 +133,11 @@ $(document).ready(
 					
 				}				
 			});
+			$('#closeLoginModal').click(
+			function()
+			{
+				$('#userConnectModal').modal('hide');
+			})
 		$('#pagesLoginSubmit').click(
 			function()
 			{
@@ -183,19 +188,17 @@ $(document).ready(
 				})
 				return false;
 			});
-			
-		$('#signupSubmit').click(
+			$('#closeRegistration').click(
 			function()
-			{				
-				$.ajax( {
-					url: "/login/signupSubmit",
-					type: 'POST',
-					data: $('#signupForm').serialize(),
-					dataType: 'json',
-					success: createUserResponse
-				} );
+			{
+				$('#userConnectModal').modal('hide');
+			});
+			
+		$('#userRegistration').click(
+			function()
+			{
+				$('#signupForm').trigger('submit');
 				return false;
-			//				}
 			});
 			
 		function createUserResponse(response)
@@ -247,50 +250,59 @@ $(document).ready(
 			location.reload();
 		}
 			
-		$('#modifyUserInfoSubmit').click(
-			function()
-			{
-					
-				$.ajax( {
-					url: "/user/update",
-					type: 'POST',
-					data: $('#modifyUserInfoForm').serialize(),
-					dataType: 'json',
-					success: modifyUserResponse
-				} );
-				return false;				
-			});
-			
-		function modifyUserResponse(response)
+		function simpleFormResponse(json, $form)
 		{
-			var $form = $('#modifyUserInfoForm');
-			if(response['status']==false)
+			if(json['status']==false)
 			{
-				$.each(response['errors'],function(key,val)
+				$.each(json['errors'],function(key,val)
 				{
 					var $input = $('input[name='+key+']',$form);
 					var $container = $input.closest('div.clearfix');
+					
 					$container.addClass('error');
 					$input.addClass('error').after($('<span>').addClass('help-inline').text(val));
-					$('#settingsUpdate-message p').text(response['message']);
-					$('#settingsUpdate-message').addClass('error');
+					$('#settingsUpdate-message p').text(json['message']);
+					$('#settingsUpdate-message').addClass('error');					
 					$('#settingsUpdate-message').fadeIn();
 				});				
 			}
 			else
 			{
-				$('#settingsUpdate-message p').html(response['message']);
+				$('#settingsUpdate-message p').html(json['message']);
 				$('#settingsUpdate-message').hide();
 //				$('#signupForm').fadeOut();
 //				$('#modifyUserInfoForm').hide();
 //				$('#signupModal .modal-footer').hide();
 				$('#settingsUpdate-message').removeClass('hide');
-				$('#settingsUpdate-message p').text(response['message']);
+				$('#settingsUpdate-message p').text(json['message']);
 				$('#settingsUpdate-message').addClass('success');
 				$('#settingsUpdate-message').show();
 			}				
 		}
-		
+
+		$('form.simpleForm').submit(
+			function()
+			{
+				// reset form
+				var $form = $(this);
+				var $input = $('input[name]',$form).not('[type=hidden]').removeClass('error');
+				$input.closest('div.clearfix').removeClass('error');
+				$('span.help-inline').remove();
+				$('#settingsUpdate-message p').text('');
+				$('#settingsUpdate-message').removeClass('error').hide();
+				
+				$.ajax( {
+					url: $form.attr('action'),
+					type: 'POST',
+					data: $form.serialize(),
+					dataType: 'json',
+					success: function(json){
+						simpleFormResponse(json,$form);
+					}
+				} );
+				return false;				
+			});
+
 		$('.resetButton').click(
 			function()
 			{

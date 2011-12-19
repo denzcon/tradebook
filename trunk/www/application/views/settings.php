@@ -29,7 +29,7 @@
 		?>		
 	</div>
   </div>
-	<form name="Account" action="/user/modifyUserInfo" method="post" class="form-stacked" id="modifyUserInfoForm">
+	<form name="Account" action="/user/update" method="post" class="form-stacked simpleForm" id="modifyUserInfoForm">
 		<fieldset>
 			<legend>General Settings</legend>
 			<input type="hidden" name="user_id" id="user_id" value="<?php echo $userInfoArray['user_info']['user_id']; ?>" />
@@ -89,13 +89,13 @@
               </span>
             </div>
           </div>
-			
+			<div class="actions">
+					<button type="submit" data-loading-text="Saving Changes..." value="Save changes" class="btn primary" id="modifyUserInfoSubmit" >Save Changes</button>
+					&nbsp;
+					<button class="btn" type="reset">Cancel</button>
+			</div>			
 		</fieldset>
 		
 	</form>
-	<div class="actions">
-            <button type="submit" data-loading-text="Saving Changes..." value="Save changes" class="btn primary" id="modifyUserInfoSubmit" >Save Changes</button>
-			&nbsp;
-			<button class="btn" type="reset">Cancel</button>
-	</div>
+
 </div>

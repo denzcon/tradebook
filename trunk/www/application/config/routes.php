@@ -46,6 +46,7 @@ $route['user/addwish']			= 'user/addWish';
 $route['user/addWishAjax']		= 'user/addWishAjax';
 $route['user/addWishURLAjax']	= 'user/addWishURLAjax';
 $route['user/update']			= 'user/update';
+$route['user/scrapeWishFromURLRobert']			= 'user/scrapeWishFromURLRobert';
 
 
 /* End of file routes.php */
