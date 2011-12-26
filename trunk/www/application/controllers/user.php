@@ -48,8 +48,19 @@ class User extends MY_Controller
 
 	function addWishAjax()
 	{
+		$config['image_library']	= 'gd2';
+		$config['source_image']		= $this->input->post('itemImage');
+		$config['create_thumb']		= TRUE;
+		$config['maintain_ratio']	= TRUE;
+		$config['width']			= 75;
+		$config['height']			= 50;
+		$config['new_image']		= 'newImageFromCI.jpg';
+		
 		$this->load->model('user_model');
+		$this->load->library('image_lib');
+		
 		$ajax = $this->input->post();
+		
 		$status = $this->user_model->addWish2User($ajax);
 		echo json_encode($status);
 	}

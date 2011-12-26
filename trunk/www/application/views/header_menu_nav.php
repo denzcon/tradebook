@@ -128,8 +128,8 @@
 			</div>
 			<?php
 			$attributes = array(
-				'id' => 'signupForm',
-				'class' => 'simpleForm'
+				'id'		=> 'signupForm',
+				'class'		=> 'simpleForm'
 				);
 			echo form_open('/login/signupSubmit', $attributes);
 			echo form_fieldset();

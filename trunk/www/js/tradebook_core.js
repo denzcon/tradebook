@@ -330,5 +330,17 @@ $(document).ready(
 		function()
 		{
 			
-		});			
+		});
+		
+		$(function() {
+		$( ".data-grid li" ).draggable({revert: "invalid"});
+		$( ".data-grid .dropzone" ).droppable({
+			drop: function( event, ui ) {
+				$( this )
+					.addClass( "ui-state-highlight" )
+					.find( "p" )
+						.html( "Dropped!" );
+			}
+		});
+	});
 	});

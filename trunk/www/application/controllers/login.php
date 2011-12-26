@@ -15,16 +15,10 @@ class Login extends MY_Controller
 	{
 
 		$query = $this->membershipModel->validate();		
-		
-//		echo "<pre>";
-//		print_r($query);
-//		echo "</pre>";
-//		exit;
-		
+
 		if($query['loginStatus'] == true)
 		{
 			$isAdmin			= $this->membershipModel->isUserAdmin($query['results']['id']);			
-			
 			$data = array(
 				'user_info'			=> $query['results'],
 				'is_logged_in'		=> true,

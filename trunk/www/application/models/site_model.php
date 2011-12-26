@@ -32,6 +32,27 @@ class Site_model extends CI_Model{
 					user_avatars uav ON
 					u2w.user_id = uav.user_id			
 			";
+		$sql = "
+					SELECT
+					u.id AS userid,
+					u.username,
+					u2w.want_id,
+					w.title,
+					w.price,
+					w.description,
+					w.preview_image,
+					uav.avatar_image_url
+					FROM wanted w
+					LEFT JOIN
+					user2wants u2w ON
+					u2w.want_id = w.id
+					LEFT JOIN
+					users u ON
+					u.id = u2w.user_id
+					LEFT JOIN
+					user_avatars uav ON
+					u.id = uav.user_id			
+			";
 		$q= $this->db->query($sql);
 
 		if($q->num_rows() > 0)
@@ -247,6 +268,21 @@ class Site_model extends CI_Model{
 		$query = $this->db->get();
 		$results = $query->result_array();
 		return $results;
+		
+	}
+	
+	function getAvatarURL($userid, $size)
+	{
+		$sql = "
+			SELECT
+			email
+			FROM users
+			WHERE id= :userid
+			";
+		$query = $this->db->get_where('users', array('id' => $userid));
+		$results = $query->result_array();
+		$return = 'http://www.gravatar.com/avatar/'.md5($results[0]['email_address']).'?s='.$size;
+		return $return;
 		
 	}
 }
