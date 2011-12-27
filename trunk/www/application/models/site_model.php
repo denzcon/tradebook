@@ -285,5 +285,22 @@ class Site_model extends CI_Model{
 		return $return;
 		
 	}
+	
+	function processItemImage($srcPath, $library='gd2', $newName, $newPath, $width, $height)
+	{
+		$config['image_library']	= 'gd2';
+		$config['source_image']		= $srcPath;
+		$config['create_thumb']		= TRUE;
+		$config['maintain_ratio']	= TRUE;
+		$config['width']			= $width;
+		$config['height']			= $height;
+		$config['new_image']		= '/images/processed_image.jpg';
+		$this->load->library('image_lib');		
+		$this->image_lib->clear();
+		$this->image_lib->initialize($config);
+		$this->image_lib->crop(); 
+//		$resize = $this->image_lib->resize();
+//		return $resize;
+	}
 }
 //echo "model_loaded";
