@@ -4,9 +4,13 @@
  * and open the template in the editor.
  */
 ?>
+
+
+
+
 <div class="topbar-wrapper" style="z-index: 5;">	
-	<div class="topbar" data-dropdown="dropdown" >	
-		<div class="topbar-inner">
+	    <div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
 			<div class="container">
 				<!--				<h3>-->
 				<a href="/home" class="logoAnchor">
@@ -66,9 +70,29 @@
 		</div>
 	</div>
 </div>
-
+<div id="packageBar" class="alert bury">
+	<div id="packageBarContentContainer">
+		<ul>
+			<li>
+				<h3 class="alert-heading">
+					<img src="/images/package.png" alt="create a package" width="30px" />
+					<a href="#" id="createPackageAnchor">Create a Package</a>
+				</h3>
+			</li>
+		</ul>
+		<p>
+			
+		</p>
+	</div>
+</div>
 <!--Modals below-->
+
 <div class="modal-backdrop fade in hide"></div>
+<div id="createPackageModal" class="modal hide fade">
+	<div class="modal-header">
+		<h3>Create Package</h3>
+	</div>
+</div>
 <div id="userConnectModal" class="modal hide fade">
 	<div id="loginModal">
 		<div class="modal-header">

@@ -48,17 +48,17 @@ class Membership_model extends CI_Model
 		if ($query->num_rows == 1)
 		{
 			$results = $query->result_array();
-			$user2Collection					= $this->getUser2Collection($results[0]['id']);
-			$results[0]['user2Collection']		= $user2Collection;
-			$results[0]['gravatarProfileURL']	= 'http://www.gravatar.com/'.md5($results[0]['email_address']);
-			$results[0]['gravatarAvatarURL']	= 'http://www.gravatar.com/avatar/'.md5($results[0]['email_address']);
-			$gravatarProfileData				= $this->site_model->CURL($results[0]['gravatarProfileURL'].'.json');
-			$results[0]['gravatarProfileData']	= json_decode($gravatarProfileData['output']);
-			self::$currentUserId				= $results[0]['id'];
-			self::$currentUsername				= $results[0]['username'];
-			self::$currentUserFirstName			= $results[0]['first_name'];
-			self::$currentUserLastName			= $results[0]['last_name'];
-			self::$currentUserEmailAddress		= $results[0]['email_address'];
+			$user2Collection = $this->getUser2Collection($results[0]['id']);
+			$results[0]['user2Collection'] = $user2Collection;
+			$results[0]['gravatarProfileURL'] = 'http://www.gravatar.com/' . md5($results[0]['email_address']);
+			$results[0]['gravatarAvatarURL'] = 'http://www.gravatar.com/avatar/' . md5($results[0]['email_address']);
+			$gravatarProfileData = $this->site_model->CURL($results[0]['gravatarProfileURL'] . '.json');
+			$results[0]['gravatarProfileData'] = json_decode($gravatarProfileData['output']);
+			self::$currentUserId = $results[0]['id'];
+			self::$currentUsername = $results[0]['username'];
+			self::$currentUserFirstName = $results[0]['first_name'];
+			self::$currentUserLastName = $results[0]['last_name'];
+			self::$currentUserEmailAddress = $results[0]['email_address'];
 			$return = array(
 				'loginStatus' => 'true',
 				'results' => $results[0]
@@ -77,16 +77,18 @@ class Membership_model extends CI_Model
 
 	function create_member()
 	{
-		$new_member_insert_data = array(
-			'first_name'	=> $this->input->post('first_name'),
-			'last_name'		=> $this->input->post('last_name'),
-			'email_address' => $this->input->post('email_address'),
-			'username'		=> $this->input->post('username'),
-			'password'		=> $this->input->post('password1')
-		);
-		$insert = $this->db->insert('users', $new_member_insert_data);
-		return $insert;
+		$user = new models\Entities\User();
+		$user->setUsername($this->security->xss_clean($this->input->post('username')));
+		$user->setFirstName($this->security->xss_clean($this->input->post('first_name')));
+		$user->setLastName($this->security->xss_clean($this->input->post('last_name')));
+		$user->setPassword($this->security->xss_clean($this->input->post('password1')));
+		$user->setEmailAddress($this->security->xss_clean($this->input->post('email_address')));
+//		\Doctrine\Common\Util\Debug::dump($user);
+		$this->em->persist($user);
+		$this->em->flush();
+		return true;
 	}
+
 	function getUserInfoArray()
 	{
 //		$userInfoArray = array(
@@ -96,10 +98,10 @@ class Membership_model extends CI_Model
 //			'currentUserLastName'		=> self::$currentUserLastName,
 //			'currentUserEmailAddress'	=> self::$currentUserEmailAddress
 //		);
-		
+
 		return $this->session->userdata();
 	}
-	
+
 	function isUserAdmin($user_id)
 	{
 		$this->db->select('user_id', 'collection_id', 'description');
@@ -108,7 +110,7 @@ class Membership_model extends CI_Model
 		$this->db->where('user2collection.user_id', $user_id);
 		$query = $this->db->get();
 		$return = $query->result_array();
-		if($query->num_rows == 1)
+		if ($query->num_rows == 1)
 		{
 			$return = array(
 				'status' => true,
@@ -118,15 +120,17 @@ class Membership_model extends CI_Model
 		}
 		else
 		{
-		return false;			
+			return false;
 		}
 	}
+
 	function getUser2Collection($user_id)
 	{
 		$this->db->select('collection_id');
 //		$this->db->from('user2collection');
 		$query = $this->db->get_where('user2collection', array('user_id' => $user_id));
 		$results = $query->result_array();
-		return $results;		
+		return $results;
 	}
+
 }

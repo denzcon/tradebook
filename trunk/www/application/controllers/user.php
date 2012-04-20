@@ -41,11 +41,48 @@ class User extends MY_Controller
 		$data = array();
 		$data['user_id']		= $this->membership_model->currentUserId();
 		$data['userServices']	= $this->user_model->getServicesForUser($data['user_id']);
+		
 		$this->load->view('page_head_incl');
 		$this->load->view('header_menu_nav');
 		$this->load->view('addwish', $data);
 	}
 
+	function searchWishAjax()
+	{
+
+		$this->load->model('google_api');
+		$key = $this->google_api->getGoogleShoppingSearchApiKey();
+//		$this->debug("test"); 
+		$ajax = urlencode($this->input->post("itemSearch"));
+		$response = array();
+//		$response['key'] = $key;
+		$response['status'] = true;
+//		$response["post"] = $ajax;
+		$url = $this->google_api->buildShoppingUrl($ajax, $key, 1, 20, "shopping");
+		$data = $this->CURL($url);
+		$response['data'] =json_decode($data['output'], true);
+		$page_index = $this->input->post('page_index');
+		$results_max_page = $this->input->post('result_max_page');
+		$prev_page_index = $page_index-$results_max_page;
+		$next_page_index = $page_index+$results_max_page;
+//		$prev_page = $this->google_api->buildShoppingUrl($ajax, $key, $prev_page_index, $results_max_page, "shopping");
+//		$next_page = $this->google_api->buildShoppingUrl($ajax, $key, $next_page_index, $results_max_page, "shopping");
+//		$this->debug($response);
+//		log_message('error', $response['data']);
+		$result_display_max = 16;
+		$fetched_search_count = $response['data']['totalItems'];
+		$displayed_search_count = $response['data']['currentItemCount'];
+		$pages = $fetched_search_count/$result_display_max;
+		$response['pagination'] = array(
+			'fetched_search_count' => $fetched_search_count,
+			'displayed_search_count' => $displayed_search_count,
+			'page_count' => $pages,
+			'next_page' => $next_page,
+			'prev_page' => $prev_page,
+		);
+
+		echo json_encode($response);
+	}
 	function addWishAjax()
 	{
 

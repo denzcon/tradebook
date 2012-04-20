@@ -1,6 +1,6 @@
 <?php
 
-class Lookforwork extends CI_Controller {
+class Lookforwork extends MY_Controller {
 
 	function index()
 	{

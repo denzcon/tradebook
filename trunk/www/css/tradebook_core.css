@@ -277,3 +277,97 @@ a.logoAnchor:hover
 	border-width: 0 0 1px 0;
 	margin: -8px 0 50px 0;
 }
+#resultsContainer img
+{
+	width: 200px;
+	max-height: 200px;
+}
+#resultsContainer
+{
+	
+}
+.itemResultHolder
+{
+-moz-border-bottom-colors: none;
+-moz-border-image: none;
+-moz-border-left-colors: none;
+-moz-border-right-colors: none;
+-moz-border-top-colors: none;
+border-color: #DDDDDD;
+border-style: solid;
+border-width: 1px 0;
+float: left;
+min-height: 350px;
+padding: 20px 10px 10px;
+z-index: 1;
+}
+#packageBar
+{
+	position: fixed;
+	min-height: 300px;
+	top: 50px;
+	min-width: 200px;
+/*	min-height: 200px;*/
+}
+.ui-draggable-dragging
+{
+	opacity: .3;
+}
+.expose
+{
+	right: 0;
+}
+.bury
+{
+	right: -205px;
+}
+#packageBarIconContainer
+{
+/*	position: absolute;*/
+	top: 5px;
+}
+#packageBarContentContainer ul li h3
+{
+	text-wrap: none;
+}
+#packageBarContentContainer ul li h3 img
+{
+	vertical-align: middle;
+	margin-left: -4px;
+}
+#packageBarContentContainer p
+{
+	margin: 0;
+	padding: 0
+}
+#packageBarContentContainer ul
+{
+	margin: 0;
+	padding: 0
+}
+#packageBarContentContainer ul li
+{
+	list-style: none;
+	
+	
+}
+#packageBarContentContainer
+{
+	position: relative;
+}
+p.itemResultTitle
+{
+	max-width: 160px;
+}
+#resultsContainer
+{
+/*	overflow: auto;*/
+}
+.result_count, .total_count
+{
+	color: #3288FF !important;
+}
+.input-micro
+{
+	width: 20px;
+}

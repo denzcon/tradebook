@@ -44,6 +44,7 @@ $route['user/:any']				= 'user/member/$2';
 $route['user/settings']			= 'user/settings';
 $route['user/addwish']			= 'user/addWish';
 $route['user/addWishAjax']		= 'user/addWishAjax';
+$route['user/searchWishAjax']		= 'user/searchWishAjax';
 $route['user/addWishURLAjax']	= 'user/addWishURLAjax';
 $route['user/update']			= 'user/update';
 $route['user/scrapeWishFromURLRobert']			= 'user/scrapeWishFromURLRobert';

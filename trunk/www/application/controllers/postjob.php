@@ -1,6 +1,6 @@
 <?php
 
-class Postjob extends CI_Controller {
+class Postjob extends MY_Controller {
 
 	function index()
 	{
