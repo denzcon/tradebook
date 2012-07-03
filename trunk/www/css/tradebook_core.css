@@ -303,10 +303,13 @@ z-index: 1;
 }
 #packageBar
 {
-	position: fixed;
+	position: absolute;
 	min-height: 300px;
-	top: 50px;
+	top: 0;
+	left: 400px;
 	min-width: 200px;
+	background: red;
+	z-index: 9998;
 /*	min-height: 200px;*/
 }
 .ui-draggable-dragging
@@ -371,3 +374,5 @@ p.itemResultTitle
 {
 	width: 20px;
 }
+.searchForm{position: relative;}
+packageBarContentContainer ul li{list-style: none;}

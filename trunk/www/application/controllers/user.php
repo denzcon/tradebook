@@ -71,16 +71,17 @@ class User extends MY_Controller
 //		log_message('error', $response['data']);
 		$result_display_max = 16;
 		$fetched_search_count = $response['data']['totalItems'];
-		$displayed_search_count = $response['data']['currentItemCount'];
+		$displayed_search_count = isset($response['data']['currentItemCount']);
 		$pages = $fetched_search_count/$result_display_max;
 		$response['pagination'] = array(
 			'fetched_search_count' => $fetched_search_count,
 			'displayed_search_count' => $displayed_search_count,
 			'page_count' => $pages,
-			'next_page' => $next_page,
-			'prev_page' => $prev_page,
+			'next_page' => $next_page_index,
+			'prev_page' => $prev_page_index,
 		);
-
+//		$this->debug($response);
+//		exit;
 		echo json_encode($response);
 	}
 	function addWishAjax()

@@ -15,7 +15,8 @@ class Login extends MY_Controller
 	{
 
 		$query = $this->membershipModel->validate();		
-
+		echo json_encode($query);
+		exit;
 		if($query['loginStatus'] == true)
 		{
 			$isAdmin			= $this->membershipModel->isUserAdmin($query['results']['id']);			
@@ -255,4 +256,8 @@ class Login extends MY_Controller
 		return;		
 	}
 
+	function sessionDump()
+	{
+		$this->debug($this->session);
+	}
 }

@@ -6,7 +6,7 @@
 
 $(document).ready(
 	function() {
-		var pages_max		= 20;
+		var pages_max		= 10;
 		var siteBaseUrl		= 'http://tradebook.dev';
 		var messageDelay	= 6000;
 			
@@ -158,7 +158,9 @@ $(document).ready(
 				if ( !$('#username').val() || !$('#password1').val())
 				{
 					$('#login-modal-error-message p').text('You have not completed the form');
-					$('#login-modal-error-message').fadeIn().delay(messageDelay).fadeOut();					
+					$('#login-modal-error-message').addClass('alert-error');
+					$('#login-modal-error-message').addClass('alert');
+					$('#login-modal-error-message').fadeIn();	
 				} 
 				else 
 				{				
@@ -184,7 +186,9 @@ $(document).ready(
 				if ( !$('#pageUsername').val() || !$('#pagePassword1').val())
 				{
 					$('#login-modal-error-message p').text('You have not completed the form');
-					$('#login-modal-error-message').fadeIn().delay(messageDelay).fadeOut();
+					$('#login-modal-error-message').addClass('alert-error');
+					$('#login-modal-error-message').addClass('alert');
+					$('#login-modal-error-message').fadeIn();
 					
 				} 
 				else 
@@ -202,8 +206,9 @@ $(document).ready(
 			
 		function loginSuccess( response ) 
 		{
+			console.log(response);
 			//			  response = $.trim( response );
-			if(response['is_logged_in']=== true)
+			if(response.loginStatus== 'true')
 			{
 				$('#userConnectModal').modal('hide');
 				location.reload();						
@@ -211,6 +216,8 @@ $(document).ready(
 			else
 			{
 				$('#login-modal-error-message p').text('Your login information is incorrect. Please try again');
+				$('#login-modal-error-message').addClass('alert-error');
+				$('#login-modal-error-message').addClass('alert');
 				$('#login-modal-error-message').show();
 			}
 			console.log(response['is_logged_in']);
@@ -357,12 +364,13 @@ $(document).ready(
 				var pages = options.pages;
 			}
 			console.log(pages);
+			
 			for (i = 1; i < pages; i++) {
 				$('.pagination ul').append(
 					$('<li>').append(
 						$('<a>').attr('href', '#').append(i)
-					)
-				);
+						)
+					);
 			}
 			
 			$('.pagination ul').append('<li><a href="#">Next</a></li>');
@@ -372,12 +380,17 @@ $(document).ready(
 			{
 				var supplier_name = item.product.author.name;
 				var firstImage = item['product']['images'][0]['link'];
-				
+				var productLink = item.product.link;
 				var price = item['product']['inventories'][0]['price'];
+				var availability = item['product']['inventories'][0]['availability'];
+				var anchor = item.product.link;
 				var title = item['product']['title'];
-				code = $("<img/>").attr("src", firstImage);
-				var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
+				var current = $('<div class="itemResultHolder"><a href="test" class="'+item.product.googleId+' /></div>').html(code).appendTo("#resultsContainer");
+				var anchorMarkup = $('<a href="'+productLink+'" class="'+item.product.googleId+'"></a>').appendTo(current);
 				var viewPrice = $("<h3></h3>").text('$'+price.toFixed(2)).appendTo(current);
+				code = $('<img class="'+item.product.googleId+'" />').attr("src", firstImage).appendTo(anchorMarkup);
+				var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+				
 				var supplier_name = $('<br /><h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
 				$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
 				
@@ -387,7 +400,8 @@ $(document).ready(
 			$(".itemResultHolder").draggable({
 				revert: "invalid"
 			});
-			var package_qty_input = '<input type="text" class="input-micro" value="1">';
+			
+			var package_qty_input = '<li><input type="text" class="input-micro" value="1">';
 			$('.input-micro').click(function()
 			{
 				console.log('x');
@@ -397,14 +411,29 @@ $(document).ready(
 				hoverClass: "alert-error",
 				activeClass: "alert-success",
 				drop: function( event, ui ) {
-					var content = package_qty_input+' x '+ui.draggable.find('.itemResultTitle').text();
+					var content = package_qty_input+' x '+ui.draggable.find('.itemResultTitle').text()+'</li>';
 					$( this )
 					.addClass( "ui-state-highlight" )
 					.removeClass("alert-info")
-					.find( "p" )
+					.find( "ul" )
 					.append(content);
 					ui.draggable.hide();
+					$('#packageBar .buttonContainer').show();
+					
 				}
+			});
+			$('button.savePackageDropped').click(function()
+			{
+				$.ajax( {
+					url: $form.attr('action'),
+					type: 'POST',
+					data: $form.serialize(),
+					dataType: 'json',
+					success: function(json){
+						simpleFormResponse(json,$form);
+					}
+				} );
+				return false;	
 			});
 		}
 		$("#createPackageAnchor").click(function()
@@ -524,5 +553,8 @@ $(document).ready(
 			return x1 + x2;
 		}
 
-		
+		$('form.navbar-search').submit(function(e)
+		{
+			e.preventDefault();
+		});
 	});

@@ -17,6 +17,7 @@
 	<div class="page-header content">
 		<h1>TradeManager <small>manage your wish lists here</small></h1>
 	</div>
+	
 	<div id="success_message" class="alert-message success hide">
         <a href="#" class="close">×</a>
         <p><strong>Well done!</strong> You successfully <a href="#">added</a> a wish item.</p>
@@ -25,23 +26,40 @@
         <a href="#" class="close">×</a>
         <p><strong>Not So Fast!</strong> You must completely fill out the form </p>
 	</div>
-	<form id="addwishitemURL" name="addwishitemURL" action="" method="post">
-		<fieldset>
-			<input type="hidden" name="form_action" id="action" value="add_item_URL" />
-			<legend>Add a wish item using a URL:</legend>
-			<div class="clearfix">
-				<label>URL: </label>
-				<div class="input">
-					<input type="text" name="wishURL" id="wishURL" value="" />
+	<div class="packageBarHolder">
+		<div id="packageBar" class="alert bury">
+			<div id="packageBarContentContainer">
+				<ul>
+					<li>
+						<h3 class="alert-heading">
+							<img src="/images/package.png" alt="create a package" width="30px" />
+							<a href="#" id="createPackageAnchor">Create a Package</a>
+						</h3>
+					</li>
+				</ul>
+			</div>
+			<div class="buttonContainer">
+				<button class="btn btn-small btn-primary savePackageDropped">Save Package</button>
+			</div>
+	</div>
+		</div>
+	<div class="searchForm">
+		<form id="addwishitemURL" name="addwishitemURL" action="" method="post">
+			<fieldset>
+				<input type="hidden" name="form_action" id="action" value="add_item_URL" />
+				<legend>Add a wish item using a URL:</legend>
+				<div class="clearfix">
+					<label>URL: </label>
+					<div class="input">
+						<input type="text" name="wishURL" id="wishURL" value="" />
+					</div>
 				</div>
-			</div>
-			<div class="clearfix">
-				<button class="btn primary" data-loading-text="Saving Item..." id="add_item_URL_submit">Fetch Item</button>
-			</div>
-
-		</fieldset>
-
-	</form>
+				<div class="clearfix">
+					<button class="btn primary" data-loading-text="Saving Item..." id="add_item_URL_submit">Fetch Item</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 	<form id="addwishitemManual" name="addwishitemManual" class="hide">
 		<fieldset>
 			<input type="hidden" name="form_action" id="action" value="add_item_manually" />
@@ -115,10 +133,10 @@
 		<ul>
 			<li><a href="#">Prev</a></li>
 
-			
+
 		</ul>
 	</div>
-	
+
 	<div id="resultsContainer">
 
 		<div class="itemResultHolder" draggable="true"></div>
