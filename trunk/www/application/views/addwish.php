@@ -17,7 +17,7 @@
 	<div class="page-header content">
 		<h1>TradeManager <small>manage your wish lists here</small></h1>
 	</div>
-	
+
 	<div id="success_message" class="alert-message success hide">
         <a href="#" class="close">×</a>
         <p><strong>Well done!</strong> You successfully <a href="#">added</a> a wish item.</p>
@@ -28,23 +28,28 @@
 	</div>
 	<div class="packageBarHolder">
 		<div id="packageBar" class="alert bury">
+			<div class="packageBarController"></div>
 			<div id="packageBarContentContainer">
-				<ul>
-					<li>
-						<h3 class="alert-heading">
-							<img src="/images/package.png" alt="create a package" width="30px" />
-							<a href="#" id="createPackageAnchor">Create a Package</a>
-						</h3>
-					</li>
-				</ul>
+				<h3 class="alert-heading">
+					<img src="/images/package.png" alt="create a package" width="30px"  style="float: left"/>
+					<form name="namePackage" action="save_package" class="namePackage" method="post">
+						<a href="#" class="createPackageAnchor" style="float: left"><?= trim(trim($package_name), ' \t'); ?></a>
+					</form>
+				</h3>
+				<form name="newPackage" action="" method="post">
+					<ul>
+						<li class="packageDefaultMessage">Drag items here to create package</li>
+					</ul>
+					<div class="buttonContainer hide">
+						<button class="btn btn-small btn-primary savePackageDropped">Save Package</button>
+					</div>
+				</form>
 			</div>
-			<div class="buttonContainer">
-				<button class="btn btn-small btn-primary savePackageDropped">Save Package</button>
-			</div>
-	</div>
 		</div>
+	</div>
 	<div class="searchForm">
-		<form id="addwishitemURL" name="addwishitemURL" action="" method="post">
+
+		<form id="addwishitemURL" name="addwishitemURL" action="" method="post" class="hide">
 			<fieldset>
 				<input type="hidden" name="form_action" id="action" value="add_item_URL" />
 				<legend>Add a wish item using a URL:</legend>
@@ -106,7 +111,7 @@
 			</div>
 		</fieldset>
 	</form>
-	<form id="addWishItemSearch" action="#" name="addWishItemSearch" class="hide">
+	<form id="addWishItemSearch" action="#" name="addWishItemSearch" class="">
 		<fieldset>
 			<legend>Search For something</legend>
 			<div class="clearfix">

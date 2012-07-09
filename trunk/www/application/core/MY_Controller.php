@@ -1,6 +1,6 @@
 <?php
 
-class   MY_Controller extends CI_Controller
+class MY_Controller extends CI_Controller
 {
 
 	/**
@@ -26,31 +26,30 @@ class   MY_Controller extends CI_Controller
 		$this->load->model('membership_model');
 		$this->membershipModel = $this->membership_model;
 		$this->UserInfoArray = $this->membershipModel->getUserInfoArray();
+		$this->em = '';
 		$this->em = $this->doctrine->em;
 	}
 
 	public static function debug()
 	{
 		$args = func_get_args();
-
-
-
 		// if only a single argument was passed, use it instead of an array
 		if (count($args) == 1)
 		{
 			$args = $args[0];
 		}
-
-//		$trace = debug_backtrace();
+		$trace = debug_backtrace();
 		$trace_string = '';
-//		for ($i = sizeof($trace) - 1; $i >= 0; $i--)
-//		{
-//			$trace_string .= str_replace('/xamp/htdocs/', "", $trace[$i]['file']) . ": " . $trace[$i]['line'] . " -> <br/>\n";
-//		}
-//
-//		$line = $trace[0]['line'];
-//		$file = $trace[0]['file'];
+		for ($i = sizeof($trace) - 1; $i >= 0; $i--)
+		{
+			if(isset($trace[$i]['file']))
+			{
+				$trace_string .= str_replace('/xamp/htdocs/', "", isset($trace[$i]['file'])? $trace[$i]['file'] : $trace[$i]['class']) . ": " .$trace[$i]['line'] . " -> <br/>\n";
+			}
+		}
 
+		$line = $trace[0]['line'];
+		$file = $trace[0]['file'];
 		$output = "";
 		$output .= '<link href="http://openstory.dev/css/prettify/sunburst.css" type="text/css" rel="stylesheet" /><script type="text/javascript" src="http://openstory.dev/js/prettify/prettify.js"></script>';
 		$output .= '<script type="text/javascript">window.onload = function(){prettyPrint();}</script>';

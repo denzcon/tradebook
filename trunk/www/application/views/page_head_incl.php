@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 		<link rel="stylesheet" href="<?php echo base_url(); ?>css/bootstrap.css" />
+		<link rel="stylesheet" href="<?php echo base_url(); ?>css/docs.css" />
 		<script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>js/tradebook_core.js"></script>
 		

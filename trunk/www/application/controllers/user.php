@@ -5,15 +5,30 @@ class User extends MY_Controller
 
 	function index()
 	{
+		if (!$this->UserInfoArray['is_logged_in'])
+		{
+			redirect('/');
+		}
 		$session_data = $this->session->userdata();
-
-		echo "<pre>";
-		print_r($session_data);
-		echo "</pre>";
-		exit;
 		$data = array();
 		$data['username'] = $this->uri->segment(2);
 		$data['userInfoArray'] = $this->session->userdata();
+		$user = $this->db->query('
+			SELECT
+			u.id,
+			u2w.want_id,
+			u2w.user_id,
+			wd.id,
+			wd.title,
+			wd.price,
+			wd.description,
+			wd.preview_image
+			FROM users u
+			LEFT JOIN user2wants u2w ON u2w.user_id = u.id
+			LEFT JOIN wanted wd ON u2w.want_id = wd.id
+			WHERE u.id=?
+			', array($session_data['user_info']['id']));
+		$data['wants'] = $user->result_array();
 		$this->load->view('page_top.php', $data);
 		$this->load->view('user', $data);
 	}
@@ -36,13 +51,17 @@ class User extends MY_Controller
 
 	function addWish()
 	{
+		if (!$this->UserInfoArray['is_logged_in'])
+		{
+			redirect('/');
+		}
 		$this->load->model('user_model');
 		$this->load->model('membership_model');
 		$data = array();
-		$data['user_id']		= $this->membership_model->currentUserId();
-		$data['userServices']	= $this->user_model->getServicesForUser($data['user_id']);
-		
-		$this->load->view('page_head_incl');
+		$data['user_id'] = $this->membership_model->currentUserId();
+		$data['userServices'] = $this->user_model->getServicesForUser($data['user_id']);
+		$data['package_name'] = $this->session->userdata('package_name') ? $this->session->userdata('package_name') : 'Create a package';
+		$this->load->view('page_head_incl', $this->UserInfoArray);
 		$this->load->view('header_menu_nav');
 		$this->load->view('addwish', $data);
 	}
@@ -60,11 +79,11 @@ class User extends MY_Controller
 //		$response["post"] = $ajax;
 		$url = $this->google_api->buildShoppingUrl($ajax, $key, 1, 20, "shopping");
 		$data = $this->CURL($url);
-		$response['data'] =json_decode($data['output'], true);
+		$response['data'] = json_decode($data['output'], true);
 		$page_index = $this->input->post('page_index');
 		$results_max_page = $this->input->post('result_max_page');
-		$prev_page_index = $page_index-$results_max_page;
-		$next_page_index = $page_index+$results_max_page;
+		$prev_page_index = $page_index - $results_max_page;
+		$next_page_index = $page_index + $results_max_page;
 //		$prev_page = $this->google_api->buildShoppingUrl($ajax, $key, $prev_page_index, $results_max_page, "shopping");
 //		$next_page = $this->google_api->buildShoppingUrl($ajax, $key, $next_page_index, $results_max_page, "shopping");
 //		$this->debug($response);
@@ -72,7 +91,7 @@ class User extends MY_Controller
 		$result_display_max = 16;
 		$fetched_search_count = $response['data']['totalItems'];
 		$displayed_search_count = isset($response['data']['currentItemCount']);
-		$pages = $fetched_search_count/$result_display_max;
+		$pages = $fetched_search_count / $result_display_max;
 		$response['pagination'] = array(
 			'fetched_search_count' => $fetched_search_count,
 			'displayed_search_count' => $displayed_search_count,
@@ -84,13 +103,14 @@ class User extends MY_Controller
 //		exit;
 		echo json_encode($response);
 	}
+
 	function addWishAjax()
 	{
 
 		$this->load->model('user_model');
-		
+
 		$ajax = $this->input->post();
-		
+
 		$status = $this->user_model->addWish2User($ajax);
 		echo json_encode($status);
 	}
@@ -165,7 +185,7 @@ class User extends MY_Controller
 				'max' => 255
 			)
 		);
-		
+
 
 		if (!count($_POST))
 		{
@@ -199,26 +219,34 @@ class User extends MY_Controller
 		$modifyStatus = $this->user_model->modifyUserInfo($this->input->post());
 		$json_results['modifyStatus'] = $modifyStatus;
 		echo json_encode($json_results);
-		return;		
-
+		return;
 	}
-	
+
 	function scrapeWishFromURLRobert()
 	{
-		$url		= 'http://www.newegg.com/Product/Product.aspx?Item=9SIA016000HY14&cm_sp=Spotlight-_-9SIA016000HY14-_-12102011';
-		$html		= $this->site_model->CURL($url);
+		$url = 'http://www.newegg.com/Product/Product.aspx?Item=9SIA016000HY14&cm_sp=Spotlight-_-9SIA016000HY14-_-12102011';
+		$html = $this->site_model->CURL($url);
 
-		$dom		= new DOMDocument();
+		$dom = new DOMDocument();
 		@$dom->loadHTML($html);
 
-		$xpath		= new DOMXPath($dom);
-		$price		= $xpath->evaluate("//*[@id='synopsis']");
-		
+		$xpath = new DOMXPath($dom);
+		$price = $xpath->evaluate("//*[@id='synopsis']");
+
 		echo "<pre>test";
 		print_r($price);
 		echo "</pre>";
 		exit;
-
-		
 	}
+
+	function save_package_name()
+	{
+		$this->session->set_userdata(array('package_name' => trim($this->input->post('packageName'))));
+		echo json_encode(array(
+			'package_name_from_session' => $this->session->userdata('package_name'),
+			'form_post' => $this->input->post()
+		));
+	}
+
 }
+

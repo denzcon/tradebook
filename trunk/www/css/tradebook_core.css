@@ -11,6 +11,7 @@ root {
 	display: none;
 }
 body {
+	padding-bottom: 40px;
 	padding-top: 40px;
 }
 
@@ -29,8 +30,8 @@ page
 .page-header
 {
 	/*	overflow: auto;*/
-	height: 40px;  
-	margin-bottom: 55px;
+	/*	height: 40px;  
+		margin-bottom: 55px;*/
 }
 ul.data-grid li
 {
@@ -279,38 +280,41 @@ a.logoAnchor:hover
 }
 #resultsContainer img
 {
-	width: 200px;
+	bottom: 0;
+	left: 0;
 	max-height: 200px;
+	max-width: 200px;
+	position: absolute;
+	width: 100%;
 }
 #resultsContainer
 {
-	
+
 }
 .itemResultHolder
 {
--moz-border-bottom-colors: none;
--moz-border-image: none;
--moz-border-left-colors: none;
--moz-border-right-colors: none;
--moz-border-top-colors: none;
-border-color: #DDDDDD;
-border-style: solid;
-border-width: 1px 0;
-float: left;
-min-height: 350px;
-padding: 20px 10px 10px;
-z-index: 1;
+	-moz-border-bottom-colors: none;
+	-moz-border-image: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	border-color: #DDDDDD;
+	border-style: solid;
+	border-width: 1px 0;
+	float: left;
+	height: 365px;
+	padding: 20px 10px 10px;
+	z-index: 1;
+	overflow: hidden;
+	max-width: 200px
 }
 #packageBar
 {
-	position: absolute;
-	min-height: 300px;
-	top: 0;
-	left: 400px;
-	min-width: 200px;
-	background: red;
+	position: fixed;
+	top: 86px;
+	right: 10px;
 	z-index: 9998;
-/*	min-height: 200px;*/
+	box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
 }
 .ui-draggable-dragging
 {
@@ -326,7 +330,7 @@ z-index: 1;
 }
 #packageBarIconContainer
 {
-/*	position: absolute;*/
+	/*	position: absolute;*/
 	top: 5px;
 }
 #packageBarContentContainer ul li h3
@@ -345,15 +349,25 @@ z-index: 1;
 }
 #packageBarContentContainer ul
 {
-	margin: 0;
-	padding: 0
+	margin: 10px;
+	padding: 0;
+	clear: both;
 }
+#packageBarContentContainer ul li a.remove{float: right}
 #packageBarContentContainer ul li
 {
-	list-style: none;
-	
-	
+	background: none repeat scroll 0 0 rgba(243, 237, 208, 1);
+	border-radius: 3px 3px 3px 3px;
+	border: 1px solid #e8e0b9;
+	list-style: none outside none;
+	margin: 10px 0;
+	padding: 9px 12px;
+	width: 100%;
+	text-align: center;
+	position: relative;
+	overflow: hidden
 }
+li.packageDefaultMessage{background: none !important; border: none !important;}
 #packageBarContentContainer
 {
 	position: relative;
@@ -364,7 +378,7 @@ p.itemResultTitle
 }
 #resultsContainer
 {
-/*	overflow: auto;*/
+	/*	overflow: auto;*/
 }
 .result_count, .total_count
 {
@@ -376,3 +390,9 @@ p.itemResultTitle
 }
 .searchForm{position: relative;}
 packageBarContentContainer ul li{list-style: none;}
+.sidebar-nav {    padding: 9px 0;}
+form .buttonContainer{margin-top: 10px;}
+.productImgContainer{min-height: 200px;text-align: center;position: relative;}
+.packageItemDataContainer{white-space: nowrap}
+.packageItemDataContainer input{float: left}
+.packageBarItemDescription{float: left;    line-height: 27px;    margin-left: 9px;}

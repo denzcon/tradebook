@@ -1,17 +1,17 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
-			<a href="#" class="brand">TradeBook</a>
+			<a href="/" class="brand"><span class="hiliteTBBlue">trade</span><span class="hiliteTBGray">book</span></a>
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li class="active"><a href="#">Home</a></li>
+					<li class="active"><a href="/">Home</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li class="dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="#" id="loginLink">Login</a></li>
+							<li><a href="#" class="loginLink">Login</a></li>
 							<li><a href="#">Another action</a></li>
 							<li><a href="#">Something else here</a></li>
 							<li class="divider"></li>
@@ -25,24 +25,45 @@
 					<input type="text" placeholder="Search" class="search-query span2">
 				</form>
 				<ul class="nav pull-right">
-					<li><a href="#">Jconoley</a></li>
+					<li>
+						<?php	if(isset($is_logged_in)) : ?>
+						<a href="#"><?=$user_info['username'];?></a>
+						<?php else: ?>
+						<a href="#" class="loginLink">Login</a>
+					</li>
 					<li class="divider-vertical"></li>
+					<li>
+						<a href="#" class="login">Sign-up</a>
+					</li>
+					<?php endif; ?>
+					<li class="divider-vertical"></li>
+					<?php if(isset($is_logged_in)) : ?>
 					<li class="dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#">Account <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Action</a></li>
+							<li><a href="/user/addwish">Add Items to wish list</a></li>
 							<li><a href="#">Another action</a></li>
 							<li><a href="#">Something else here</a></li>
 							<li class="divider"></li>
 							<li><a href="#">Separated link</a></li>
 						</ul>
 					</li>
+					<?php endif; ?>
 				</ul>
 			</div>
 		</div>
 	</div>
 </div>
-
+<div class="subnav">
+    <ul class="nav nav-pills">
+      <li class="active"><a href="#global">Global styles</a></li>
+      <li class=""><a href="#gridSystem">Grid system</a></li>
+      <li class=""><a href="#fluidGridSystem">Fluid grid system</a></li>
+      <li class=""><a href="#gridCustomization">Customizing</a></li>
+      <li class=""><a href="#layouts">Layouts</a></li>
+      <li><a href="#responsive">Responsive design</a></li>
+    </ul>
+  </div>
 <!--Modals below-->
 
 <div class="modal-backdrop fade in hide"></div>
@@ -63,7 +84,7 @@
 			<div id="login-modal-error-message" class="alert-message error hide">
 				<p></p>
 			</div>
-			<?php echo form_open('login/login'); ?>
+			<?php echo form_open('login/login', array('class' => 'login')); ?>
 			<div class="clearfix">
 				<label>Username/Email: </label>
 				<div class="input">
@@ -76,12 +97,13 @@
 					<input type="password" name="password1" id="password1" value="" />
 				</div>				
 			</div>		
-			</form>
+			<div class="form-actions">
+				<button class="btn btn-primary" type="submit">Save changes</button>
+				<button class="btn">Cancel</button>
+			</div>
 		</div>
-		<div class="modal-footer">
-			<a class="btn primary" href="#" id="loginSubmit">Login</a>
-			<a class="btn secondary" id="closeLoginModal" href="#" id="loginCancel">Cancel</a>
-		</div>
+		</form>
+
 	</div>
 
 

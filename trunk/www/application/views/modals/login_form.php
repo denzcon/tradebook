@@ -17,9 +17,9 @@
 				<p></p>
 
 			</div>
-			<?php echo form_open('login/login'); ?>
+			<?php echo form_open('login/login', array('class' => 'login')); ?>
 			<div class="clearfix">
-				<label>Username/Email: </label>
+				<label>Username/Emails: </label>
 				<div class="input">
 					<input type="text" name="pageUsername" id="pageUsername" value="" />
 				</div>				
