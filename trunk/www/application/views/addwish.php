@@ -6,10 +6,6 @@
 ?>
 <script type="text/javascript">
 	$(function(){
-		$(".itemResultHolder").click(function()
-		{
-			alert("test");
-		})
 	});
 </script>
 <div class="container">

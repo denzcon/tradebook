@@ -368,7 +368,6 @@ $(document).ready(
 				revert: "invalid"
 			});
 			
-			var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">test</span><input type="text" class="input-micro" value="1" style="margin-bottom: 0;">';
 			var package_remove_button = '<a href="#" class="btn btn-danger remove"><i class="icon-trash icon-white"></i> Remove</a>';
 			$('.input-micro').click(function()
 			{
@@ -379,8 +378,9 @@ $(document).ready(
 				hoverClass: "alert-error",
 				activeClass: "alert-success",
 				drop: function( event, ui ) {
+					var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
 					var content = package_qty_input+'<span class="packageBarItemDescription">'+ui.draggable.find('.itemResultTitle').text()+'</span></span>'+package_remove_button+'</li>';
-					$('.packageDefaultMessage').hide();
+					$('.packageDefaultMessage').remove();
 					$( this )
 					.addClass( "ui-state-highlight" )
 					.removeClass("alert-info")
@@ -391,18 +391,29 @@ $(document).ready(
 					
 				}
 			});
-			$('button.savePackageDropped').click(function()
+			$('button.savePackageDropped').click(function(event)
 			{
+				event.preventDefault();
+				var data ='';
+				$('#packageBarContentContainer ul li').each(function(i, items_list)
+				{
+					var price = $(items_list).find('span.price').text();
+					var title = $(items_list).find('span.packageBarItemDescription').text();
+					var quantity = $(items_list).find('input.quantity').val();
+					var image_path = $(items_list).find('input.imagePreview').val();
+					data +='price='+price+'&title='+title+'&quantity='+quantity+'&image_path='+image_path;
+						
+				})
+				
 				$.ajax( {
-					url: $form.attr('action'),
+					url: '/user/save_package_data',
 					type: 'POST',
-					data: $form.serialize(),
+					data: data,
 					dataType: 'json',
 					success: function(json){
-						simpleFormResponse(json,$form);
+						console.log(json);
 					}
 				} );
-				return false;	
 			});
 		}
 		$(".createPackageAnchor").click(function(event)
@@ -437,7 +448,7 @@ $(document).ready(
 			console.log('trying to save package name');
 			var data = {
 				packageName: $('input.packageName').val()
-				};
+			};
 			$.ajax({
 				url:'/user/save_package_name',
 				type: 'post',

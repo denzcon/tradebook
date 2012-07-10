@@ -48,6 +48,7 @@ $route['user/searchWishAjax']		= 'user/searchWishAjax';
 $route['user/addWishURLAjax']	= 'user/addWishURLAjax';
 $route['user/update']			= 'user/update';
 $route['user/save_package_name']			= 'user/save_package_name';
+$route['user/save_package_data']			= 'user/save_package_data';
 $route['user/scrapeWishFromURLRobert']			= 'user/scrapeWishFromURLRobert';
 
 

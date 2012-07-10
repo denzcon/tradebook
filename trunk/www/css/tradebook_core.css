@@ -420,4 +420,5 @@ ul.wishList li{
 .wishTitle{font-weight: bold}
 p.wishDescription{font-size: .8em;line-height: 12px;}
 #packageBarContentContainer h3{}
-span .price{}
+span.price{border: 1px solid #D6E9C6;border-radius: 4px 4px 4px 4px;margin-right: 10px;padding: 4px 8px;}
+/*span.price:before{content:'$';margin-right: 1px;}*/

@@ -230,5 +230,11 @@ class User extends MY_Controller
 		));
 	}
 
+	function save_package_data()
+	{
+		echo "<pre>";
+		echo json_encode($this->input->post());
+	}
+
 }
 
