@@ -27,7 +27,7 @@
 				<ul class="nav pull-right">
 					<li>
 						<?php	if(isset($is_logged_in)) : ?>
-						<a href="#"><?=$user_info['username'];?></a>
+						<a href="/user"><?=$user_info['username'];?></a>
 						<?php else: ?>
 						<a href="#" class="loginLink">Login</a>
 					</li>

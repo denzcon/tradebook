@@ -13,22 +13,7 @@ class User extends MY_Controller
 		$data = array();
 		$data['username'] = $this->uri->segment(2);
 		$data['userInfoArray'] = $this->session->userdata();
-		$user = $this->db->query('
-			SELECT
-			u.id,
-			u2w.want_id,
-			u2w.user_id,
-			wd.id,
-			wd.title,
-			wd.price,
-			wd.description,
-			wd.preview_image
-			FROM users u
-			LEFT JOIN user2wants u2w ON u2w.user_id = u.id
-			LEFT JOIN wanted wd ON u2w.want_id = wd.id
-			WHERE u.id=?
-			', array($session_data['user_info']['id']));
-		$data['wants'] = $user->result_array();
+		$data['wants'] = $this->user_model->getUserWishList();
 		$this->load->view('page_top.php', $data);
 		$this->load->view('user', $data);
 	}
@@ -62,7 +47,7 @@ class User extends MY_Controller
 		$data['userServices'] = $this->user_model->getServicesForUser($data['user_id']);
 		$data['package_name'] = $this->session->userdata('package_name') ? $this->session->userdata('package_name') : 'Create a package';
 		$this->load->view('page_head_incl', $this->UserInfoArray);
-		$this->load->view('header_menu_nav');
+		$this->load->view('header_menu_nav', $this->UserInfoArray);
 		$this->load->view('addwish', $data);
 	}
 
@@ -108,10 +93,7 @@ class User extends MY_Controller
 	{
 
 		$this->load->model('user_model');
-
-		$ajax = $this->input->post();
-
-		$status = $this->user_model->addWish2User($ajax);
+		$status = $this->user_model->addWish2User($this->input->post());
 		echo json_encode($status);
 	}
 

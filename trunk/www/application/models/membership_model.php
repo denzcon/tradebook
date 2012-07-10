@@ -11,12 +11,17 @@ class Membership_model extends CI_Model
 
 	function __construct()
 	{
-		parent::__construct();
+		$user_info = $this->session->userdata('user_info');
+		$this->currentUserId = $user_info['id'];
+		$this->currentUsername = $user_info['username'];
+		$this->currentUserFirstName = $user_info['first_name'];
+		$this->currentUserLastName = $user_info['last_name'];
+		$this->currentUserEmailAddress = $user_info['email_address'];
 	}
 
 	function currentUserId()
 	{
-		return self::$currentUserId;
+		return $this->currentUserId;
 	}
 
 	function currentUsername()
@@ -54,7 +59,7 @@ class Membership_model extends CI_Model
 			$results[0]['gravatarAvatarURL'] = 'http://www.gravatar.com/avatar/' . md5($results[0]['email_address']);
 			$gravatarProfileData = $this->site_model->CURL($results[0]['gravatarProfileURL'] . '.json');
 			$results[0]['gravatarProfileData'] = json_decode($gravatarProfileData['output']);
-			self::$currentUserId = $results[0]['id'];
+			$this->currentUserId = $results[0]['id'];
 			self::$currentUsername = $results[0]['username'];
 			self::$currentUserFirstName = $results[0]['first_name'];
 			self::$currentUserLastName = $results[0]['last_name'];

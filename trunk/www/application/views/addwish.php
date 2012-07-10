@@ -34,6 +34,7 @@
 					<img src="/images/package.png" alt="create a package" width="30px"  style="float: left"/>
 					<form name="namePackage" action="save_package" class="namePackage" method="post">
 						<a href="#" class="createPackageAnchor" style="float: left"><?= trim(trim($package_name), ' \t'); ?></a>
+						<a href="#" class="hide done" style="vertical-align: text-top; line-height: 12px;"><img src="<?= base_url(); ?>images/done_square.png" alt="" /></a>
 					</form>
 				</h3>
 				<form name="newPackage" action="" method="post">
@@ -144,6 +145,16 @@
 
 	<div id="resultsContainer">
 
-		<div class="itemResultHolder" draggable="true"></div>
+		<div class="itemResultHolder ui-draggable" draggable="true" style="position: relative;">
+			<div class="productImgContainer">
+				<a class="5247320437356752252 productImgAnchor" target="blank" href="">
+					<img class="5247320437356752252" src="http://www.avalive.com/pimages/pimage_165744.jpg">
+				</a>
+			</div>
+			<h3>$499.00</h3>
+			<h5 class="alert-success">backorder</h5>
+			<h4>AValive</h4>
+			<p class="itemResultTitle">Apple iPAD MC705LL/A iPad 3 with Wi-Fi 16GB - Black No Tax Outside NC</p>
+		</div>
 	</div>
 </div>

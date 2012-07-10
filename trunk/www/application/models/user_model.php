@@ -16,26 +16,26 @@ class User_model extends CI_Model
 	function addWish2User($data)
 	{
 		$this->load->model('membership_model');
-		$values								= array();
-		$return								= array();
-		$relate_values						= array();
-		$values['id']						= '';
-		$values['title']					= $data['itemTitle'];
-		$values['price']					= $data['itemPrice'];
-		$values['description']				= $data['itemDescription'];
-		$values['preview_image']			= $data['itemImage'];
+		$values = array();
+		$return = array();
+		$relate_values = array();
+		$values['id'] = '';
+		$values['title'] = $data['itemTitle'];
+		$values['price'] = $data['itemPrice'];
+		$values['description'] = $data['itemDescription'];
+		$values['preview_image'] = $data['itemImage'];
 
-		$add_want							= $this->db->insert('wanted', $values);
-		$return['status_want_insert']		= $add_want;
+		$add_want = $this->db->insert('wanted', $values);
+		$return['status_want_insert'] = $add_want;
 
-		$relate_values['id']				= '';
-		$relate_values['user_id']			= $this->membership_model->currentUserId();
-		$relate_values['want_id']			= $this->db->insert_id();
-		$relate								= $this->db->insert('user2wants', $relate_values);
-		$relate_values['service_id']		= $data['workTrade'];
-		$relate_values						= array_splice($relate_values, 2);
-		$relate								= $this->db->insert('wants2services', $relate_values);
-		$return['status_want_relate2user']	= $relate;
+		$relate_values['id'] = '';
+		$relate_values['user_id'] = $this->membership_model->currentUserId();
+		$relate_values['want_id'] = $this->db->insert_id();
+		$relate = $this->db->insert('user2wants', $relate_values);
+		$relate_values['service_id'] = $data['workTrade'];
+		$relate_values = array_splice($relate_values, 2);
+		$relate = $this->db->insert('wants2services', $relate_values);
+		$return['status_want_relate2user'] = $relate;
 		$return['data'] = $data;
 		return $relate_values;
 	}
@@ -93,6 +93,27 @@ class User_model extends CI_Model
 		{
 			return false;
 		}
+	}
+
+	function getUserWishList()
+	{
+		$session_data = $this->session->userdata();
+		$user = $this->db->query('
+			SELECT
+			u.id,
+			u2w.want_id,
+			u2w.user_id,
+			wd.id,
+			wd.title,
+			wd.price,
+			wd.description,
+			wd.preview_image
+			FROM users u
+			LEFT JOIN user2wants u2w ON u2w.user_id = u.id
+			LEFT JOIN wanted wd ON u2w.want_id = wd.id
+			WHERE u.id=?
+			', array($session_data['user_info']['id']));
+		return $user->result_array();
 	}
 
 }

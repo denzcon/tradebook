@@ -368,7 +368,7 @@ $(document).ready(
 				revert: "invalid"
 			});
 			
-			var package_qty_input = '<li><span class="packageItemDataContainer"><input type="text" class="input-micro" value="1" style="margin-bottom: 0;">';
+			var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">test</span><input type="text" class="input-micro" value="1" style="margin-bottom: 0;">';
 			var package_remove_button = '<a href="#" class="btn btn-danger remove"><i class="icon-trash icon-white"></i> Remove</a>';
 			$('.input-micro').click(function()
 			{
@@ -421,6 +421,7 @@ $(document).ready(
 			$('form.namePackage').prepend(input);
 			$('.createPackageAnchor').text('');
 			$('input.packageName').focus();
+			$('a.done').show();
 			$('input.packageName').blur(function()
 			{
 				savePackageName();
@@ -445,7 +446,8 @@ $(document).ready(
 				success: function(json){
 					$('.createPackageAnchor').html('');
 					$('input.packageName').remove();
-					$('form.namePackage a').text(json.package_name_from_session)
+					$('form.namePackage a.createPackageAnchor').text(json.package_name_from_session)
+					$('a.done').hide();
 				}
 			})
 		}
@@ -540,14 +542,6 @@ $(document).ready(
 			$( ".data-grid li" ).draggable({
 				revert: "invalid"
 			});
-		//			$( ".data-grid .dropzone" ).droppable({
-		//				drop: function( event, ui ) {
-		//					$( this )
-		//					.addClass( "ui-state-highlight" )
-		//					.find( "p" )
-		//					.html( "Dropped!" );
-		//				}
-		//			});
 		});
 		function addCommas(nStr)
 		{
