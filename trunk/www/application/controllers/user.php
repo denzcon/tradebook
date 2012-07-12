@@ -232,8 +232,38 @@ class User extends MY_Controller
 
 	function save_package_data()
 	{
-		echo "<pre>";
-		echo json_encode($this->input->post());
+		$item_array = array();
+		foreach ($this->input->post() as $key => $post)
+		{
+			if (is_array($post))
+			{
+				foreach ($post as $item => $v)
+				{
+					if($key =='price')
+					{
+						$item_array[$item][$key] = str_replace('$', '', $v);
+					}
+					else
+					{
+						$item_array[$item][$key] = $v;
+					}
+				}
+			}
+		}
+		foreach ($item_array as $item)
+		{
+			$values = implode(',', $item);
+			$this->db->insert('wanted', $item);
+			$u2w = array(
+				'user_id' => $this->membershipModel->currentUserId(),
+				'want_id' => $this->db->insert_id()
+			);
+			$this->db->insert('user2wants', $u2w);
+		}
+	}
+	function current()
+	{
+		$this->debug($this->membershipModel, $this->membershipModel->currentUserId());
 	}
 
 }

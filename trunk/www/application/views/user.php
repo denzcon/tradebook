@@ -26,6 +26,16 @@
 			</div><!--/.well -->
         </div>
 		<div class="content span9">
+			<div class="progressBarContainer">
+
+				<ul>
+					<li>
+						<div style="margin-bottom: 9px;" class="progress progress-success progress-striped">
+							<div style="width: 40%" class="bar"></div>
+						</div>
+					</li>
+				</ul>
+			</div>
 			<ul class="wishList">
 				<?php foreach ($wants as $want) : ?>
 					<li>
@@ -39,12 +49,15 @@
 							<img src="<?= $want['preview_image']; ?>" alt="" />
 						</div>
 						<div class="wishListDataContainer">
-							
-						<span class="wishPrice alert-success">$<?= $want['price']; ?></span>
-						<br />
-						<span class="wishTitle"><?= $want['title']; ?></span>
-						<br />
-						<p class="wishDescription"><?= $want['description']; ?></p>
+
+							<span class="wishPrice alert-success">$<?= $want['price']; ?></span>
+							<br />
+							<span class="wishTitle"><?= $want['title']; ?></span>
+							<br />
+							<p class="wishDescription"><?= $want['description']; ?></p>
+							<div style="margin-bottom: 9px;" class="progress progress-danger progress-striped">
+								<div style="width: 40%" class="bar"></div>
+							</div>
 						</div>
 					</li>
 				<?php endforeach; ?>

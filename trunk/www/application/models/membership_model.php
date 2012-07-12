@@ -59,7 +59,7 @@ class Membership_model extends CI_Model
 			$results[0]['gravatarAvatarURL'] = 'http://www.gravatar.com/avatar/' . md5($results[0]['email_address']);
 			$gravatarProfileData = $this->site_model->CURL($results[0]['gravatarProfileURL'] . '.json');
 			$results[0]['gravatarProfileData'] = json_decode($gravatarProfileData['output']);
-			$this->currentUserId = $results[0]['id'];
+			self::$currentUserId = $results[0]['id'];
 			self::$currentUsername = $results[0]['username'];
 			self::$currentUserFirstName = $results[0]['first_name'];
 			self::$currentUserLastName = $results[0]['last_name'];

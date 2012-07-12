@@ -151,7 +151,7 @@ $(document).ready(
 			});
 			
 			
-		$('form.login').submit(	function(event)
+		$('form.login').submit(function(event)
 		{
 			event.preventDefault();
 			if ( !$('#username').val() || !$('#password1').val())
@@ -196,7 +196,7 @@ $(document).ready(
 			}
 		}	
 			
-		$('#signupLink').click(
+		$('.signupLink').click(
 			function()
 			{
 				$('#signupModal').fadeIn();
@@ -378,7 +378,7 @@ $(document).ready(
 				hoverClass: "alert-error",
 				activeClass: "alert-success",
 				drop: function( event, ui ) {
-					var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
+					var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="itemLink" type="hidden" value="'+ui.draggable.find('a').attr('href')+'" /><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
 					var content = package_qty_input+'<span class="packageBarItemDescription">'+ui.draggable.find('.itemResultTitle').text()+'</span></span>'+package_remove_button+'</li>';
 					$('.packageDefaultMessage').remove();
 					$( this )
@@ -401,17 +401,16 @@ $(document).ready(
 					var title = $(items_list).find('span.packageBarItemDescription').text();
 					var quantity = $(items_list).find('input.quantity').val();
 					var image_path = $(items_list).find('input.imagePreview').val();
-					data +='price='+price+'&title='+title+'&quantity='+quantity+'&image_path='+image_path;
-						
+					var link = $(items_list).find('.itemLink').val();
+					data +='price['+i+']='+price+'&title['+i+']='+title+'&quantity['+i+']='+quantity+'&preview_image['+i+']='+image_path+'&url['+i+']='+link+'&';
 				})
-				
+				console.log(data);
 				$.ajax( {
 					url: '/user/save_package_data',
 					type: 'POST',
 					data: data,
 					dataType: 'json',
 					success: function(json){
-						console.log(json);
 					}
 				} );
 			});
@@ -570,5 +569,9 @@ $(document).ready(
 		$('form.navbar-search').submit(function(e)
 		{
 			e.preventDefault();
+		});
+		$('.modal-header a.close, .form-actions button.cancel').click(function()
+		{
+			$('#userConnectModal').modal('hide');
 		});
 	});

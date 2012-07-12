@@ -33,7 +33,7 @@
 					</li>
 					<li class="divider-vertical"></li>
 					<li>
-						<a href="#" class="login">Sign-up</a>
+						<a href="#" class="signupLink">Sign-up</a>
 					</li>
 					<?php endif; ?>
 					<li class="divider-vertical"></li>
@@ -99,7 +99,7 @@
 			</div>		
 			<div class="form-actions">
 				<button class="btn btn-primary" type="submit">Save changes</button>
-				<button class="btn">Cancel</button>
+				<button class="btn cancel">Cancel</button>
 			</div>
 		</div>
 		</form>
