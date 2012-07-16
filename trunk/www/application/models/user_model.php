@@ -107,12 +107,20 @@ class User_model extends CI_Model
 			wd.title,
 			wd.price,
 			wd.description,
-			wd.preview_image
-			FROM users u
-			LEFT JOIN user2wants u2w ON u2w.user_id = u.id
-			LEFT JOIN wanted wd ON u2w.want_id = wd.id
+			wd.preview_image,
+			w2x.xp_value,
+			format(((u2x.xp_value * 100) / (w2x.xp_value)), 0) as percent
+			FROM wanted wd
+			LEFT JOIN user2wants u2w ON u2w.want_id = wd.id
+			LEFT JOIN users u ON u2w.user_id = u.id
+			LEFT JOIN wants2xp w2x ON w2x.wanted_id = wd.id
+			LEFT JOIN users2xp u2x ON u2x.user_id = u.id
 			WHERE u.id=?
 			', array($session_data['user_info']['id']));
+		if($user->num_rows == 0)
+		{
+			return false;
+		}
 		return $user->result_array();
 	}
 

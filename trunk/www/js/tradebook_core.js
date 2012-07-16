@@ -401,16 +401,16 @@ $(document).ready(
 					var title = $(items_list).find('span.packageBarItemDescription').text();
 					var quantity = $(items_list).find('input.quantity').val();
 					var image_path = $(items_list).find('input.imagePreview').val();
-					var link = $(items_list).find('.itemLink').val();
+					var link = encodeURIComponent($(items_list).find('.itemLink').val());
 					data +='price['+i+']='+price+'&title['+i+']='+title+'&quantity['+i+']='+quantity+'&preview_image['+i+']='+image_path+'&url['+i+']='+link+'&';
 				})
-				console.log(data);
 				$.ajax( {
 					url: '/user/save_package_data',
-					type: 'POST',
+					type: 'post',
 					data: data,
 					dataType: 'json',
 					success: function(json){
+						 
 					}
 				} );
 			});

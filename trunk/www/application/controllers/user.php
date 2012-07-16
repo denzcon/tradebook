@@ -5,6 +5,7 @@ class User extends MY_Controller
 
 	function index()
 	{
+
 		if (!$this->UserInfoArray['is_logged_in'])
 		{
 			redirect('/');
@@ -14,6 +15,9 @@ class User extends MY_Controller
 		$data['username'] = $this->uri->segment(2);
 		$data['userInfoArray'] = $this->session->userdata();
 		$data['wants'] = $this->user_model->getUserWishList();
+		$data['progress'] = $this->progress_model->currentUserProgress();
+//		$this->debug($data['wants']);
+//		$this->debug($this->progress_model->currentUserProgress());
 		$this->load->view('page_top.php', $data);
 		$this->load->view('user', $data);
 	}
@@ -46,6 +50,7 @@ class User extends MY_Controller
 		$data['user_id'] = $this->membership_model->currentUserId();
 		$data['userServices'] = $this->user_model->getServicesForUser($data['user_id']);
 		$data['package_name'] = $this->session->userdata('package_name') ? $this->session->userdata('package_name') : 'Create a package';
+
 		$this->load->view('page_head_incl', $this->UserInfoArray);
 		$this->load->view('header_menu_nav', $this->UserInfoArray);
 		$this->load->view('addwish', $data);
@@ -239,7 +244,7 @@ class User extends MY_Controller
 			{
 				foreach ($post as $item => $v)
 				{
-					if($key =='price')
+					if ($key == 'price')
 					{
 						$item_array[$item][$key] = str_replace('$', '', $v);
 					}
@@ -252,7 +257,6 @@ class User extends MY_Controller
 		}
 		foreach ($item_array as $item)
 		{
-			$values = implode(',', $item);
 			$this->db->insert('wanted', $item);
 			$u2w = array(
 				'user_id' => $this->membershipModel->currentUserId(),
@@ -261,9 +265,15 @@ class User extends MY_Controller
 			$this->db->insert('user2wants', $u2w);
 		}
 	}
+
 	function current()
 	{
 		$this->debug($this->membershipModel, $this->membershipModel->currentUserId());
+	}
+	
+	function getUserWishList()
+	{
+		$this->debug($this->user_model->getUserWishList());
 	}
 
 }
