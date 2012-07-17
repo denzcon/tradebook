@@ -140,17 +140,5 @@
 	</div>
 
 	<div id="resultsContainer">
-
-		<div class="itemResultHolder ui-draggable" draggable="true" style="position: relative;">
-			<div class="productImgContainer">
-				<a class="5247320437356752252 productImgAnchor" target="blank" href="">
-					<img class="5247320437356752252" src="http://www.avalive.com/pimages/pimage_165744.jpg">
-				</a>
-			</div>
-			<h3>$499.00</h3>
-			<h5 class="alert-success">backorder</h5>
-			<h4>AValive</h4>
-			<p class="itemResultTitle">Apple iPAD MC705LL/A iPad 3 with Wi-Fi 16GB - Black No Tax Outside NC</p>
-		</div>
 	</div>
 </div>

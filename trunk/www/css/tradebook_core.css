@@ -413,9 +413,11 @@ ul.wishList li{
 	/*	height: 200px;*/
 	list-style: none outside none;
 	margin: 0 5px 0 6px;
-	padding: 10px 2px;
+	padding: 10px 12px;
 	text-align: center;
 	width: 22%;
+	min-height: 400px;
+	position: relative;
 }
 .wishListImgContainer img{max-width: 180px; max-height: 200px;width: 100%;}
 .wishListImgContainer{text-align: center;min-height: 200px}
@@ -423,13 +425,14 @@ ul.wishList{margin: 0}
 .wishListDataContainer{min-height: 104px;
 					   overflow: auto;
 					   padding: 10px 17px;
+					   position: relative;
 					   text-align: left;}
 .wishTitle{font-weight: bold}
 p.wishDescription{font-size: .8em;line-height: 12px;}
 #packageBarContentContainer h3{}
 span.price{border: 1px solid #D6E9C6;border-radius: 4px 4px 4px 4px;margin-right: 10px;padding: 4px 8px;}
 span.price:before{content:'$';margin-right: 1px;}
-.progressBarContainer{-moz-border-bottom-colors: none;-moz-border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;border-color: #DDDDDD;border-style: dotted;border-width: 0 0 1px;margin: 7px 0 50px;padding: 15px 0}
+.progressBarContainer{-moz-border-bottom-colors: none;-moz-border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;border-color: #DDDDDD;border-style: dotted;border-width: 0 0 1px;margin: 7px 0 50px;padding:0 0 15px 0;}
 .progressBarContainer ul li{list-style: none;}
 .currentXpThreshold{color: #3288FF !important;font-weight: bold;margin-right: 12px;text-shadow: 1px 1px 1px rgba(255,255,255, .5);}
 .currentXpValue{font-weight: bold;color: #f3c;margin-left: 3px;}
@@ -440,7 +443,10 @@ span.price:before{content:'$';margin-right: 1px;}
 .progressValues{overflow: auto}
 .page-header{margin: 20px 40px;
 overflow: auto;
-padding: 21px 6px;}
+}
 .progressBarContainer ul{margin: 0;}
 .page-header h1{margin-bottom: 5px;
     padding: 4px 0;}
+.wishListDataContainer .progress{position: absolute;bottom: 5px;}
+.wishListDataContainer .wishPrice{padding: 3px 6px;}
+ul.wishList li .progress{bottom: 0}

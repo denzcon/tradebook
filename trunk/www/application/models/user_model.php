@@ -116,6 +116,7 @@ class User_model extends CI_Model
 			LEFT JOIN wants2xp w2x ON w2x.wanted_id = wd.id
 			LEFT JOIN users2xp u2x ON u2x.user_id = u.id
 			WHERE u.id=?
+			GROUP BY wd.id
 			', array($session_data['user_info']['id']));
 		if($user->num_rows == 0)
 		{

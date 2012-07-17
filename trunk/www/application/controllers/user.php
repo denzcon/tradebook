@@ -2,6 +2,7 @@
 
 class User extends MY_Controller
 {
+	protected $default_action_value = 7;
 
 	function index()
 	{
@@ -255,6 +256,7 @@ class User extends MY_Controller
 				}
 			}
 		}
+		echo json_encode($item_array);
 		foreach ($item_array as $item)
 		{
 			$this->db->insert('wanted', $item);
@@ -263,6 +265,18 @@ class User extends MY_Controller
 				'want_id' => $this->db->insert_id()
 			);
 			$this->db->insert('user2wants', $u2w);
+			$w2xp = array(
+				'wanted_id' =>$u2w['want_id'],
+				'xp_value' => round($item['price']*$this->default_action_value),
+			);
+			$this->db->insert('wants2xp', $w2xp);
+			$quey = '
+				UPDATE users2xp SET xp_value = xp_value + ? WHERE user_id = ?
+				';
+			$this->db->query($query, array(
+				$this->default_action_value,
+				$this->membershipModel->currentUserId()
+			));
 		}
 	}
 

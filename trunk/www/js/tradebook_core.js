@@ -356,7 +356,7 @@ $(document).ready(
 				code = $('<img class="'+item.product.googleId+'" />').attr("src", firstImage);
 				var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
 				var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+item.product.googleId+' productImgAnchor"></a>');
-				var viewPrice = $("<h3></h3>").text('$'+price.toFixed(2)).appendTo(current);
+				var viewPrice = $("<h3></h3>").text(price.toFixed(2)).appendTo(current);
 				$('img.'+item.product.googleId).wrap(anchorMarkup);
 				$('a.'+item.product.googleId).wrap('<div class="productImgContainer" />');
 				var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
