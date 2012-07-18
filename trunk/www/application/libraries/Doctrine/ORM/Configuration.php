@@ -126,8 +126,15 @@ class Configuration extends \Doctrine\DBAL\Configuration
     {
         if (version_compare(\Doctrine\Common\Version::VERSION, '2.2.0-DEV', '>=')) {
             // Register the ORM Annotations in the AnnotationRegistry
-			
-            AnnotationRegistry::registerFile(__DIR__ . '\Mapping\Driver\DoctrineAnnotations.php');
+	
+		if(strpos(php_uname(), 'Win'))
+		{
+			AnnotationRegistry::registerFile(__DIR__ . '\Mapping\Driver\DoctrineAnnotations.php');
+		}
+		else
+		{
+			AnnotationRegistry::registerFile(__DIR__ . '/Mapping/Driver/DoctrineAnnotations.php');
+		}
 
             $reader = new \Doctrine\Common\Annotations\SimpleAnnotationReader();
             $reader->addNamespace('Doctrine\ORM\Mapping');
