@@ -26,7 +26,7 @@ class MY_Controller extends CI_Controller
 		$this->load->model('membership_model');
 		$this->membershipModel = $this->membership_model;
 		$this->UserInfoArray = $this->membershipModel->getUserInfoArray();
-		$this->em = '';
+//		$this->em = '';
 		$this->em = $this->doctrine->em;
 	}
 
