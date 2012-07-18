@@ -256,7 +256,6 @@ class User extends MY_Controller
 				}
 			}
 		}
-		echo json_encode($item_array);
 		foreach ($item_array as $item)
 		{
 			$this->db->insert('wanted', $item);
@@ -270,7 +269,7 @@ class User extends MY_Controller
 				'xp_value' => round($item['price']*$this->default_action_value),
 			);
 			$this->db->insert('wants2xp', $w2xp);
-			$quey = '
+			$query = '
 				UPDATE users2xp SET xp_value = xp_value + ? WHERE user_id = ?
 				';
 			$this->db->query($query, array(
