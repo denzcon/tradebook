@@ -116,7 +116,7 @@ class Login extends MY_Controller
 			'required' => true,
 			'length' => array(
 				'min' => 5,
-				'max' => 10
+				'max' => 20
 			)
 		);
 
@@ -125,7 +125,7 @@ class Login extends MY_Controller
 			'required' => true,
 			'length' => array(
 				'min' => 5,
-				'max' => 10
+				'max' => 20
 			),
 			'notEmpty' => true,
 			'custom' => function ($_fieldName, $rule, $values)
