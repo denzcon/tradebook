@@ -394,6 +394,7 @@ $(document).ready(
 			$('button.savePackageDropped').click(function(event)
 			{
 				event.preventDefault();
+				$(this).fadeOut();
 				var data ='';
 				$('#packageBarContentContainer ul li').each(function(i, items_list)
 				{
@@ -410,7 +411,7 @@ $(document).ready(
 					data: data,
 					dataType: 'json',
 					success: function(json){
-						 
+						 return false;
 					}
 				} );
 			});
