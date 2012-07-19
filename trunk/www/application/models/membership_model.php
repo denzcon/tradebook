@@ -17,6 +17,7 @@ class Membership_model extends CI_Model
 		$this->currentUserFirstName = $user_info['first_name'];
 		$this->currentUserLastName = $user_info['last_name'];
 		$this->currentUserEmailAddress = $user_info['email_address'];
+		$this->default_new_user_xp_value = 15;
 	}
 
 	function currentUserId()
@@ -91,6 +92,17 @@ class Membership_model extends CI_Model
 //		\Doctrine\Common\Util\Debug::dump($user);
 		$this->em->persist($user);
 		$this->em->flush();
+		
+		$this->db->insert('users2xp', array(
+			'user_id' => $user->getId(),
+			'xp_value' => $this->default_new_user_xp_value
+		));
+		$this->currentUserId = $user->getId();
+		$this->currentUsername = $this->input->post('username');
+		$this->currentUserEmailAddress = $this->input->post('email_address');
+		$this->currentUserLastName = $this->input->post('last_name');
+		$this->currentUserFirstName = $this->input->post('first_name');
+		$this->site_model->updateSession();
 		return true;
 	}
 
