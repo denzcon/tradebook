@@ -5,7 +5,7 @@
 				<h1>My <span class="hiliteTBBlue">trade</span><span class="hiliteTBGray">book</span></h1>
 			</span>
 		</div>
-		<div class="span1">
+		<div class="span1" style="margin-left: 0	">
 			<div class="well sidebar-nav">
 				<ul class="nav nav-list">
 					<li><span><img src="<?= $user_info['gravatarAvatarURL']; ?>" alt="<?= $user_info['first_name'] . ' ' . $user_info['last_name']; ?>" /></span></li>
@@ -28,7 +28,7 @@
 				</ul>
 			</div><!--/.well -->
         </div>
-		<div class="content span9">
+		<div class="content span11" style="margin-left: 20px; padding: 22px;">
 			<div class="progressBarContainer">
 				<ul>
 					<li>
