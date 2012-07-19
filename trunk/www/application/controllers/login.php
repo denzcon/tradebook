@@ -14,14 +14,14 @@ class Login extends MY_Controller
 	function validate_credentials()
 	{
 
-		$query = $this->membershipModel->validate();		
-		if($query['loginStatus'] == true)
+		$query = $this->membershipModel->validate();
+		if ($query['loginStatus'] == true)
 		{
-			$isAdmin			= $this->membershipModel->isUserAdmin($query['results']['id']);			
+			$isAdmin = $this->membershipModel->isUserAdmin($query['results']['id']);
 			$data = array(
-				'user_info'			=> $query['results'],
-				'is_logged_in'		=> true,
-				'isAdmin'			=> isset($isAdmin)
+				'user_info' => $query['results'],
+				'is_logged_in' => true,
+				'isAdmin' => isset($isAdmin)
 			);
 
 			$this->site_model->updateSession($data);
@@ -31,8 +31,8 @@ class Login extends MY_Controller
 		{
 			$data = array(
 //				'user_info'		=> $query,
-				'is_logged_in'	=> false,
-				'isAdmin'		=> false
+				'is_logged_in' => false,
+				'isAdmin' => false
 			);
 			echo json_encode($data);
 		}
@@ -75,19 +75,6 @@ class Login extends MY_Controller
 						return 'You must provide a valid email address';
 					}
 				}
-//				function ($_fieldName, $rule, $values)
-//				{
-//					$CI = get_instance();
-//					$result = $CI->user_model->getUserByEmail($values[$_fieldName]);
-//					if (!$result)
-//					{
-//						return true;
-//					}
-//					else
-//					{
-//						return "This email is already used by another organization.";
-//					}
-//				}
 			)
 		);
 
@@ -110,7 +97,7 @@ class Login extends MY_Controller
 				'max' => 255
 			)
 		);
-		
+
 		$rules['password1'] = array(
 			'field_name' => 'New Password',
 			'required' => true,
@@ -208,8 +195,8 @@ class Login extends MY_Controller
 			)
 		);
 
-		
-		
+
+
 		$rules['password1'] = array(
 			'field_name' => 'New Password',
 			'required' => true,
@@ -219,7 +206,7 @@ class Login extends MY_Controller
 			)
 		);
 
-		
+
 
 		if (!count($_POST))
 		{
@@ -251,11 +238,12 @@ class Login extends MY_Controller
 		);
 		$json_results['create_member'] = $this->membershipModel->create_member();
 		echo json_encode($json_results);
-		return;		
+		return;
 	}
 
 	function sessionDump()
 	{
 		$this->debug($this->session);
 	}
+
 }
