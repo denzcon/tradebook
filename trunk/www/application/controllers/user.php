@@ -288,6 +288,10 @@ class User extends MY_Controller
 	{
 		$this->debug($this->user_model->getUserWishList());
 	}
+	
+	function session()
+	{
+		$this->debug($this->session->userdata());
+	}
 
 }
-
