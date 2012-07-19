@@ -51,7 +51,7 @@ class MY_Controller extends CI_Controller
 		$line = $trace[0]['line'];
 		$file = $trace[0]['file'];
 		$output = "";
-		$output .= '<link href="http://openstory.dev/css/prettify/sunburst.css" type="text/css" rel="stylesheet" /><script type="text/javascript" src="http://openstory.dev/js/prettify/prettify.js"></script>';
+		$output .= '<link href="'.base_url().'css/prettify/sunburst.css" type="text/css" rel="stylesheet" /><script type="text/javascript" src="'.base_url().'js/prettify/prettify.js"></script>';
 		$output .= '<script type="text/javascript">window.onload = function(){prettyPrint();}</script>';
 		$output .= "<div class='debug' style='overflow: auto; margin:20px; text-align: left;'>\n"; // Inline styling sadly necessary. The css file may never load in certain debug situations.
 		// file/line info:

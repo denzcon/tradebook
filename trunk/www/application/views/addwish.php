@@ -28,7 +28,7 @@
 			<div id="packageBarContentContainer">
 				<h3 class="alert-heading">
 					<img src="/images/package.png" alt="create a package" width="30px"  style="float: left"/>
-					<form name="namePackage" action="save_package" class="namePackage" method="post">
+					<form name="namePackage" action="user/save_package_data" class="namePackage" method="post">
 						<a href="#" class="createPackageAnchor" style="float: left"><?= trim(trim($package_name), ' \t'); ?></a>
 						<a href="#" class="hide done" style="vertical-align: text-top; line-height: 12px;"><img src="<?= base_url(); ?>images/done_square.png" alt="" /></a>
 					</form>

@@ -86,7 +86,7 @@ class Membership_model extends CI_Model
 		$user->setUsername($this->security->xss_clean($this->input->post('username')));
 		$user->setFirstName($this->security->xss_clean($this->input->post('first_name')));
 		$user->setLastName($this->security->xss_clean($this->input->post('last_name')));
-		$user->setPassword($this->security->xss_clean($this->input->post('password1')));
+		$user->setPassword(md5($this->security->xss_clean($this->input->post('password1'))));
 		$user->setEmailAddress($this->security->xss_clean($this->input->post('email_address')));
 //		\Doctrine\Common\Util\Debug::dump($user);
 		$this->em->persist($user);
