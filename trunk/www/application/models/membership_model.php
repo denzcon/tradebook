@@ -102,7 +102,13 @@ class Membership_model extends CI_Model
 		$this->currentUserEmailAddress = $this->input->post('email_address');
 		$this->currentUserLastName = $this->input->post('last_name');
 		$this->currentUserFirstName = $this->input->post('first_name');
-		$this->site_model->updateSession();
+		$this->site_model->updateSession(array('user_info' => array(
+			'id'				=> $this->currentUserId,
+			'username'			=> $this->currentUsername,
+			'email_address'		=> $this->currentUserEmailAddress,
+			'first_name'		=> $this->currentUserFirstName,
+			'last_name'		=> $this->currentUserLastName,
+		)));
 		return true;
 	}
 

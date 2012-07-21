@@ -3,6 +3,12 @@
 class User extends MY_Controller
 {
 	protected $default_action_value = 7;
+	
+	/**
+	 *
+	 * @var Google_api
+	 */
+	static public $google_api_model;
 
 	function index()
 	{
@@ -59,16 +65,14 @@ class User extends MY_Controller
 
 	function searchWishAjax()
 	{
-
-		$this->load->model('google_api');
 		$key = $this->google_api->getGoogleShoppingSearchApiKey();
 //		$this->debug("test"); 
-		$ajax = urlencode($this->input->post("itemSearch"));
+		$search_string = urlencode($this->input->post("itemSearch"));
 		$response = array();
 //		$response['key'] = $key;
 		$response['status'] = true;
 //		$response["post"] = $ajax;
-		$url = $this->google_api->buildShoppingUrl($ajax, $key, 1, 20, "shopping");
+		$url = $this->google_api->buildShoppingUrl($key, 1, 20, 'shopping', 'search', $search_string);
 		$data = $this->CURL($url);
 		$response['data'] = json_decode($data['output'], true);
 		$page_index = $this->input->post('page_index');

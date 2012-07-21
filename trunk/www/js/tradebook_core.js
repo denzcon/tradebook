@@ -349,6 +349,7 @@ $(document).ready(
 				var supplier_name = item.product.author.name;
 				var firstImage = item['product']['images'][0]['link'];
 				var productLink = item.product.link;
+				var googleId = item.product.googleId;
 				var price = item['product']['inventories'][0]['price'];
 				var availability = item['product']['inventories'][0]['availability'];
 				var anchor = item.product.link;
@@ -363,6 +364,7 @@ $(document).ready(
 				
 				$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
 				$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
+				$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
 			});
 			$(".itemResultHolder").draggable({
 				revert: "invalid"
@@ -378,7 +380,8 @@ $(document).ready(
 				hoverClass: "alert-error",
 				activeClass: "alert-success",
 				drop: function( event, ui ) {
-					var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="itemLink" type="hidden" value="'+ui.draggable.find('a').attr('href')+'" /><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
+					$('#success_message').fadeIn().delay(messageDelay).fadeOut();
+					var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="itemGoogleId" type="hidden" value="'+ui.draggable.find('input.itemGoogleId').attr('value')+'" /><input class="itemLink" type="hidden" value="'+ui.draggable.find('a').attr('href')+'" /><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
 					var content = package_qty_input+'<span class="packageBarItemDescription">'+ui.draggable.find('.itemResultTitle').text()+'</span></span>'+package_remove_button+'</li>';
 					$('.packageDefaultMessage').remove();
 					$( this )
@@ -404,7 +407,8 @@ $(document).ready(
 				var quantity = $(items_list).find('input.quantity').val();
 				var image_path = $(items_list).find('input.imagePreview').val();
 				var link = encodeURIComponent($(items_list).find('.itemLink').val());
-				data +='price['+i+']='+price+'&title['+i+']='+title+'&quantity['+i+']='+quantity+'&preview_image['+i+']='+image_path+'&url['+i+']='+link+'&';
+				var googleId = $(items_list).find('input.itemGoogleId').val();
+				data +='price['+i+']='+price+'&title['+i+']='+title+'&quantity['+i+']='+quantity+'&preview_image['+i+']='+image_path+'&url['+i+']='+link+'&google_id['+i+']='+googleId+'&';
 			});
 			$.ajax( {
 				url: '/user/save_package_data',

@@ -158,7 +158,6 @@ class Login extends MY_Controller
 		);
 		$json_results['create_member'] = $this->membershipModel->create_member();
 		echo json_encode($json_results);
-		return;
 	}
 
 	function loginSubmit()

@@ -1,10 +1,5 @@
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top: 13px;">
     <div class="row-fluid">
-		<div class="page-header">
-			<span class="span3">
-				<h1>My <span class="hiliteTBBlue">trade</span><span class="hiliteTBGray">book</span></h1>
-			</span>
-		</div>
 		<div class="span1" style="margin-left: 0	">
 			<div class="well sidebar-nav">
 				<ul class="nav nav-list">
