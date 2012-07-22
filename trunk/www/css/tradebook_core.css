@@ -121,10 +121,10 @@ a.oneline {
 }
 .content
 {
-	border: 1px dotted #DDDDDD;
-	padding: 20px;
-	position: relative;
-	border-radius: 8px;
+	/*	border: 1px dotted #DDDDDD;
+		padding: 20px;
+		position: relative;
+		border-radius: 8px;*/
 }
 .topbar .topbar-inner .container form input
 {
@@ -403,57 +403,108 @@ form .buttonContainer{margin-top: 10px;}
 .packageItemDataContainer{white-space: nowrap}
 .packageItemDataContainer input{float: left}
 .packageBarItemDescription{
-float: left;
-font-size: 10px;
-line-height: 11px;
-margin-left: 9px;
-max-width: 200px;
-text-align: left;
-white-space: normal;
-padding:3px 0 0 0;
+	float: left;
+	font-size: 10px;
+	line-height: 11px;
+	margin-left: 9px;
+	max-width: 200px;
+	text-align: left;
+	white-space: normal;
+	padding:3px 0 0 0;
 }
 ul.wishList li{
-background: none repeat scroll 0 0 #FFFFFF;
-border: 1px solid #D9D9D9;
-border-radius: 6px 6px 6px 6px;
-float: left;
-list-style: none outside none;
-margin: 19px 8px;
-min-height: 400px;
-padding: 10px 12px;
-position: relative;
-text-align: center;
-width: 21%;
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px 6px 6px 6px;
+	float: left;
+	list-style: none outside none;
+	margin: 19px 3px;
+	height: 400px;
+	padding: 10px 12px;
+	position: relative;
+	text-align: center;
+	width: 21%;
 }
 .wishListImgContainer img{max-width: 180px; max-height: 200px;width: 100%;}
-.wishListImgContainer{text-align: center;min-height: 200px}
+.wishListImgContainer{text-align: center;min-height: 225px; position: relative}
 ul.wishList{margin: 0}
-.wishListDataContainer{min-height: 104px;
-					   overflow: auto;
-					   padding: 10px 17px;
-					   position: relative;
-					   text-align: left;}
-.wishTitle{font-weight: bold}
+.wishListDataContainer{	min-height: 104px;	padding:0px;	position: relative;text-align: left;}
+.wishTitle{font-weight: bold;    clear: both;    margin-top: 14px;}
 p.wishDescription{font-size: .8em;line-height: 12px;}
 #packageBarContentContainer h3{}
 span.price{border: 1px solid #D6E9C6;border-radius: 4px 4px 4px 4px;margin-right: 10px;padding: 4px 8px;}
 span.price:before{content:'$';margin-right: 1px;}
-.progressBarContainer{-moz-border-bottom-colors: none;-moz-border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;border-color: #DDDDDD;border-style: dotted;border-width: 0 0 1px;margin: 7px 0 0;padding:0 0 15px 0;}
+.progressBarContainer{-moz-border-bottom-colors: none;-moz-border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;border-color: #DDDDDD;border-style: dotted;border-width: 0 0 1px;margin: 7px 0 0;padding:0 0 1px 0;}
 .progressBarContainer ul li{list-style: none;}
 .currentXpThreshold{color: #3288FF !important;font-weight: bold;margin-right: 12px;text-shadow: 1px 1px 1px rgba(255,255,255, .5);}
 .currentXpValue{font-weight: bold;color: yellowgreen;margin-left: 3px;}
 .progressBarContainer .progress-striped .bar {  background-size: 60px 58px;}
 .progress .bar{height: 55px;}
 .progressBarContainer .progress{height: auto !important;}
-.progressValues span{font-size: 3em;line-height: 55px;}
-.progressValues{overflow: auto}
-.page-header{margin: 20px 40px;
-overflow: auto;
-}
+/*.progressValues span{font-size: 2em;line-height: 55px;}*/
+.progressValues{overflow: auto;margin-bottom: 2px;}
+.page-header{margin: 20px 40px; overflow: auto;}
 .progressBarContainer ul{margin: 0;}
 .page-header h1{margin-bottom: 5px;
-    padding: 4px 0;}
+				padding: 4px 0;}
 .wishListDataContainer .progress{position: absolute;bottom: 5px;}
-.wishListDataContainer .wishPrice{padding: 3px 6px;}
+.wishListDataContainer .wishPrice{
+	padding: 4px 6px;
+	border-radius: 4px 4px 4px 4px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	float: left;
+}
 ul.wishList li .progress{bottom: 0}
 .sort_actions {float: right}
+.currentItemXpPercentage{
+bottom: 0;
+color: #DDDDDD;
+font-size: 2em;
+font-weight: bold;
+line-height: 1em;
+position: absolute;
+right: 0;
+text-align: left;
+text-shadow: 1px 1px 1px #999999;
+}
+.nav-list > li > a {
+	padding: 3px 15px;
+	white-space: nowrap
+}
+div.earnXP{}
+div.earnXP ul li{
+	border: 1px solid;
+	border-radius: 5px 5px 5px 5px;
+	float: left;
+	list-style: none outside none;
+	height: 100px;
+	padding: 20px;
+	text-align: center;
+	margin-top: 28px;
+}
+.alert-success {
+	color: #468847;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+}
+.earningOpportunities{
+	bottom: 10px;
+	left: 10px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+
+}
+.earningOpportunities.alert{margin-bottom: 0}
+div.earnXP ul{margin: 0}
+div.earnXP.modal{width: 685px;min-height: 450px}
+div.itemProgressContainer{
+	bottom: 10px;
+	left: 10px;
+	position: absolute;
+	right: 10px;
+}
+div.itemProgressContainer .progressValues span.currentXpValue{float: left;}
+div.itemProgressContainer .progressValues span.currentXpThreshold{float: right;}
+div.itemProgressContainer .progressValues span{font-size: 11px}
+div.progressBarContainer.userHeader ul li .progressValues span{font-size: 3em; line-height: 50px}

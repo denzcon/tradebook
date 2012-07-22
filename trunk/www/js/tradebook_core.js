@@ -10,6 +10,15 @@ $(document).ready(
 		var siteBaseUrl		= 'http://xphero.me';
 		var messageDelay	= 6000;
 			
+		$('a.earnXP').click(
+			function()
+			{
+				$('div.earnXP').modal().show();
+			}
+		);
+		
+		$('.item.progress').tooltip();
+		
 		$('#addwishitemManualAnchor').click(
 			function()
 			{
@@ -370,7 +379,6 @@ $(document).ready(
 			$(".itemResultHolder").draggable({
 				revert: "invalid"
 			});
-			
 			var package_remove_button = '<a href="#" class="btn btn-danger remove"><i class="icon-trash icon-white"></i> Remove</a>';
 			$('.input-micro').click(function()
 			{

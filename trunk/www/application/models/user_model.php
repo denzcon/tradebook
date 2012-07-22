@@ -118,6 +118,7 @@ class User_model extends CI_Model
 			WHERE u.id=?
 			AND wd.status = \'a\'
 			GROUP BY wd.id
+			ORDER BY  (percent+0) DESC
 			', array($session_data['user_info']['id']));
 		if($user->num_rows == 0)
 		{

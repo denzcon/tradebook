@@ -67,11 +67,30 @@
 <!--Modals below-->
 
 <div class="modal-backdrop fade in hide"></div>
+
+<!--Earn XP Modal-->
+<div class="earnXP modal hide">
+	<div class="earningOpportunities alert alert-success">
+		<h1>Available Activities <small>to earn XP</small></h1>
+		<ul>
+			<li class="span2">Good Behavior</li>
+			<li class="span2">Good Appetite</li>
+			<li class="span2">Good Schoolwork</li>
+			<li class="span2">Good Behavior</li>
+			<li class="span2">Good Appetite</li>
+			<li class="span2">Good Schoolwork</li>
+		</ul>
+	</div>
+</div>
+
+<!--createPackageModal-->
 <div id="createPackageModal" class="modal hide fade">
 	<div class="modal-header">
 		<h3>Create Package</h3>
 	</div>
 </div>
+
+<!--User Connect Modal-->
 <div id="userConnectModal" class="modal hide fade">
 	<div id="loginModal">
 		<div class="modal-header">
@@ -164,4 +183,5 @@
 
 	</div>	
 </div>
+
 <!--Modals above-->
