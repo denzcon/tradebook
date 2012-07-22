@@ -313,7 +313,7 @@ a.logoAnchor:hover
 	padding: 20px 10px 10px;
 	z-index: 1;
 	overflow: hidden;
-	max-width: 200px
+	width: 200px
 }
 #packageBar
 {
@@ -418,7 +418,7 @@ border: 1px solid #D9D9D9;
 border-radius: 6px 6px 6px 6px;
 float: left;
 list-style: none outside none;
-margin: 19px 8px;1
+margin: 19px 8px;
 min-height: 400px;
 padding: 10px 12px;
 position: relative;
@@ -441,7 +441,7 @@ span.price:before{content:'$';margin-right: 1px;}
 .progressBarContainer{-moz-border-bottom-colors: none;-moz-border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;border-color: #DDDDDD;border-style: dotted;border-width: 0 0 1px;margin: 7px 0 0;padding:0 0 15px 0;}
 .progressBarContainer ul li{list-style: none;}
 .currentXpThreshold{color: #3288FF !important;font-weight: bold;margin-right: 12px;text-shadow: 1px 1px 1px rgba(255,255,255, .5);}
-.currentXpValue{font-weight: bold;color: #f3c;margin-left: 3px;}
+.currentXpValue{font-weight: bold;color: yellowgreen;margin-left: 3px;}
 .progressBarContainer .progress-striped .bar {  background-size: 60px 58px;}
 .progress .bar{height: 55px;}
 .progressBarContainer .progress{height: auto !important;}
@@ -456,3 +456,4 @@ overflow: auto;
 .wishListDataContainer .progress{position: absolute;bottom: 5px;}
 .wishListDataContainer .wishPrice{padding: 3px 6px;}
 ul.wishList li .progress{bottom: 0}
+.sort_actions {float: right}

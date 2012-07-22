@@ -72,7 +72,9 @@ class User extends MY_Controller
 //		$response['key'] = $key;
 		$response['status'] = true;
 //		$response["post"] = $ajax;
-		$url = $this->google_api->buildShoppingUrl($key, 1, 20, 'shopping', 'search', $search_string);
+		$sort = $this->input->post('sort');
+		$order = 'descending';
+		$url = $this->google_api->buildShoppingUrl($key, 1, 20, 'shopping', 'search', $search_string, $sort, $order);
 		$data = $this->CURL($url);
 		$response['data'] = json_decode($data['output'], true);
 		$page_index = $this->input->post('page_index');
@@ -252,10 +254,12 @@ class User extends MY_Controller
 					if ($key == 'price')
 					{
 						$item_array[$item][$key] = str_replace('$', '', $v);
+						$item_array[$item]['status'] = 'a';
 					}
 					else
 					{
 						$item_array[$item][$key] = $v;
+						$item_array[$item]['status'] = 'a';
 					}
 				}
 			}

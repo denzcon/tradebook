@@ -3,21 +3,25 @@
 class Membership_model extends CI_Model
 {
 
-	static $currentUserId = '0';
-	static $currentUsername = 'default';
-	static $currentUserFirstName = 'default';
-	static $currentUserLastName = 'default';
-	static $currentUserEmailAddress = 'default';
+	protected $currentUserId = '0';
+	protected $currentUsername = 'default';
+	protected $currentUserFirstName = 'default';
+	protected $currentUserLastName = 'default';
+	protected $currentUserEmailAddress = 'default';
+	protected $default_new_user_xp_value = 15;
 
 	function __construct()
 	{
 		$user_info = $this->session->userdata('user_info');
-		$this->currentUserId = $user_info['id'];
-		$this->currentUsername = $user_info['username'];
-		$this->currentUserFirstName = $user_info['first_name'];
-		$this->currentUserLastName = $user_info['last_name'];
-		$this->currentUserEmailAddress = $user_info['email_address'];
-		$this->default_new_user_xp_value = 15;
+		if (isset($user_info['id']))
+		{
+			$this->currentUserId = $user_info['id'];
+			$this->currentUsername = $user_info['username'];
+			$this->currentUserFirstName = $user_info['first_name'];
+			$this->currentUserLastName = $user_info['last_name'];
+			$this->currentUserEmailAddress = $user_info['email_address'];
+			$this->default_new_user_xp_value = 15;
+		}
 	}
 
 	function currentUserId()
@@ -27,22 +31,22 @@ class Membership_model extends CI_Model
 
 	function currentUsername()
 	{
-		return self::$currentUsername;
+		return $this->currentUsername;
 	}
 
 	function currentUserFirstName()
 	{
-		return self::$currentUserFirstName;
+		return $this->currentUserFirstName;
 	}
 
 	function currentUserLastName()
 	{
-		return self::$currentUserLastName;
+		return $this->currentUserLastName;
 	}
 
 	function currentUserEmailAddress()
 	{
-		return self::$currentUserEmailAddress;
+		return $this->currentUserEmailAddress;
 	}
 
 	function validate()
@@ -60,15 +64,22 @@ class Membership_model extends CI_Model
 			$results[0]['gravatarAvatarURL'] = 'http://www.gravatar.com/avatar/' . md5($results[0]['email_address']);
 			$gravatarProfileData = $this->site_model->CURL($results[0]['gravatarProfileURL'] . '.json');
 			$results[0]['gravatarProfileData'] = json_decode($gravatarProfileData['output']);
-			self::$currentUserId = $results[0]['id'];
-			self::$currentUsername = $results[0]['username'];
-			self::$currentUserFirstName = $results[0]['first_name'];
-			self::$currentUserLastName = $results[0]['last_name'];
-			self::$currentUserEmailAddress = $results[0]['email_address'];
+			$this->currentUserId = $results[0]['id'];
+			$this->currentUsername = $results[0]['username'];
+			$this->currentUserFirstName = $results[0]['first_name'];
+			$this->currentUserLastName = $results[0]['last_name'];
+			$this->currentUserEmailAddress = $results[0]['email_address'];
 			$return = array(
 				'loginStatus' => 'true',
 				'results' => $results[0]
 			);
+			$this->site_model->updateSession(array('user_info' => array(
+				'id' => $this->currentUserId,
+				'username' => $this->currentUsername,
+				'email_address' => $this->currentUserEmailAddress,
+				'first_name' => $this->currentUserFirstName,
+				'last_name' => $this->currentUserLastName,
+				)));
 			return $return;
 		}
 		else
@@ -92,7 +103,7 @@ class Membership_model extends CI_Model
 //		\Doctrine\Common\Util\Debug::dump($user);
 		$this->em->persist($user);
 		$this->em->flush();
-		
+
 		$this->db->insert('users2xp', array(
 			'user_id' => $user->getId(),
 			'xp_value' => $this->default_new_user_xp_value
@@ -103,12 +114,12 @@ class Membership_model extends CI_Model
 		$this->currentUserLastName = $this->input->post('last_name');
 		$this->currentUserFirstName = $this->input->post('first_name');
 		$this->site_model->updateSession(array('user_info' => array(
-			'id'				=> $this->currentUserId,
-			'username'			=> $this->currentUsername,
-			'email_address'		=> $this->currentUserEmailAddress,
-			'first_name'		=> $this->currentUserFirstName,
-			'last_name'		=> $this->currentUserLastName,
-		)));
+				'id' => $this->currentUserId,
+				'username' => $this->currentUsername,
+				'email_address' => $this->currentUserEmailAddress,
+				'first_name' => $this->currentUserFirstName,
+				'last_name' => $this->currentUserLastName,
+				)));
 		return true;
 	}
 

@@ -7,7 +7,7 @@
 $(document).ready(
 	function() {
 		var pages_max		= 10;
-		var siteBaseUrl		= 'http://tradebook.dev';
+		var siteBaseUrl		= 'http://xphero.me';
 		var messageDelay	= 6000;
 			
 		$('#addwishitemManualAnchor').click(
@@ -60,11 +60,12 @@ $(document).ready(
 				$('#error_message').fadeIn().delay(messageDelay).fadeOut();
 				return false;
 
-			} else {				
+			} else {		
+				var data = 'itemSearch='+$('#itemSearch').val()+'&sort='+$("input[@name=optionsRadios]:checked").val();
 				$.ajax( {
 					url: "/user/searchWishAjax",
-					type: 'POST',
-					data: $('#itemSearch'),
+					type: 'post',
+					data: data,
 					success: searchFinished,
 					dataType: "json"
 				} );
@@ -332,7 +333,7 @@ $(document).ready(
 			{
 				var pages = options.pages;
 			}
-			
+			$('.pagination ul').html('');
 			for (i = 1; i < pages; i++) {
 				$('.pagination ul').append(
 					$('<li>').append(
@@ -391,6 +392,10 @@ $(document).ready(
 					.append(content);
 					ui.draggable.hide();
 					$('#packageBar .buttonContainer').removeClass('hide');
+					$('a.remove').click(function()
+					{
+						$(this).parent().remove();
+					});
 					
 				}
 			});
@@ -414,7 +419,11 @@ $(document).ready(
 				url: '/user/save_package_data',
 				type: 'post',
 				data: data,
-				dataType: 'json'				
+				dataType: 'json',
+				success: function()
+				{
+					$('.packageBarHolder').slideUp('slow');
+				}
 			} );
 		});
 		$(".createPackageAnchor").click(function(event)

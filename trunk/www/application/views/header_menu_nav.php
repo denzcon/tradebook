@@ -21,7 +21,7 @@
 						</ul>
 					</li>
 				</ul>
-				<form action="" class="navbar-search pull-left">
+				<form action="user/addwish" class="navbar-search pull-left" method="post">
 					<input type="text" placeholder="Search" class="search-query span2">
 				</form>
 				<ul class="nav pull-right">

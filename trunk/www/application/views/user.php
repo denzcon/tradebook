@@ -33,8 +33,8 @@
 							<div style="width: <?= $progress['rank']['percent']; ?>%" class="bar"></div>
 						</div>
 						<div class="progressValues">
-							<span style="float:left;" class="currentXpValue"><?= $progress['xp']['xp_value']; ?>xp</span>
-							<span style="float:right;" class="currentXpThreshold"><?= $progress['rank']['threshold']; ?>xp</span>
+							<span style="float:left;" class="currentXpValue"><?= $progress['xp']['xp_value']; ?> xp</span>
+							<span style="float:right;" class="currentXpThreshold"><?= $progress['rank']['threshold']; ?> xp</span>
 						</div>
 					</li>
 				</ul>
@@ -43,6 +43,7 @@
 				<ul class="wishList">
 					<?php foreach ($wants as $want) : ?>
 						<li>
+							<button data-dismiss="modal" class="close" type="button">×</button>
 							<div class="wishListImgContainer">
 								<?php
 								if (empty($want['preview_image']))

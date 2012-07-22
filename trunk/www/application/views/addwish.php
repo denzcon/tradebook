@@ -8,7 +8,7 @@
 	$(function(){
 	});
 </script>
-<div class="container">
+<div class="container-fluid">
 
 	<div class="page-header content">
 		<h1>TradeManager <small>manage your wish lists here</small></h1>
@@ -116,6 +116,16 @@
 				<div class="input">
 					<input type="text" name="itemSearch" id="itemSearch" value="" />
 				</div>
+				<div class="controls">
+              <label class="radio">
+                <input type="radio" checked="" value="relevancy" id="optionsRadios1" name="optionsRadios">
+                Sort by Relevance
+              </label>
+              <label class="radio">
+                <input type="radio"  value="price" id="optionsRadios2" name="optionsRadios">
+                Sort by Price
+              </label>
+            </div>
 			</div>
 			<div class="clearfix">
 				<a href="#" class="btn"  id="add_item_search_submit"><i class="icon-search"></i> Search</a>
@@ -130,6 +140,9 @@
 	<a href="#" id="addwishitemManualAnchor" class="label hide">Add a wish item manually</a>	
 	<div id="url_success_prompt">
 
+	</div>
+	<div class="sort_actions">
+		<a href="#" class="btn btn-success"><i class="icon-arrow-down icon-white"></i> Price</a>
 	</div>
 	<div class="pagination hide">
 		<ul>
