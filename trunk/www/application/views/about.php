@@ -1,3 +1,13 @@
+<div class="subnav">
+    <ul class="nav nav-pills">
+		<li class="active"><a href="#global">Global styles</a></li>
+		<li class=""><a href="#gridSystem">Grid system</a></li>
+		<li class=""><a href="#fluidGridSystem">Fluid grid system</a></li>
+		<li class=""><a href="#gridCustomization">Customizing</a></li>
+		<li class=""><a href="#layouts">Layouts</a></li>
+		<li><a href="#responsive">Responsive design</a></li>
+    </ul>
+</div>
 <div class="container">
 	<div class="container-fluid">
 		<div class="row-fluid">

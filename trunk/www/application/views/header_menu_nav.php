@@ -26,35 +26,35 @@
 				</form>
 				<ul class="nav pull-right">
 					<li>
-						<?php	if(isset($is_logged_in)) : ?>
-						<a href="/user"><?=$user_info['username'];?></a>
+						<?php if (isset($is_logged_in)) : ?>
+							<a href="/user"><?= $user_info['username']; ?></a>
 						<?php else: ?>
-						<a href="#" class="loginLink">Login</a>
-					</li>
-					<li class="divider-vertical"></li>
-					<li>
-						<a href="#" class="signupLink">Sign-up</a>
-					</li>
+							<a href="#" class="loginLink">Login</a>
+						</li>
+						<li class="divider-vertical"></li>
+						<li>
+							<a href="#" class="signupLink">Sign-up</a>
+						</li>
 					<?php endif; ?>
 					<li class="divider-vertical"></li>
-					<?php if(isset($is_logged_in)) : ?>
-					<li class="dropdown">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">Account <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="/user/addwish">Add Items to wish list</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li><a href="/logout">Logout</a></li>
-						</ul>
-					</li>
+					<?php if (isset($is_logged_in)) : ?>
+						<li class="dropdown">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">Account <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="/user/addwish">Add Items to wish list</a></li>
+								<li><a href="/user/settings">Account Settings</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li class="divider"></li>
+								<li><a href="/logout">Logout</a></li>
+							</ul>
+						</li>
 					<?php endif; ?>
 				</ul>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="subnav">
+<!--<div class="subnav">
     <ul class="nav nav-pills">
       <li class="active"><a href="#global">Global styles</a></li>
       <li class=""><a href="#gridSystem">Grid system</a></li>
@@ -63,10 +63,9 @@
       <li class=""><a href="#layouts">Layouts</a></li>
       <li><a href="#responsive">Responsive design</a></li>
     </ul>
-  </div>
+  </div>-->
 <!--Modals below-->
 
-<div class="modal-backdrop fade in hide"></div>
 
 <!--Earn XP Modal-->
 <div class="earnXP modal hide">
@@ -79,6 +78,29 @@
 			<li class="span2">Good Behavior</li>
 			<li class="span2">Good Appetite</li>
 			<li class="span2">Good Schoolwork</li>
+		</ul>
+	</div>
+</div>
+
+<!-- linkAccounts Modal-->
+<div class="linkAccounts modal hide">
+	<div class="linkAccounts alert alert-info">
+		<h1>Link Accounts <small>to receive XP</small></h1>
+		<ul>
+			<li>
+				<form name="linkAccounts" action="" method="post" class="well linkAccounts">
+					<fieldset>
+						<legend>Account Selector</legend>
+						<label>Label name</label>
+						<input type="text" placeholder="Type something…" class="span3">
+						<p class="help-block">Example block-level help text here.</p>
+						<label class="checkbox">
+							<input type="checkbox"> Check me out
+						</label>
+						<button class="btn" type="submit">Submit</button>
+					</fieldset>
+				</form>
+			</li>
 		</ul>
 	</div>
 </div>

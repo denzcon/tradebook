@@ -283,7 +283,7 @@ a.logoAnchor:hover
 	padding: 10px 1px 13px 22px;
 	border: solid #ddd;
 	border-width: 0 0 1px 0;
-	margin: -8px 0 50px 0;
+/*	margin: -8px 0 50px 0;*/
 }
 #resultsContainer img
 {
@@ -414,11 +414,11 @@ form .buttonContainer{margin-top: 10px;}
 }
 ul.wishList li{
 	background: none repeat scroll 0 0 #FFFFFF;
-	border: 1px solid #D9D9D9;
+	border: 1px solid #eee;
 	border-radius: 6px 6px 6px 6px;
 	float: left;
 	list-style: none outside none;
-	margin: 19px 3px;
+	margin: 0 6px 10px 0;
 	height: 400px;
 	padding: 10px 12px;
 	position: relative;
@@ -443,7 +443,6 @@ span.price:before{content:'$';margin-right: 1px;}
 .progressBarContainer .progress{height: auto !important;}
 /*.progressValues span{font-size: 2em;line-height: 55px;}*/
 .progressValues{overflow: auto;margin-bottom: 2px;}
-.page-header{margin: 20px 40px; overflow: auto;}
 .progressBarContainer ul{margin: 0;}
 .page-header h1{margin-bottom: 5px;
 				padding: 4px 0;}
@@ -457,15 +456,15 @@ span.price:before{content:'$';margin-right: 1px;}
 ul.wishList li .progress{bottom: 0}
 .sort_actions {float: right}
 .currentItemXpPercentage{
-bottom: 0;
-color: #DDDDDD;
-font-size: 2em;
-font-weight: bold;
-line-height: 1em;
-position: absolute;
-right: 0;
-text-align: left;
-text-shadow: 1px 1px 1px #999999;
+	bottom: 0;
+	color: #DDDDDD;
+	font-size: 2em;
+	font-weight: bold;
+	line-height: 1em;
+	position: absolute;
+	right: 0;
+	text-align: left;
+	text-shadow: 1px 1px 1px #999999;
 }
 .nav-list > li > a {
 	padding: 3px 15px;
@@ -508,3 +507,8 @@ div.itemProgressContainer .progressValues span.currentXpValue{float: left;}
 div.itemProgressContainer .progressValues span.currentXpThreshold{float: right;}
 div.itemProgressContainer .progressValues span{font-size: 11px}
 div.progressBarContainer.userHeader ul li .progressValues span{font-size: 3em; line-height: 50px}
+.userHeader{margin-bottom: 20px;}
+.userAvatarSidebar{border-radius: 4px 4px 4px 4px;overflow: hidden;text-align: center;}
+.userAvatarSidebar img{width: 100%}
+.linkAccounts.alert-info{margin-bottom: 0}
+.linkAccounts ul li{list-style: none;}

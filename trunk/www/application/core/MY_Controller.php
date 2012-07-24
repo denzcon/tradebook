@@ -26,8 +26,34 @@ class MY_Controller extends CI_Controller
 		$this->load->model('membership_model');
 		$this->membershipModel = $this->membership_model;
 		$this->UserInfoArray = $this->membershipModel->getUserInfoArray();
-//		$this->em = '';
 		$this->em = $this->doctrine->em;
+		$fb_config = array(
+			'appId' => '509845492365388',
+			'secret' => '420eb8b43f74ade692a028b98908ecdf'
+		);
+		$this->load->library('facebook', $fb_config);
+		$this->user = $this->facebook->getUser();
+		if ($this->user)
+		{
+			try
+			{
+				$data['user_profile'] = $this->facebook->api('/me');
+			}
+			catch (FacebookApiException $e)
+			{
+				$this->user = null;
+			}
+		}
+		if ($this->user)
+		{
+			$data['logout_url'] = $this->facebook->getLogoutUrl();
+		}
+		else
+		{
+			$data['login_url'] = $this->facebook->getLoginUrl();
+		}
+		$this->facebookData = $data;
+		$this->debug($this->facebookData);
 	}
 
 	public static function debug()
@@ -42,16 +68,16 @@ class MY_Controller extends CI_Controller
 		$trace_string = '';
 		for ($i = sizeof($trace) - 1; $i >= 0; $i--)
 		{
-			if(isset($trace[$i]['file']))
+			if (isset($trace[$i]['file']))
 			{
-				$trace_string .= str_replace('/xamp/htdocs/', "", isset($trace[$i]['file'])? $trace[$i]['file'] : $trace[$i]['class']) . ": " .$trace[$i]['line'] . " -> <br/>\n";
+				$trace_string .= str_replace('/xamp/htdocs/', "", isset($trace[$i]['file']) ? $trace[$i]['file'] : $trace[$i]['class']) . ": " . $trace[$i]['line'] . " -> <br/>\n";
 			}
 		}
 
 		$line = $trace[0]['line'];
 		$file = $trace[0]['file'];
 		$output = "";
-		$output .= '<link href="'.base_url().'css/prettify/sunburst.css" type="text/css" rel="stylesheet" /><script type="text/javascript" src="'.base_url().'js/prettify/prettify.js"></script>';
+		$output .= '<link href="' . base_url() . 'css/prettify/sunburst.css" type="text/css" rel="stylesheet" /><script type="text/javascript" src="' . base_url() . 'js/prettify/prettify.js"></script>';
 		$output .= '<script type="text/javascript">window.onload = function(){prettyPrint();}</script>';
 		$output .= "<div class='debug' style='overflow: auto; margin:20px; text-align: left;'>\n"; // Inline styling sadly necessary. The css file may never load in certain debug situations.
 		// file/line info:

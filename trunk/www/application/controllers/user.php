@@ -34,6 +34,7 @@ class User extends MY_Controller
 		$data = array();
 		$data['services'] = $this->site_model->getFullTradeServiceList();
 		$data['userInfoArray'] = $this->membershipModel->getUserInfoArray();
+		$data['userInfoArray']['facebook']=$this->facebookData;
 		$this->load->view('page_top.php', $data);
 		if ($this->site_model->is_logged_in())
 		{

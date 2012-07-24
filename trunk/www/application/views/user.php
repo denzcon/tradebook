@@ -3,20 +3,18 @@
 		<div class="span2" style="margin-left: 0	">
 			<div class="well sidebar-nav">
 				<ul class="nav nav-list">
-					<li><span><img src="<?= $user_info['gravatarAvatarURL']; ?>" alt="<?= $user_info['first_name'] . ' ' . $user_info['last_name']; ?>" /></span></li>
+					<li class="userAvatarSidebar">
+						<img src="<?= $user_info['gravatarAvatarURL']; ?>" alt="<?= $user_info['first_name'] . ' ' . $user_info['last_name']; ?>" />
+					</li>
 					<li class="nav-header">Actions</li>
 					<li class="active"><a href="#">Profile</a></li>
 					<li><a href="#" class="earnXP">Redeem XP</a></li>
-					<li><a href="#" class="">Add Parent</a></li>
+					<li><a href="#" class="linkAccounts">Link Accounts</a></li>
 					<li><a href="#"></a></li>
 					<li class="nav-header">Help</li>
 					<li><a href="#">Earn XP</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li class="nav-header">Sidebar</li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
@@ -33,8 +31,8 @@
 							<div style="width: <?= $progress['rank']['percent']; ?>%" class="bar"></div>
 						</div>
 						<div class="progressValues">
-							<span style="float:left;" class="currentXpValue"><?= $progress['xp']['xp_value']; ?> xp</span>
-							<span style="float:right;" class="currentXpThreshold"><?= $progress['rank']['threshold']; ?> xp</span>
+							<span style="float:left;" class="currentXpValue"><?= $progress['xp']['xp_value']; ?>xp</span>
+							<span style="float:right;" class="currentXpThreshold"><?= number_format($progress['rank']['threshold']); ?>xp</span>
 						</div>
 					</li>
 				</ul>

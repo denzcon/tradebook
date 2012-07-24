@@ -11,11 +11,22 @@ $(document).ready(
 		var messageDelay	= 6000;
 			
 		$('a.earnXP').click(
-			function()
+			function(event)
 			{
+				event.preventDefault();
 				$('div.earnXP').modal().show();
+//				return false;
 			}
 		);
+		$('a.linkAccounts').click(
+			function(event)
+			{
+				event.preventDefault();
+				$('div.linkAccounts').modal().show();
+//				return false; 
+			}
+		);
+
 		
 		$('.item.progress').tooltip();
 		
@@ -190,12 +201,10 @@ $(document).ready(
 			})
 		function loginSuccess( response ) 
 		{
-			console.log(response.is_logged_in);
-			//			  response = $.trim( response );
 			if(response.is_logged_in)
 			{
 				$('#userConnectModal').modal('hide');
-				window.location.href = "/about";
+				window.location.href = "/user";
 			}
 			else
 			{

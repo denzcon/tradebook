@@ -21,10 +21,11 @@ class Login extends MY_Controller
 			$data = array(
 				'user_info' => $query['results'],
 				'is_logged_in' => true,
-				'isAdmin' => isset($isAdmin)
+				'isAdmin' => isset($isAdmin) ? $isAdmin : FALSE
 			);
 
 			$this->site_model->updateSession($data);
+//			redirect(base_url().'user');
 			echo json_encode($data);
 		}
 		else

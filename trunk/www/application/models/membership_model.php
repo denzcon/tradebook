@@ -61,7 +61,7 @@ class Membership_model extends CI_Model
 			$user2Collection = $this->getUser2Collection($results[0]['id']);
 			$results[0]['user2Collection'] = $user2Collection;
 			$results[0]['gravatarProfileURL'] = 'http://www.gravatar.com/' . md5($results[0]['email_address']);
-			$results[0]['gravatarAvatarURL'] = 'http://www.gravatar.com/avatar/' . md5($results[0]['email_address']);
+			$results[0]['gravatarAvatarURL'] = 'http://www.gravatar.com/avatar/' . md5($results[0]['email_address']).'?s=200';
 			$gravatarProfileData = $this->site_model->CURL($results[0]['gravatarProfileURL'] . '.json');
 			$results[0]['gravatarProfileData'] = json_decode($gravatarProfileData['output']);
 			$this->currentUserId = $results[0]['id'];
@@ -70,15 +70,15 @@ class Membership_model extends CI_Model
 			$this->currentUserLastName = $results[0]['last_name'];
 			$this->currentUserEmailAddress = $results[0]['email_address'];
 			$return = array(
-				'loginStatus' => 'true',
-				'results' => $results[0]
+				'loginStatus'	=> 'true',
+				'results'		=> $results[0]
 			);
 			$this->site_model->updateSession(array('user_info' => array(
-				'id' => $this->currentUserId,
-				'username' => $this->currentUsername,
-				'email_address' => $this->currentUserEmailAddress,
-				'first_name' => $this->currentUserFirstName,
-				'last_name' => $this->currentUserLastName,
+				'id'				=> $this->currentUserId,
+				'username'			=> $this->currentUsername,
+				'email_address'		=> $this->currentUserEmailAddress,
+				'first_name'		=> $this->currentUserFirstName,
+				'last_name'		=> $this->currentUserLastName,
 				)));
 			return $return;
 		}
@@ -105,33 +105,34 @@ class Membership_model extends CI_Model
 		$this->em->flush();
 
 		$this->db->insert('users2xp', array(
-			'user_id' => $user->getId(),
-			'xp_value' => $this->default_new_user_xp_value
+			'user_id'		=> $user->getId(),
+			'xp_value'		=> $this->default_new_user_xp_value
 		));
 		$this->currentUserId = $user->getId();
+		$this->currentUserUsername = $this->input->post('username');
 		$this->currentUsername = $this->input->post('username');
 		$this->currentUserEmailAddress = $this->input->post('email_address');
 		$this->currentUserLastName = $this->input->post('last_name');
 		$this->currentUserFirstName = $this->input->post('first_name');
 		$this->site_model->updateSession(array('user_info' => array(
-				'id' => $this->currentUserId,
-				'username' => $this->currentUsername,
-				'email_address' => $this->currentUserEmailAddress,
-				'first_name' => $this->currentUserFirstName,
-				'last_name' => $this->currentUserLastName,
+				'id'				=> $this->currentUserId,
+				'username'			=> $this->currentUsername,
+				'email_address'		=> $this->currentUserEmailAddress,
+				'first_name'		=> $this->currentUserFirstName,
+				'last_name'		=> $this->currentUserLastName,
 				)));
 		return true;
 	}
 
 	function getUserInfoArray()
 	{
-//		$userInfoArray = array(
-//			'currentUserId'				=> self::$currentUserId,
-//			'currentUserUsername'		=> self::$currentUserUsername,
-//			'currentUserFirstName'		=> self::$currentUserFirstName,
-//			'currentUserLastName'		=> self::$currentUserLastName,
-//			'currentUserEmailAddress'	=> self::$currentUserEmailAddress
-//		);
+		$userInfoArray = array(
+			'currentUserId'				=> $this->currentUserId,
+			'currentUsername'			=> $this->currentUsername,
+			'currentUserFirstName'		=> $this->currentUserFirstName,
+			'currentUserLastName'		=> $this->currentUserLastName,
+			'currentUserEmailAddress'		=> $this->currentUserEmailAddress
+		);
 
 		return $this->session->userdata();
 	}

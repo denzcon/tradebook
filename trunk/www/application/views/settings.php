@@ -8,7 +8,7 @@
 //exit;
 
 ?>
-<div class="page container">
+<div class="page container-fluid">
 	<div class="page-header content">
     <h1>Account: <small> Modify your account settings</small></h1>
 	<div class="userCollection">
@@ -41,7 +41,10 @@
 					<div class="editGravatarBtn hide">
 						<img src="<?php echo base_url();?>images/edit_pencil.png" alt="edit your image" />
 					</div>
-					<img src="http://www.gravatar.com/avatar/<?php echo md5( strtolower( trim( $userInfoArray['user_info']['email_address']) ) ); ?>?s=200" alt="<?php echo $userInfoArray['user_info']['first_name'].' '.$userInfoArray['user_info']['last_name'];?> " />					
+					<a href="<?= $userInfoArray['user_info']['gravatarProfileURL']; ?>">
+						<img src="http://graph.facebook.com/<?= $userInfoArray['facebook']['user_profile']['username']; ?>/picture " />
+<!--						<img src="http://www.gravatar.com/avatar/<?php echo md5( strtolower( trim( $userInfoArray['user_info']['email_address']) ) ); ?>?s=200" alt="<?php echo $userInfoArray['user_info']['first_name'].' '.$userInfoArray['user_info']['last_name'];?> " />-->
+						</a>
 				</div>
 			</div>
 			<div class="clearfix">
