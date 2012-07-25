@@ -1,13 +1,13 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
-			<a href="/" class="brand"><span class="hiliteTBBlue">trade</span><span class="hiliteTBGray">book</span></a>
+			<a href="/" class="brand"><span class="hiliteTBBlue">XP</span><span class="hiliteTBGray"> hero.me</span></a>
 			<div class="nav-collapse">
 				<ul class="nav">
 					<li class="active"><a href="/">Home</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="/about">About</a></li>
 					<li class="dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -158,7 +158,7 @@
 			</h3>
 		</div>
 		<div class="modal-body">
-			<div class="alert-message success hide">
+			<div class="signup alert-message success hide">
 
 				<p>
 					<strong>Well done!</strong>

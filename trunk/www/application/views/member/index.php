@@ -25,7 +25,7 @@
 		</div>
 
 		<div id="post-2396" class="content span10">
-			<h1>My <span class="hiliteTBBlue">trade</span><span class="hiliteTBGray">book</span></h1>
+			<h1>My <span class="hiliteTBBlue">XP</span><span class="hiliteTBGray"> hero.me</span></h1>
 			LOADED THE USER MEMBER PAGE
 		</div>
 

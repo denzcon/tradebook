@@ -53,7 +53,7 @@ class MY_Controller extends CI_Controller
 			$data['login_url'] = $this->facebook->getLoginUrl();
 		}
 		$this->facebookData = $data;
-		$this->debug($this->facebookData);
+//		$this->debug($this->facebookData);
 	}
 
 	public static function debug()

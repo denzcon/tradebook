@@ -489,8 +489,10 @@ $(document).ready(
 				}
 			})
 		}
+		
 		function simpleFormResponse(json, $form)
 		{
+			
 			if(json['status']==false)
 			{
 				$.each(json['errors'],function(key,val)
