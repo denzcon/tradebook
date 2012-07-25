@@ -17,15 +17,13 @@ class User extends MY_Controller
 		{
 			redirect('/');
 		}
-		$session_data = $this->session->userdata();
 		$data = array();
-		$data['username'] = $this->uri->segment(2);
 		$data['userInfoArray'] = $this->session->userdata();
 		$data['wants'] = $this->user_model->getUserWishList();
 		$data['progress'] = $this->progress_model->currentUserProgress();
 //		$this->debug($data['wants']);
 //		$this->debug($this->progress_model->currentUserProgress());
-		$this->load->view('page_top.php', $data);
+		$this->load->view('page_top.php', array('data' =>$data));
 		$this->load->view('user', $data);
 	}
 
@@ -34,8 +32,8 @@ class User extends MY_Controller
 		$data = array();
 		$data['services'] = $this->site_model->getFullTradeServiceList();
 		$data['userInfoArray'] = $this->membershipModel->getUserInfoArray();
-		$data['userInfoArray']['facebook']=$this->facebookData;
-		$this->load->view('page_top.php', $data);
+		$data['userInfoArray']['facebook']=$this->facebook_data;
+		$this->load->view('page_top.php', array('data' =>$data));
 		if ($this->site_model->is_logged_in())
 		{
 			$this->load->view('settings', $data);

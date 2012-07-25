@@ -4,7 +4,7 @@
 			<div class="well sidebar-nav">
 				<ul class="nav nav-list">
 					<li class="userAvatarSidebar">
-						<img src="<?= $user_info['gravatarAvatarURL']; ?>" alt="<?= $user_info['first_name'] . ' ' . $user_info['last_name']; ?>" />
+						<img src="<?= $userInfoArray['user_info']['gravatarAvatarURL']; ?>" alt="<?= $userInfoArray['user_info']['first_name'] . ' ' . $userInfoArray['user_info']['last_name']; ?>" />
 					</li>
 					<li class="nav-header">Actions</li>
 					<li class="active"><a href="#">Profile</a></li>
@@ -25,7 +25,7 @@
 			<div class="progressBarContainer userHeader">
 				<ul>
 					<li>
-						<h1><?= $user_info['first_name'] . ' ' . $user_info['last_name']; ?> <small><?= $user_info['username']; ?></small></h1>
+						<h1><?= $userInfoArray['user_info']['first_name'] . ' ' . $userInfoArray['user_info']['last_name']; ?> <small><?= $userInfoArray['user_info']['username']; ?></small></h1>
 						<div style="margin-bottom: 0px;" class="progress progress-info progress-striped">
 
 							<div style="width: <?= $progress['rank']['percent']; ?>%" class="bar"></div>
