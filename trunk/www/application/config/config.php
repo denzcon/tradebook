@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://tradebook.dev/';
+$config['base_url']	= 'http://xphero.me/';
 
 /*
 |--------------------------------------------------------------------------
@@ -180,7 +180,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] =  1;
+$config['log_threshold'] =  4;
 
 /*
 |--------------------------------------------------------------------------
