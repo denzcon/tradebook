@@ -16,7 +16,7 @@ class User
 	private $id;
 
 	/**
-	 * @Column(type="string", length=32, unique=true, nullable=true)
+	 * @Column(type="string", length=32, unique=true, nullable=false)
 	 */
 	private $username;
 
@@ -39,7 +39,7 @@ class User
 	 * @Column(type="string", length=64, nullable=true)
 	 */
 	private $email_address;
-
+	
 	public function getId()
 	{
 		return $this->id;

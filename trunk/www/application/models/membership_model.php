@@ -55,7 +55,8 @@ class Membership_model extends CI_Model
 		$this->db->where('username', $this->input->post('username'));
 		$this->db->where('password', md5($this->input->post('password1')));
 		$query = $this->db->get('users');
-		if ($query->num_rows == 1)
+//		$this->debug($query->num_rows);
+		if ($query->num_rows >0)
 		{
 			$results = $query->result_array();
 			$user2Collection = $this->getUser2Collection($results[0]['id']);
@@ -70,7 +71,7 @@ class Membership_model extends CI_Model
 			$this->currentUserLastName = $results[0]['last_name'];
 			$this->currentUserEmailAddress = $results[0]['email_address'];
 			$return = array(
-				'loginStatus'	=> 'true',
+				'loginStatus'	=> TRUE,
 				'results'		=> $results[0]
 			);
 			$this->site_model->updateSession(array('user_info' => array(
@@ -85,7 +86,7 @@ class Membership_model extends CI_Model
 		else
 		{
 			$return = array(
-				'loginStatus' => 'false',
+				'loginStatus' => FALSE,
 				'results' => ''
 			);
 			return $return;

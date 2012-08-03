@@ -15,7 +15,7 @@ class Login extends MY_Controller
 	{
 
 		$query = $this->membershipModel->validate();
-		if ($query['loginStatus'] == true)
+		if ($query['loginStatus'])
 		{
 			$isAdmin = $this->membershipModel->isUserAdmin($query['results']['id']);
 			$data = array(
@@ -128,8 +128,7 @@ class Login extends MY_Controller
 				}
 			}
 		);
-
-		if (!count($_POST))
+		if (!count($this->input->post()))
 		{
 			$json_results = array(
 				'status' => false,

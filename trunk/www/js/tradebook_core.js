@@ -14,7 +14,7 @@ $(document).ready(
 			function(event)
 			{
 				event.preventDefault();
-				$('div.earnXP').modal().show();
+				$('div.earnXP').modal('show');
 //				return false;
 			}
 		);
@@ -22,7 +22,7 @@ $(document).ready(
 			function(event)
 			{
 				event.preventDefault();
-				$('div.linkAccounts').modal().show();
+				$('div.linkAccounts').modal('show');
 //				return false; 
 			}
 		);
@@ -165,9 +165,8 @@ $(document).ready(
 				$('#signupModal').hide();
 				$('#loginModal').show();
 				$('#userConnectModal').modal({
-					keyboard: true,
-					backdrop: true					
-				})				
+					keyboard: true
+				});			
 				return false;
 			});
 			
@@ -218,14 +217,13 @@ $(document).ready(
 		$('.signupLink').click(
 			function()
 			{
-				$('#signupModal').fadeIn();
+				$('#signupModal').show();
 				$('#loginModal').hide();
 				$('#userConnectModal').modal({
-					keyboard: true,
-					backdrop: true					
+					keyboard: true
 				})
 				return false;
-			});
+		});
 		$('#closeRegistration').click(
 			function()
 			{
