@@ -2,7 +2,7 @@
 
 class User extends MY_Controller
 {
-	protected $default_action_value = 7;
+	protected $default_action_value = 3;
 	
 	/**
 	 *
@@ -302,5 +302,28 @@ class User extends MY_Controller
 	{
 		$this->debug($this->session->userdata());
 	}
-
+	
+	function linkAccountRequest()
+	{
+		$input = $this->input->get();
+		$target_acounts = $this->user_model->findAccountToLink($input);
+		$suggestion = array();
+		foreach ($target_acounts as $suggestion)
+		{
+			$suggestions[] = $suggestion['first_name'].' '.$suggestion['last_name'];
+			$data[] = $suggestion;
+		}
+		$response = array(
+			'query' => $input['query'],
+			'suggestions' => $suggestions,
+			'data' => $data
+		);
+		echo json_encode($response);	
+	}
+	
+	function getLinkedAccounts()
+	{
+		$return = $this->db->get_where('account_links', array('user_id_alpha' => $this->membershipModel->currentUserId()));
+		return  $return;
+	}
 }

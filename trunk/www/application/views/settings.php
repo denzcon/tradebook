@@ -42,8 +42,8 @@
 						<img src="<?php echo base_url();?>images/edit_pencil.png" alt="edit your image" />
 					</div>
 					<a href="<?= $userInfoArray['user_info']['gravatarProfileURL']; ?>">
-						<img src="http://graph.facebook.com/<?= $userInfoArray['facebook']['user_profile']['username']; ?>/picture " />
-<!--						<img src="http://www.gravatar.com/avatar/<?php echo md5( strtolower( trim( $userInfoArray['user_info']['email_address']) ) ); ?>?s=200" alt="<?php echo $userInfoArray['user_info']['first_name'].' '.$userInfoArray['user_info']['last_name'];?> " />-->
+						<img src="http://graph.facebook.com/<?= isset($userInfoArray['facebook']['user_profile']['username']) ? $userInfoArray['facebook']['user_profile']['username'] : 'test'; ?>/picture " />
+						<img src="http://www.gravatar.com/avatar/<?php echo md5( strtolower( trim( $userInfoArray['user_info']['email_address']) ) ); ?>?s=200" alt="<?php echo $userInfoArray['user_info']['first_name'].' '.$userInfoArray['user_info']['last_name'];?> " />
 						</a>
 				</div>
 			</div>

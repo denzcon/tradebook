@@ -1,25 +1,13 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
-		<div class="container">
+		<div class="container-fluid">
 			<a href="/" class="brand"><span class="hiliteTBBlue">XP</span><span class="hiliteTBGray"> hero.me</span></a>
 			<div class="nav-collapse">
 				<ul class="nav">
 					<li class="active"><a href="/">Home</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="#">Trade</a></li>
+					<li><a href="#">Support</a></li>
 					<li><a href="/about">About</a></li>
-					<li class="dropdown">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="#" class="loginLink">Login</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li class="nav-header">Nav header</li>
-							<li><a href="#">Separated link</a></li>
-							<li><a href="#">One more separated link</a></li>
-						</ul>
-					</li>
 				</ul>
 				<form action="user/addwish" class="navbar-search pull-left" method="post">
 					<input type="text" placeholder="Search" class="search-query span2">
@@ -90,9 +78,8 @@
 			<li>
 				<form name="linkAccounts" action="" method="post" class="well linkAccounts">
 					<fieldset>
-						<legend>Account Selector</legend>
-						<label>Label name</label>
-						<input type="text" placeholder="Type something…" class="span3">
+						<label>User's First/Last Name</label>
+						<input type="text" placeholder="Type something…" class="linkAccounts span3" name="email">
 						<p class="help-block">Example block-level help text here.</p>
 						<label class="checkbox">
 							<input type="checkbox"> Check me out
@@ -100,6 +87,26 @@
 						<button class="btn" type="submit">Submit</button>
 					</fieldset>
 				</form>
+			</li>
+			<li class="well linkedData">
+				<table class="table">
+					<thead>
+						<tr class="tbl-header">
+							<th>Username</th>
+							<th>Name</th>
+							<th>Email</th>
+							<th>Statusl</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Row 1</td>
+							<td>Row 1</td>
+							<td>Row 1</td>
+							<td>Row 1</td>
+						</tr>
+					</tbody>        
+				</table>
 			</li>
 		</ul>
 	</div>

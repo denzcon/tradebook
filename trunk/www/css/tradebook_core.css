@@ -512,3 +512,31 @@ div.progressBarContainer.userHeader ul li .progressValues span{font-size: 3em; l
 .userAvatarSidebar img{width: 100%}
 .linkAccounts.alert-info{margin-bottom: 0}
 .linkAccounts ul li{list-style: none;}
+.letterbox-fullscreen{background: #222;background-color: #444444;background-image: -moz-linear-gradient(center top , #555555, #333333)}
+.youtube-wrapper{margin: 0 auto 0 auto; width: 640px; padding: 0 150px; background: black}
+.selected_user_avatar img{}
+.selected_user_avatar{float: left;}
+.selected_user_data ul li{float: none;
+line-height: 20px;
+position: relative;
+white-space: nowrap;}
+.selected_user_data ul li label{float: left;
+font-weight: bold;
+margin-bottom: 0;
+text-align: right;
+white-space: nowrap;
+width: 100px;}
+.selected_user_data ul li div{
+float: left;
+margin-left: 10px;
+white-space: nowrap;
+width: 150px;}
+.selected_user_data{
+background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
+border: 1px solid #BCE8F1;
+border-radius: 6px 6px 6px 6px;
+margin-left: 125px;
+overflow: auto;
+padding: 15px;
+}
+.user_info_container{overflow: hidden;}

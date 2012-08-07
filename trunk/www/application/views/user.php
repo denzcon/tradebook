@@ -21,7 +21,7 @@
 				</ul>
 			</div><!--/.well -->
         </div>
-		<div class="content span10" style="margin-left: 20px; padding: 0;">
+		<div class="content span9" style="margin-left: 20px; padding: 0;">
 			<div class="progressBarContainer userHeader">
 				<ul>
 					<li>

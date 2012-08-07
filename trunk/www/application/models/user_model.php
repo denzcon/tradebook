@@ -120,11 +120,20 @@ class User_model extends CI_Model
 			GROUP BY wd.id
 			ORDER BY  (percent+0) DESC
 			', array($session_data['user_info']['id']));
-		if($user->num_rows == 0)
+		if ($user->num_rows == 0)
 		{
 			return false;
 		}
 		return $user->result_array();
+	}
+
+	function findAccountToLink($input)
+	{
+//		$lookup = $this->db->get_where('users', array('email_address' => $input['query']));
+		$this->db->select('users.id, users.username, users.first_name, users.last_name, users.email_address, user_avatars.avatar_image_url');
+		$this->db->join('user_avatars', 'user_avatars.user_id = users.id', 'left');
+		$this->db->like('users.email_address', $input['query']);
+		return $this->db->get('users')->result_array();
 	}
 
 }

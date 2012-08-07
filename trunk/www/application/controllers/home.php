@@ -47,5 +47,9 @@ class Home extends MY_Controller
 				));
 		print "<pre>" . print_r($result, true) . "</pre>";
 	}
-
+	
+	function render_partial()
+	{
+		$this->load->view('modals/_account_link_locator.php', $this->input->post());
+	}
 }

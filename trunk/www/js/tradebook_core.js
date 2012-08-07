@@ -15,17 +15,52 @@ $(document).ready(
 			{
 				event.preventDefault();
 				$('div.earnXP').modal('show');
-//				return false;
+			//				return false;
 			}
-		);
+			);
 		$('a.linkAccounts').click(
 			function(event)
 			{
-				event.preventDefault();
-				$('div.linkAccounts').modal('show');
-//				return false; 
+				//				event.preventDefault();
+				$('.linkAccounts ul li form fieldset div.alert').remove();
+				$('input.linkAccounts').val('start typing..');
+//				$.ajax({
+//					url: 'user/getLinkedaccounts',
+//					data: data,
+//					type: 'get',
+//					success: function(response)
+//					{
+//						$('li.linkedData.well').html(response);
+//					}
+//				});
+				$('input.linkAccounts').focus(function()
+				{
+					$(this).val('');
+				});
+				$('div.linkAccounts.modal').modal('show');
+				
+				var options, a;
+				options = {
+					serviceUrl:'user/linkAccountRequest',
+					minChars:2,
+					onSelect: function(value, data)
+					{
+						$.ajax({
+							url: 'home/render_partial',
+							data: data,
+							type: 'post',
+							success: function(response)
+							{
+								$('<div class="alert alert-info"></div>').html(response).prependTo($('.linkAccounts ul li form fieldset'));
+							}
+						});
+					}
+
+				};
+				a = $('input.linkAccounts').autocomplete(options);
+				return false; 
 			}
-		);
+			);
 
 		
 		$('.item.progress').tooltip();
@@ -197,7 +232,7 @@ $(document).ready(
 			function()
 			{
 				$('#userConnectModal').modal('hide');
-			})
+			});
 		function loginSuccess( response ) 
 		{
 			if(response.is_logged_in)
@@ -223,7 +258,7 @@ $(document).ready(
 					keyboard: true
 				})
 				return false;
-		});
+			});
 		$('#closeRegistration').click(
 			function()
 			{
@@ -602,4 +637,5 @@ $(document).ready(
 		{
 			$('#userConnectModal').modal('hide');
 		});
+
 	});
