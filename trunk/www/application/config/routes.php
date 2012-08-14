@@ -52,6 +52,7 @@ $route['user/save_package_data']		= 'user/save_package_data';
 $route['user/current']					= 'user/current';
 $route['user/scrapeWishFromURLRobert']	= 'user/scrapeWishFromURLRobert';
 $route['user/getUserWishList']			= 'user/getUserWishList';
+$route['user/linkAccountRequest']		= 'user/linkAccountRequest';
 
 
 /* End of file routes.php */
