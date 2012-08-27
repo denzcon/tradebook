@@ -18,21 +18,42 @@ $(document).ready(
 			//				return false;
 			}
 			);
+		$('ul.wishList li a.close').click(function(event)
+		{
+			var input = event.currentTarget.next();
+			console.log(input);
+			console.log($(input).closest('input[type="hidden"]'));
+			var wishId = $('input[type="hidden"]').closest(event.currentTarget);
+			var button = event.target;
+		//			var wishId = $(button).closest('input[type="hidden"]').val();
+		//			$.ajax({
+		//				url: 'user/delete_wish_item',
+		//				data: {
+		//					'dta' : 'data'
+		//				},
+		//				type: 'post',
+		//				dataType: 'json',
+		//				success: function()
+		//				{
+		//					console.log(this);
+		//				}
+		//			});
+		});
 		$('a.linkAccounts').click(
 			function(event)
 			{
 				//				event.preventDefault();
 				$('.linkAccounts ul li form fieldset div.alert').remove();
 				$('input.linkAccounts').val('start typing..');
-//				$.ajax({
-//					url: 'user/getLinkedaccounts',
-//					data: data,
-//					type: 'get',
-//					success: function(response)
-//					{
-//						$('li.linkedData.well').html(response);
-//					}
-//				});
+				//				$.ajax({
+				//					url: 'user/getLinkedaccounts',
+				//					data: data,
+				//					type: 'get',
+				//					success: function(response)
+				//					{
+				//						$('li.linkedData.well').html(response);
+				//					}
+				//				});
 				$('input.linkAccounts').focus(function()
 				{
 					$(this).val('');
@@ -116,17 +137,126 @@ $(document).ready(
 				return false;
 
 			} else {		
-				var data = 'itemSearch='+$('#itemSearch').val()+'&sort='+$("input[@name=optionsRadios]:checked").val();
+				var extended_search = $('input[name=image_search]:checked').val();
+				if(!$('input[name=image_search]:checked').val())
+					{
+						extended_search = 0;
+					}
+				var data = 'itemSearch='+$('#itemSearch').val()+'&sort='+$("input[name=sortOptions]:checked").val()+'&type='+$('input[name=searchType]:checked').val()+'&extended_search='+extended_search;
 				$.ajax( {
 					url: "/user/searchWishAjax",
 					type: 'post',
 					data: data,
-					success: searchFinished,
+					success: function(json, status)
+					{
+						if(json.type=='shopping')
+						{
+							searchFinished(json, status);
+						}
+						else
+						{
+							customSearchFinished(json, status);
+						}
+					},
 					dataType: "json"
 				} );
 				return false;
 			}
 		}
+		
+		function searchFinished(json, status)
+		{
+			if(json['status']==false)
+			{
+				$.each(json['errors'],function(key,val)
+				{
+					var $input = $('input[name='+key+']',$form);
+					var $container = $input.closest('div.clearfix');
+					
+					$container.addClass('error');
+					$input.addClass('error').after($('<span>').addClass('help-inline').text(val));
+					$('#settingsUpdate-message p').text(json['message']);
+					$('#settingsUpdate-message').addClass('error');					
+					$('#settingsUpdate-message').fadeIn();
+				});				
+			}
+			else
+			{
+				var items = json['data']['items'];
+				renderSearch(items, json.pagination);
+				var result_count =json.data.currentItemCount;
+				//				console.log(result_count)
+				var total_count = json.data.searchInformation.totalResults;
+				$('.total_count').text(addCommas( total_count));
+				if(result_count>10)
+				{
+					$('.pagination').show();
+				}
+				else
+				{
+					$('.pagination').hide();						
+				}
+				$('.result_count').text(result_count);
+				$('.result_header').toggleClass('hide');
+				$('#settingsUpdate-message p').html(json['message']);
+				$('#settingsUpdate-message').hide();
+				$('#userConnectModal').modal('hide');
+				//				$('#signupForm').fadeOut();
+				//				$('#modifyUserInfoForm').hide();
+				//				$('#signupModal .modal-footer').hide();
+				$('#settingsUpdate-message').removeClass('hide');
+				$('#settingsUpdate-message p').text(json['message']);
+				$('#settingsUpdate-message').addClass('success');
+				$('#settingsUpdate-message').show();
+			}				
+		}
+		function customSearchFinished(json, $form)
+		{
+			if(json['status']==false)
+			{
+				$.each(json['errors'],function(key,val)
+				{
+					var $input = $('input[name='+key+']',$form);
+					var $container = $input.closest('div.clearfix');
+					
+					$container.addClass('error');
+					$input.addClass('error').after($('<span>').addClass('help-inline').text(val));
+					$('#settingsUpdate-message p').text(json['message']);
+					$('#settingsUpdate-message').addClass('error');					
+					$('#settingsUpdate-message').fadeIn();
+				});				
+			}
+			else
+			{
+				var items = json['data']['items'];
+				renderSearch(items, json.pagination);
+				var result_count =json.data.currentItemCount;
+				//				console.log(result_count)
+				var total_count = json.data.totalItems;
+				$('.total_count').text(addCommas( total_count));
+				if(result_count>10)
+				{
+					$('.pagination').show();
+				}
+				else
+				{
+					$('.pagination').hide();						
+				}
+				$('.result_count').text(result_count);
+				$('.result_header').toggleClass('hide');
+				$('#settingsUpdate-message p').html(json['message']);
+				$('#settingsUpdate-message').hide();
+				$('#userConnectModal').modal('hide');
+				//				$('#signupForm').fadeOut();
+				//				$('#modifyUserInfoForm').hide();
+				//				$('#signupModal .modal-footer').hide();
+				$('#settingsUpdate-message').removeClass('hide');
+				$('#settingsUpdate-message p').text(json['message']);
+				$('#settingsUpdate-message').addClass('success');
+				$('#settingsUpdate-message').show();
+			}				
+		}
+		
 		$('#add_item_manually_submit').click(
 			function()
 			{
@@ -320,53 +450,7 @@ $(document).ready(
 		{
 			location.reload();
 		}
-			
-		function searchFinished(json, $form)
-		{
-			if(json['status']==false)
-			{
-				$.each(json['errors'],function(key,val)
-				{
-					var $input = $('input[name='+key+']',$form);
-					var $container = $input.closest('div.clearfix');
-					
-					$container.addClass('error');
-					$input.addClass('error').after($('<span>').addClass('help-inline').text(val));
-					$('#settingsUpdate-message p').text(json['message']);
-					$('#settingsUpdate-message').addClass('error');					
-					$('#settingsUpdate-message').fadeIn();
-				});				
-			}
-			else
-			{
-				var items = json['data']['items'];
-				renderSearch(items, json.pagination);
-				var result_count =json.data.currentItemCount;
-				//				console.log(result_count)
-				var total_count = json.data.totalItems;
-				$('.total_count').text(addCommas( total_count));
-				if(result_count>10)
-				{
-					$('.pagination').show();
-				}
-				else
-				{
-					$('.pagination').hide();						
-				}
-				$('.result_count').text(result_count);
-				$('.result_header').toggleClass('hide');
-				$('#settingsUpdate-message p').html(json['message']);
-				$('#settingsUpdate-message').hide();
-				$('#userConnectModal').modal('hide');
-				//				$('#signupForm').fadeOut();
-				//				$('#modifyUserInfoForm').hide();
-				//				$('#signupModal .modal-footer').hide();
-				$('#settingsUpdate-message').removeClass('hide');
-				$('#settingsUpdate-message p').text(json['message']);
-				$('#settingsUpdate-message').addClass('success');
-				$('#settingsUpdate-message').show();
-			}				
-		}
+
 		$(".itemResultHolder").hasClass("ui-draggable-dragging");
 		function renderSearch(items, options)
 		{
@@ -396,28 +480,57 @@ $(document).ready(
 			$('.pagination ul').append('<li><a href="#">Next</a></li>');
 			//			console.log(list);
 			//			$('.pagination').html(list);
-			$.each(items, function(i, item)
+			if(options.api_name == 'shopping')
 			{
-				var supplier_name = item.product.author.name;
-				var firstImage = item['product']['images'][0]['link'];
-				var productLink = item.product.link;
-				var googleId = item.product.googleId;
-				var price = item['product']['inventories'][0]['price'];
-				var availability = item['product']['inventories'][0]['availability'];
-				var anchor = item.product.link;
-				var title = item['product']['title'];
-				code = $('<img class="'+item.product.googleId+'" />').attr("src", firstImage);
-				var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
-				var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+item.product.googleId+' productImgAnchor"></a>');
-				var viewPrice = $("<h3></h3>").text(price.toFixed(2)).appendTo(current);
-				$('img.'+item.product.googleId).wrap(anchorMarkup);
-				$('a.'+item.product.googleId).wrap('<div class="productImgContainer" />');
-				var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+					
+				$.each(items, function(i, item)
+				{
+					var supplier_name = item.product.author.name;
+					var firstImage = item['product']['images'][0]['link'];
+					var productLink = item.product.link;
+					var googleId = item.product.googleId;
+					var price = item['product']['inventories'][0]['price'];
+					var availability = item['product']['inventories'][0]['availability'];
+					var anchor = item.product.link;
+					var title = item['product']['title'];
+					code = $('<img class="'+item.product.googleId+'" />').attr("src", firstImage);
+					var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
+					var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+item.product.googleId+' productImgAnchor"></a>');
+					var viewPrice = $("<h3></h3>").text(price.toFixed(2)).appendTo(current);
+					$('img.'+item.product.googleId).wrap(anchorMarkup);
+					$('a.'+item.product.googleId).wrap('<div class="productImgContainer" />');
+					var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
 				
-				$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
-				$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
-				$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
-			});
+					$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
+					$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
+					$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
+				});
+			}
+			else
+			{
+				$.each(items, function(i, item)
+				{
+					var supplier_name = item.displayLink;
+					var firstImage = '';
+					var productLink = item.link;
+					var googleId = item.cacheId;
+					var price = item.displayLink;
+					var availability = item.displayLink;
+					var anchor = item.link;
+					var title = item.title;
+					code = $('<img class="'+googleId+'" />').attr("src", firstImage);
+					var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
+					var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+googleId+' productImgAnchor"></a>');
+					var viewPrice = $("<h3></h3>").text(price).appendTo(current);
+					$('img.'+googleId).wrap(anchorMarkup);
+					$('a.'+googleId).wrap('<div class="productImgContainer" />');
+					var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+				
+					$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
+					$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
+					$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
+				});
+			}
 			$(".itemResultHolder").draggable({
 				revert: "invalid"
 			});
@@ -515,6 +628,7 @@ $(document).ready(
 				data: data,
 				dataType: 'json',
 				success: function(json){
+					$('#resultsContainer').html(json);
 					$('.createPackageAnchor').html('');
 					$('input.packageName').remove();
 					$('form.namePackage a.createPackageAnchor').text(json.package_name_from_session)
