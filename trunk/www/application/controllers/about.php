@@ -6,7 +6,7 @@ class About extends MY_Controller {
 		
 		$data = array();
 		$data['userInfoArray'] = $this->session->userdata();
-		$this->load->view('page_top.php', $data);
+		$this->load->view('page_top.php', array('data' => $data));
 		$this->load->view('about');
 		
 	}

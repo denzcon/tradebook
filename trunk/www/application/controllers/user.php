@@ -2,7 +2,18 @@
 
 class User extends MY_Controller
 {
+
 	protected $default_action_value = 3;
+
+	public $api_names = array(
+		1 => 'shopping',
+		2 => 'customsearch'
+	);
+	
+	public $search_types = array(
+		0 => 'web',
+		1 => 'image'
+	);
 	
 	/**
 	 *
@@ -64,40 +75,108 @@ class User extends MY_Controller
 
 	function searchWishAjax()
 	{
+		$type =  (string)$this->input->post('type');
+		$this->setSearchType();
+		switch ($type)
+		{
+			case '2':
+				return $this->searchWishCustom();
+				break;
+
+			default:
+				return $this->searchWishShopping();
+				break;
+		}
+	}
+
+	function searchWishShopping()
+	{
 		$key = $this->google_api->getGoogleShoppingSearchApiKey();
 //		$this->debug("test"); 
 		$search_string = urlencode($this->input->post("itemSearch"));
+		$search_type = $this->input->post('searchType');
 		$response = array();
-//		$response['key'] = $key;
-		$response['status'] = true;
-//		$response["post"] = $ajax;
 		$sort = $this->input->post('sort');
 		$order = 'descending';
+//		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 20, 'customsearch', 'v1', $search_string, $sort, $order);
 		$url = $this->google_api->buildShoppingUrl($key, 1, 20, 'shopping', 'search', $search_string, $sort, $order);
 		$data = $this->CURL($url);
-		$response['data'] = json_decode($data['output'], true);
-		$page_index = $this->input->post('page_index');
-		$results_max_page = $this->input->post('result_max_page');
-		$prev_page_index = $page_index - $results_max_page;
-		$next_page_index = $page_index + $results_max_page;
-//		$prev_page = $this->google_api->buildShoppingUrl($ajax, $key, $prev_page_index, $results_max_page, "shopping");
-//		$next_page = $this->google_api->buildShoppingUrl($ajax, $key, $next_page_index, $results_max_page, "shopping");
-//		$this->debug($response);
-//		log_message('error', $response['data']);
-		$result_display_max = 16;
-		$fetched_search_count = $response['data']['totalItems'];
-		$displayed_search_count = isset($response['data']['currentItemCount']);
-		$pages = $fetched_search_count / $result_display_max;
-		$response['pagination'] = array(
-			'fetched_search_count' => $fetched_search_count,
-			'displayed_search_count' => $displayed_search_count,
-			'page_count' => $pages,
-			'next_page' => $next_page_index,
-			'prev_page' => $prev_page_index,
-		);
-//		$this->debug($response);
-//		exit;
-		echo json_encode($response);
+		$this->searchResponse($data, 'shopping');
+	}
+
+	function searchWishCustom()
+	{
+		$search_string = urlencode($this->input->post("itemSearch"));
+		$response = array();
+		$response['status'] = true;
+		$sort = $this->input->post('sort');
+		$order = 'descending';
+		$api_name = 'customsearch';
+		$search_type = $this->getSearchType();
+		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 20, $api_name,$search_type,  'v1', $search_string, $sort, $order);
+		$this->customSearchURL = $custom_search_url;
+		$data = $this->CURL($custom_search_url);
+		$this->searchResponse($data, $api_name);
+	}
+
+	function searchResponse($data, $search_type)
+	{
+		switch ($search_type)
+		{
+			case 'customsearch':
+				$response['status'] = true;
+				$response['type'] = $search_type;
+				$response['custom_search_url'] = $this->customSearchURL;
+				$response['data'] = json_decode($data['output'], true);
+				$page_index = $this->input->post('page_index');
+				$results_max_page = $this->input->post('result_max_page');
+				$prev_page_index = $page_index - $results_max_page;
+				$next_page_index = $page_index + $results_max_page;
+				$result_display_max = 16;
+				$fetched_search_count = $response['data']['searchInformation']['totalResults'];
+				$displayed_search_count = isset($response['data']['currentItemCount']);
+				$pages = $fetched_search_count / $result_display_max;
+				$response['pagination'] = array(
+					'fetched_search_count' => $fetched_search_count,
+					'displayed_search_count' => $displayed_search_count,
+					'page_count' => $pages,
+					'next_page' => $next_page_index,
+					'prev_page' => $prev_page_index,
+					'api_name' => $this->api_names[$this->input->post('type')],
+					'search_type' => $this->getSearchType(),
+					'api_call_url' => $this->customSearchURL
+				);
+				echo json_encode($response);
+
+				break;
+
+			case 'shopping':
+
+				$response['status'] = true;
+				$response['type'] = $search_type;
+				$response['data'] = json_decode($data['output'], true);
+				$page_index = $this->input->post('page_index');
+				$results_max_page = $this->input->post('result_max_page');
+				$prev_page_index = $page_index - $results_max_page;
+				$next_page_index = $page_index + $results_max_page;
+				$result_display_max = 16;
+				$fetched_search_count = $response['data']['totalItems'];
+				$displayed_search_count = isset($response['data']['currentItemCount']);
+				$pages = $fetched_search_count / $result_display_max;
+				$response['pagination'] = array(
+					'fetched_search_count' => $fetched_search_count,
+					'displayed_search_count' => $displayed_search_count,
+					'page_count' => $pages,
+					'next_page' => $next_page_index,
+					'prev_page' => $prev_page_index,
+				);
+				echo json_encode($response);
+
+				break;
+
+			default:
+				break;
+		}
 	}
 
 	function addWishAjax()
@@ -235,6 +314,12 @@ class User extends MY_Controller
 	function save_package_name()
 	{
 		$this->session->set_userdata(array('package_name' => trim($this->input->post('packageName'))));
+		$data = array(
+			'user_id' => $this->membershipModel->currentUserId(),
+			'package_name' => $this->input->post('packageName'),
+		);
+
+		$this->db->insert('package', $data);
 		echo json_encode(array(
 			'package_name_from_session' => $this->session->userdata('package_name'),
 			'form_post' => $this->input->post()
@@ -272,8 +357,8 @@ class User extends MY_Controller
 			);
 			$this->db->insert('user2wants', $u2w);
 			$w2xp = array(
-				'wanted_id' =>$u2w['want_id'],
-				'xp_value' => round($item['price']*$this->default_action_value),
+				'wanted_id' => $u2w['want_id'],
+				'xp_value' => round($item['price'] * $this->default_action_value),
 			);
 			$this->db->insert('wants2xp', $w2xp);
 			$query = '
@@ -290,17 +375,17 @@ class User extends MY_Controller
 	{
 		$this->debug($this->membershipModel, $this->membershipModel->currentUserId());
 	}
-	
+
 	function getUserWishList()
 	{
 		$this->debug($this->user_model->getUserWishList());
 	}
-	
+
 	function session()
 	{
 		$this->debug($this->session->userdata());
 	}
-	
+
 	function linkAccountRequest()
 	{
 		$input = $this->input->get();
@@ -308,7 +393,7 @@ class User extends MY_Controller
 		$suggestion = array();
 		foreach ($target_acounts as $suggestion)
 		{
-			$suggestions[] = $suggestion['first_name'].' '.$suggestion['last_name'];
+			$suggestions[] = $suggestion['first_name'] . ' ' . $suggestion['last_name'];
 			$data[] = $suggestion;
 		}
 		$response = array(
@@ -316,12 +401,24 @@ class User extends MY_Controller
 			'suggestions' => $suggestions,
 			'data' => $data
 		);
-		echo json_encode($response);	
+		echo json_encode($response);
 	}
-	
+
 	function getLinkedAccounts()
 	{
 		$return = $this->db->get_where('account_links', array('user_id_alpha' => $this->membershipModel->currentUserId()));
-		return  $return;
+		return $return;
 	}
+	
+	function getSearchType()
+	{
+		return $this->search_type;
+	}
+	
+	function setSearchType()
+	{
+		$types = $this->search_types;
+		$this->search_type = $types[$this->input->post('extended_search')];
+	}
+
 }

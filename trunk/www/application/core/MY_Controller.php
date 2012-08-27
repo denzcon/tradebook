@@ -9,6 +9,11 @@ class MY_Controller extends CI_Controller
 	public $membershipModel;
 
 	/**
+	 * @var Package_Model
+	 */
+	public $packageModel;
+
+	/**
 	 *
 	 * @var array 
 	 */
@@ -24,7 +29,9 @@ class MY_Controller extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('membership_model');
+		$this->load->model('package_model');
 		$this->membershipModel = $this->membership_model;
+		$this->packageModel = $this->package_model;
 		$this->UserInfoArray = $this->membershipModel->getUserInfoArray();
 		$this->em = $this->doctrine->em;
 		$fb_config = array(

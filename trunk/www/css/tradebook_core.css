@@ -283,7 +283,7 @@ a.logoAnchor:hover
 	padding: 10px 1px 13px 22px;
 	border: solid #ddd;
 	border-width: 0 0 1px 0;
-/*	margin: -8px 0 50px 0;*/
+	/*	margin: -8px 0 50px 0;*/
 }
 #resultsContainer img
 {
@@ -413,7 +413,6 @@ form .buttonContainer{margin-top: 10px;}
 	padding:3px 0 0 0;
 }
 ul.wishList li{
-	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #eee;
 	border-radius: 6px 6px 6px 6px;
 	float: left;
@@ -424,9 +423,10 @@ ul.wishList li{
 	position: relative;
 	text-align: center;
 	width: 21%;
+	min-width: 175px;
 }
 .wishListImgContainer img{max-width: 180px; max-height: 200px;width: 100%;}
-.wishListImgContainer{text-align: center;min-height: 225px; position: relative}
+.wishListImgContainer{text-align: center;min-height: 225px; position: relative; z-index: -1}
 ul.wishList{margin: 0}
 .wishListDataContainer{	min-height: 104px;	padding:0px;	position: relative;text-align: left;}
 .wishTitle{font-weight: bold;    clear: both;    margin-top: 14px;}
@@ -517,26 +517,70 @@ div.progressBarContainer.userHeader ul li .progressValues span{font-size: 3em; l
 .selected_user_avatar img{}
 .selected_user_avatar{float: left;}
 .selected_user_data ul li{float: none;
-line-height: 20px;
-position: relative;
-white-space: nowrap;}
+						  line-height: 20px;
+						  position: relative;
+						  white-space: nowrap;}
 .selected_user_data ul li label{float: left;
-font-weight: bold;
-margin-bottom: 0;
-text-align: right;
-white-space: nowrap;
-width: 100px;}
+								font-weight: bold;
+								margin-bottom: 0;
+								text-align: right;
+								white-space: nowrap;
+								width: 100px;}
 .selected_user_data ul li div{
-float: left;
-margin-left: 10px;
-white-space: nowrap;
-width: 150px;}
+	float: left;
+	margin-left: 10px;
+	white-space: nowrap;
+	width: 150px;}
 .selected_user_data{
-background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
-border: 1px solid #BCE8F1;
-border-radius: 6px 6px 6px 6px;
-margin-left: 125px;
-overflow: auto;
-padding: 15px;
+	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
+	border: 1px solid #BCE8F1;
+	border-radius: 6px 6px 6px 6px;
+	margin-left: 125px;
+	overflow: auto;
+	padding: 15px;
 }
 .user_info_container{overflow: hidden;}
+.fbJewel .jewelCount {
+	border-radius: 2px 2px 2px 2px;
+	color: #FFFFFF;
+	font-size: 9px;
+	font-weight: bold;
+	overflow: hidden;
+	padding-bottom: 1px;
+	position: absolute;
+	right: -1px;
+	top: 0;
+	z-index: 101;
+}
+html .accessible_elem {
+	left: -9999px;
+	position: fixed;
+}
+#fbNotificationsJewel a.jewelButton {
+  background-image: url("http://static.ak.fbcdn.net/rsrc.php/v2/yB/r/it9JsxDcsVs.png");
+  background-position: -31px -50px;
+  background-repeat: no-repeat;
+}
+.fbJewel a.jewelButton {
+  display: block;
+  height: 31px;
+  margin: 0 1px;
+  position: relative;
+  text-decoration: none;
+  width: 24px;
+}
+#jewelContainer {
+  float: left;
+  position: relative;
+  z-index: 4;
+}
+.fbJewel {
+  float: left;
+  margin-right: -1px;
+  position: relative;
+}
+#fbMessagesJewel a.jewelButton {
+  background-image: url("http://static.ak.fbcdn.net/rsrc.php/v2/yB/r/it9JsxDcsVs.png");
+  background-position: -56px -85px;
+  background-repeat: no-repeat;
+}

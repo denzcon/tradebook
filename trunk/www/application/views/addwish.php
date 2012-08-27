@@ -29,7 +29,7 @@
 				<h3 class="alert-heading">
 					<img src="/images/package.png" alt="create a package" width="30px"  style="float: left"/>
 					<form name="namePackage" action="user/save_package_data" class="namePackage" method="post">
-						<a href="#" class="createPackageAnchor" style="float: left"><?= trim(trim($package_name), ' \t'); ?></a>
+						<a href="#" class="createPackageAnchor" style="float: left"><?= $package_name; ?></a>
 						<a href="#" class="hide done" style="vertical-align: text-top; line-height: 12px;"><img src="<?= base_url(); ?>images/done_square.png" alt="" /></a>
 					</form>
 				</h3>
@@ -117,15 +117,29 @@
 					<input type="text" name="itemSearch" id="itemSearch" value="" />
 				</div>
 				<div class="controls">
-              <label class="radio">
-                <input type="radio" checked="" value="relevancy" id="optionsRadios1" name="optionsRadios">
-                Sort by Relevance
-              </label>
-              <label class="radio">
-                <input type="radio"  value="price" id="optionsRadios2" name="optionsRadios">
-                Sort by Price
-              </label>
-            </div>
+					<label class="radio">
+						<input type="radio" name="searchType" value="1" checked>
+						Shopping
+					</label>
+					<label class="radio">
+						<input type="radio" name="searchType" value="2" >
+						Custom Search
+					</label>
+					<label class="image_search">
+						<input type="checkbox" name="image_search" id="image_search" value="1" />
+						images only
+					</label>
+				</div>
+				<div class="controls">
+					<label class="radio">
+						<input type="radio" checked="" value="relevancy" id="sortOptions1" name="sortOptions">
+						Sort by Relevance
+					</label>
+					<label class="radio">
+						<input type="radio"  value="price" id="sortOptions2" name="sortOptions">
+						Sort by Price
+					</label>
+				</div>
 			</div>
 			<div class="clearfix">
 				<a href="#" class="btn"  id="add_item_search_submit"><i class="icon-search"></i> Search</a>
