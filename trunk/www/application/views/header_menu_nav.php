@@ -79,12 +79,9 @@
 				<form name="linkAccounts" action="" method="post" class="well linkAccounts">
 					<fieldset>
 						<label>User's First/Last Name</label>
-						<input type="text" placeholder="Type something…" class="linkAccounts span3" name="email">
-						<p class="help-block">Example block-level help text here.</p>
-						<label class="checkbox">
-							<input type="checkbox"> Check me out
-						</label>
-						<button class="btn" type="submit">Submit</button>
+						<div class="input-append">
+							<input type="text" placeholder="Type something…" class="linkAccounts span3" name="email"><button type="button" class="btn">Search</button><button type="button" class="btn">Options</button>
+						</div>
 					</fieldset>
 				</form>
 			</li>
