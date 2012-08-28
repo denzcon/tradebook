@@ -4,17 +4,15 @@ class User extends MY_Controller
 {
 
 	protected $default_action_value = 3;
-
 	public $api_names = array(
 		1 => 'shopping',
 		2 => 'customsearch'
 	);
-	
 	public $search_types = array(
 		0 => 'web',
 		1 => 'image'
 	);
-	
+
 	/**
 	 *
 	 * @var Google_api
@@ -34,7 +32,7 @@ class User extends MY_Controller
 		$data['progress'] = $this->progress_model->currentUserProgress();
 //		$this->debug($data['wants']);
 //		$this->debug($this->progress_model->currentUserProgress());
-		$this->load->view('page_top.php', array('data' =>$data));
+		$this->load->view('page_top.php', array('data' => $data));
 		$this->load->view('user', $data);
 	}
 
@@ -43,8 +41,8 @@ class User extends MY_Controller
 		$data = array();
 		$data['services'] = $this->site_model->getFullTradeServiceList();
 		$data['userInfoArray'] = $this->membershipModel->getUserInfoArray();
-		$data['userInfoArray']['facebook']=$this->facebook_data;
-		$this->load->view('page_top.php', array('data' =>$data));
+		$data['userInfoArray']['facebook'] = $this->facebook_data;
+		$this->load->view('page_top.php', array('data' => $data));
 		if ($this->site_model->is_logged_in())
 		{
 			$this->load->view('settings', $data);
@@ -75,7 +73,7 @@ class User extends MY_Controller
 
 	function searchWishAjax()
 	{
-		$type =  (string)$this->input->post('type');
+		$type = (string) $this->input->post('type');
 		$this->setSearchType();
 		switch ($type)
 		{
@@ -100,6 +98,7 @@ class User extends MY_Controller
 		$order = 'descending';
 //		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 20, 'customsearch', 'v1', $search_string, $sort, $order);
 		$url = $this->google_api->buildShoppingUrl($key, 1, 20, 'shopping', 'search', $search_string, $sort, $order);
+		$this->shoppingSearchURL = $url;
 		$data = $this->CURL($url);
 		$this->searchResponse($data, 'shopping');
 	}
@@ -113,7 +112,7 @@ class User extends MY_Controller
 		$order = 'descending';
 		$api_name = 'customsearch';
 		$search_type = $this->getSearchType();
-		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 20, $api_name,$search_type,  'v1', $search_string, $sort, $order);
+		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 20, $api_name, $search_type, 'v1', $search_string, $sort, $order);
 		$this->customSearchURL = $custom_search_url;
 		$data = $this->CURL($custom_search_url);
 		$this->searchResponse($data, $api_name);
@@ -127,6 +126,7 @@ class User extends MY_Controller
 				$response['status'] = true;
 				$response['type'] = $search_type;
 				$response['custom_search_url'] = $this->customSearchURL;
+				
 				$response['data'] = json_decode($data['output'], true);
 				$page_index = $this->input->post('page_index');
 				$results_max_page = $this->input->post('result_max_page');
@@ -134,7 +134,7 @@ class User extends MY_Controller
 				$next_page_index = $page_index + $results_max_page;
 				$result_display_max = 16;
 				$fetched_search_count = $response['data']['searchInformation']['totalResults'];
-				$displayed_search_count = isset($response['data']['currentItemCount']);
+				$displayed_search_count = count($response['data']['items']);
 				$pages = $fetched_search_count / $result_display_max;
 				$response['pagination'] = array(
 					'fetched_search_count' => $fetched_search_count,
@@ -169,6 +169,9 @@ class User extends MY_Controller
 					'page_count' => $pages,
 					'next_page' => $next_page_index,
 					'prev_page' => $prev_page_index,
+					'api_name' => $this->api_names[$this->input->post('type')],
+					'search_type' => $this->getSearchType(),
+					'api_call_url' => $this->shoppingSearchURL
 				);
 				echo json_encode($response);
 
@@ -409,12 +412,12 @@ class User extends MY_Controller
 		$return = $this->db->get_where('account_links', array('user_id_alpha' => $this->membershipModel->currentUserId()));
 		return $return;
 	}
-	
+
 	function getSearchType()
 	{
 		return $this->search_type;
 	}
-	
+
 	function setSearchType()
 	{
 		$types = $this->search_types;

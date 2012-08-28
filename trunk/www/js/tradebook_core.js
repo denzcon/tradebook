@@ -15,9 +15,9 @@ $(document).ready(
 			{
 				event.preventDefault();
 				$('div.earnXP').modal('show');
-			//				return false;
 			}
-			);
+		);
+			
 		$('ul.wishList li a.close').click(function(event)
 		{
 			var input = event.currentTarget.next();
@@ -39,6 +39,7 @@ $(document).ready(
 		//				}
 		//			});
 		});
+		
 		$('a.linkAccounts').click(
 			function(event)
 			{
@@ -123,11 +124,12 @@ $(document).ready(
 		$('#add_item_search_submit').click(
 			function()
 			{
-				search();
 			});
-		$('#addWishItemSearch').submit(function(){
+		$('#addWishItemSearch').submit(
+		function(event)
+		{
+			event.preventDefault();
 			search();
-			return false;
 		});
 		
 		function search()
@@ -136,7 +138,8 @@ $(document).ready(
 				$('#error_message').fadeIn().delay(messageDelay).fadeOut();
 				return false;
 
-			} else {		
+			} else {	
+				
 				var extended_search = $('input[name=image_search]:checked').val();
 				if(!$('input[name=image_search]:checked').val())
 					{
@@ -210,6 +213,7 @@ $(document).ready(
 				$('#settingsUpdate-message').show();
 			}				
 		}
+		
 		function customSearchFinished(json, $form)
 		{
 			if(json['status']==false)
@@ -228,11 +232,11 @@ $(document).ready(
 			}
 			else
 			{
-				var items = json['data']['items'];
-				renderSearch(items, json.pagination);
-				var result_count =json.data.currentItemCount;
+				var items = json.data.items;
+				renderCustomSearch(items, json.pagination);
+				var result_count =json.pagination.displayed_search_count;
 				//				console.log(result_count)
-				var total_count = json.data.totalItems;
+				var total_count = json.data.searchInformation.totalResults;
 				$('.total_count').text(addCommas( total_count));
 				if(result_count>10)
 				{
@@ -452,6 +456,7 @@ $(document).ready(
 		}
 
 		$(".itemResultHolder").hasClass("ui-draggable-dragging");
+		
 		function renderSearch(items, options)
 		{
 			//			console.log(options);
@@ -504,6 +509,119 @@ $(document).ready(
 					$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
 					$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
 					$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
+				});
+			}
+			else
+			{
+				$.each(items, function(i, item)
+				{
+					var supplier_name = item.displayLink;
+					var firstImage = '';
+					var productLink = item.link;
+					var googleId = item.cacheId;
+					var price = item.displayLink;
+					var availability = item.displayLink;
+					var anchor = item.link;
+					var title = item.title;
+					code = $('<img class="'+googleId+'" />').attr("src", firstImage);
+					var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
+					var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+googleId+' productImgAnchor"></a>');
+					var viewPrice = $("<h3></h3>").text(price).appendTo(current);
+					$('img.'+googleId).wrap(anchorMarkup);
+					$('a.'+googleId).wrap('<div class="productImgContainer" />');
+					var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+				
+					$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
+					$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
+					$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
+				});
+			}
+			$(".itemResultHolder").draggable({
+				revert: "invalid"
+			});
+			var package_remove_button = '<a href="#" class="btn btn-danger remove"><i class="icon-trash icon-white"></i> Remove</a>';
+			$('.input-micro').click(function()
+			{
+				console.log('x');
+				$('#packageBar').event.preventDefault();
+			});
+			$( "#packageBar" ).droppable({
+				hoverClass: "alert-error",
+				activeClass: "alert-success",
+				drop: function( event, ui ) {
+					$('#success_message').fadeIn().delay(messageDelay).fadeOut();
+					var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="itemGoogleId" type="hidden" value="'+ui.draggable.find('input.itemGoogleId').attr('value')+'" /><input class="itemLink" type="hidden" value="'+ui.draggable.find('a').attr('href')+'" /><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
+					var content = package_qty_input+'<span class="packageBarItemDescription">'+ui.draggable.find('.itemResultTitle').text()+'</span></span>'+package_remove_button+'</li>';
+					$('.packageDefaultMessage').remove();
+					$( this )
+					.addClass( "ui-state-highlight" )
+					.removeClass("alert-info")
+					.find( "ul" )
+					.append(content);
+					ui.draggable.hide();
+					$('#packageBar .buttonContainer').removeClass('hide');
+					$('a.remove').click(function()
+					{
+						$(this).parent().remove();
+					});
+					
+				}
+			});
+		}
+		
+		function renderCustomSearch(items, options)
+		{
+			
+			//			console.log(options);
+			var code ='';
+			var viewPrice = '';
+			$("#resultsContainer").html("");
+			var list = '';
+			
+			if(options.page_count > 20)
+			{
+				var pages = pages_max;
+			}
+			else
+			{
+				var pages = options.pages;
+			}
+			$('.pagination ul').html('');
+			for (i = 1; i < pages; i++) {
+				$('.pagination ul').append(
+					$('<li>').append(
+						$('<a>').attr('href', '#').append(i)
+						)
+					);
+			}
+			
+			$('.pagination ul').append('<li><a href="#">Next</a></li>');
+			//			console.log(list);
+			//			$('.pagination').html(list);
+			if(options.search_type == 'image')
+			{
+				$.each(items, function(i, item)
+				{
+					var supplier_name = item.displayLink;
+					var firstImage = item.image.thumbnailLink;
+					console.log(item);
+					var productLink = item.link;
+					var googleId = item.kind;
+					var price = item.displayLink;
+					var anchor = item.link;
+					var title = item.title;
+					code = $('<img class="'+googleId+'" />').attr("src", firstImage);
+					
+					var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
+//					var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+item.product.googleId+' productImgAnchor"></a>');
+//					var viewPrice = $("<h3></h3>").text(price.toFixed(2)).appendTo(current);
+//					$('img.'+item.product.googleId).wrap(anchorMarkup);
+//					$('a.'+item.product.googleId).wrap('<div class="productImgContainer" />');
+//					var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+//				
+//					$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
+//					$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
+//					$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
 				});
 			}
 			else
