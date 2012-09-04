@@ -16,7 +16,7 @@ $(document).ready(
 				event.preventDefault();
 				$('div.earnXP').modal('show');
 			}
-		);
+			);
 			
 		$('ul.wishList li a.close').click(function(event)
 		{
@@ -122,15 +122,17 @@ $(document).ready(
 			});
 				
 		$('#add_item_search_submit').click(
-			function()
+			function(event)
 			{
+				event.preventDefault();
+				search();
 			});
 		$('#addWishItemSearch').submit(
-		function(event)
-		{
-			event.preventDefault();
-			search();
-		});
+			function(event)
+			{
+				event.preventDefault();
+				search();
+			});
 		
 		function search()
 		{
@@ -142,9 +144,9 @@ $(document).ready(
 				
 				var extended_search = $('input[name=image_search]:checked').val();
 				if(!$('input[name=image_search]:checked').val())
-					{
-						extended_search = 0;
-					}
+				{
+					extended_search = 0;
+				}
 				var data = 'itemSearch='+$('#itemSearch').val()+'&sort='+$("input[name=sortOptions]:checked").val()+'&type='+$('input[name=searchType]:checked').val()+'&extended_search='+extended_search;
 				$.ajax( {
 					url: "/user/searchWishAjax",
@@ -613,15 +615,15 @@ $(document).ready(
 					code = $('<img class="'+googleId+'" />').attr("src", firstImage);
 					
 					var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
-//					var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+item.product.googleId+' productImgAnchor"></a>');
-//					var viewPrice = $("<h3></h3>").text(price.toFixed(2)).appendTo(current);
-//					$('img.'+item.product.googleId).wrap(anchorMarkup);
-//					$('a.'+item.product.googleId).wrap('<div class="productImgContainer" />');
-//					var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
-//				
-//					$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
-//					$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
-//					$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
+				//					var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+item.product.googleId+' productImgAnchor"></a>');
+				//					var viewPrice = $("<h3></h3>").text(price.toFixed(2)).appendTo(current);
+				//					$('img.'+item.product.googleId).wrap(anchorMarkup);
+				//					$('a.'+item.product.googleId).wrap('<div class="productImgContainer" />');
+				//					var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+				//				
+				//					$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
+				//					$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
+				//					$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
 				});
 			}
 			else
