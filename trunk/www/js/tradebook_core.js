@@ -16,7 +16,8 @@ $(document).ready(
 				event.preventDefault();
 				$('div.earnXP').modal('show');
 			}
-			);
+		);
+		
 			
 		$('ul.wishList li a.close').click(function(event)
 		{
@@ -850,6 +851,15 @@ $(document).ready(
 				revert: "invalid"
 			});
 		});
+		$("a[data-toggle=modal]").click(function(event)
+		{
+			event.preventDefault();
+			var target = $(this).attr('data-target');
+			var url = $(this).attr('href')
+			$('#myModal').show();
+			$(target).load(url);
+
+		})
 		function addCommas(nStr)
 		{
 			nStr += '';

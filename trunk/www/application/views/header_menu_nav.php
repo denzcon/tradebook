@@ -13,7 +13,7 @@
 					<input type="text" placeholder="Search" class="search-query span2">
 				</form>
 
-<?php if (isset($is_logged_in)) : ?>
+<?php if ($is_logged_in) :?>
 				<div class="notifNegativeBase notifCentered" id="jewelContainer">
 					<div id="fbRequestsJewel" class="fbJewel">
 						<a aria-owns="fbRequestsFlyout" aria-haspopup="true" data-target="fbRequestsFlyout" data-gt="{&quot;ua_id&quot;:&quot;jewel:requests&quot;}" name="requests" aria-labelledby="requestsCountWrapper" role="button" href="#" rel="toggle" class="jewelButton">
@@ -43,7 +43,7 @@
 				<?php endif; ?>
 				<ul class="nav pull-right">
 					<li>
-						<?php if (isset($userInfoArray['is_logged_in']) AND $userInfoArray['is_logged_in']) : ?>
+						<?php if ($is_logged_in): ?>
 							<a href="/user"><?= $userInfoArray['user_info']['username']; ?></a>
 						<?php else: ?>
 							<a href="#" class="loginLink">Login</a>
@@ -82,6 +82,7 @@
     </ul>
   </div>-->
 <!--Modals below-->
+<div class="modal hide" id="myModal"></div>
 
 <div class="manageTradeAccounts modal hide">
 	<div class="creditCalculator">
@@ -150,13 +151,11 @@
 </div>
 
 <!--User Connect Modal-->
-<div id="userConnectModal" class="modal hide fade">
+<div id="userConnectModal" class="modal hide fade" style="width: auto !important;margin-left:auto; margin-right: auto;left:44%;">
 	<div id="loginModal">
 		<div class="modal-header">
 			<a class="close" href="#" style="margin-top: -8px;">×</a>
-			<h3><span class="hiliteTBBlue" style="margin-right: -9px;">trade</span>
-				<span class="hiliteTBGray">book</span>
-				<img src="<?php echo base_url(); ?>images/tradebook_mini_trademark.png" alt="tradebook" /></h3>
+			<h3>Login</h3>
 		</div>
 		<div class="modal-body">
 			<div id="login-modal-error-message" class="alert-message error hide">

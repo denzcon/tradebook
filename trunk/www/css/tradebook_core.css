@@ -215,7 +215,7 @@ div.topPromo {
 }
 .modal
 {
-	width: 650px;
+	/*width: 650px;*/
 }
 #userConnectModal label
 {
@@ -423,7 +423,7 @@ ul.wishList li{
 	position: relative;
 	text-align: center;
 	width: 21%;
-	min-width: 175px;
+	min-width: 186px;
 }
 .wishListImgContainer img{max-width: 180px; max-height: 200px;width: 100%;}
 .wishListImgContainer{text-align: center;min-height: 225px; position: relative; z-index: -1}

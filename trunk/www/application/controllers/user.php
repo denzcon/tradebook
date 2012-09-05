@@ -30,10 +30,11 @@ class User extends MY_Controller
 		$data['userInfoArray'] = $this->session->userdata();
 		$data['wants'] = $this->user_model->getUserWishList();
 		$data['progress'] = $this->progress_model->currentUserProgress();
-//		$this->debug($data['wants']);
 //		$this->debug($this->progress_model->currentUserProgress());
+		$data['is_logged_in'] = $this->session->userdata('is_logged_in');
 		$this->load->view('page_top.php', array('data' => $data));
 		$this->load->view('user', $data);
+		
 	}
 
 	function settings()
@@ -65,9 +66,11 @@ class User extends MY_Controller
 		$data['user_id'] = $this->membership_model->currentUserId();
 		$data['userServices'] = $this->user_model->getServicesForUser($data['user_id']);
 		$data['package_name'] = $this->session->userdata('package_name') ? $this->session->userdata('package_name') : 'Create a package';
-
+		$data['user_info'] = $this->UserInfoArray;
+		$data['userInfoArray'] = $this->session->userdata();
+		$data['is_logged_in'] = $this->UserInfoArray['is_logged_in'];
 		$this->load->view('page_head_incl', $this->UserInfoArray);
-		$this->load->view('header_menu_nav', $this->UserInfoArray);
+		$this->load->view('header_menu_nav', $data);
 		$this->load->view('addwish', $data);
 	}
 
@@ -112,7 +115,7 @@ class User extends MY_Controller
 		$order = 'descending';
 		$api_name = 'customsearch';
 		$search_type = $this->getSearchType();
-		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 20, $api_name, $search_type, 'v1', $search_string, $sort, $order);
+		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 10, $api_name, $search_type, 'v1', $search_string, $sort, $order);
 		$this->customSearchURL = $custom_search_url;
 		$data = $this->CURL($custom_search_url);
 		$this->searchResponse($data, $api_name);
@@ -422,6 +425,11 @@ class User extends MY_Controller
 	{
 		$types = $this->search_types;
 		$this->search_type = $types[$this->input->post('extended_search')];
+	}
+	
+	function manage_xp()
+	{
+		$this->load->view('modals/manage_xp.php');
 	}
 
 }

@@ -53,6 +53,7 @@ $route['user/current']					= 'user/current';
 $route['user/scrapeWishFromURLRobert']	= 'user/scrapeWishFromURLRobert';
 $route['user/getUserWishList']			= 'user/getUserWishList';
 $route['user/linkAccountRequest']		= 'user/linkAccountRequest';
+$route['user/manage_xp']				= 'user/manage_xp';
 
 
 /* End of file routes.php */

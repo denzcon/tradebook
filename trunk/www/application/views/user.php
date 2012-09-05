@@ -10,7 +10,7 @@
 					<li class="active"><a href="#">Profile</a></li>
 					<li><a href="#" class="earnXP">Redeem XP</a></li>
 					<li><a href="#" class="linkAccounts">Link Accounts</a></li>
-					<li><a href="#">Manage Trades</a></li>
+					<li><a href="<?= base_url().'user/manage_xp'; ?>" data-toggle="modal" data-target="#myModal">Manage Trades</a></li>
 					<li class="nav-header">Help</li>
 					<li><a href="#">Earn XP</a></li>
 					<li><a href="#">Link</a></li>

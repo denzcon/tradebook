@@ -12,9 +12,8 @@ class Home extends MY_Controller
 //		echo $process;
 //		exit;
 
-		$data['grid'] = $this->site_model->build_grid_for_public();
 		$data['userInfoArray'] = $this->session->userdata();
-
+		$data['is_logged_in'] = $this->session->userdata('is_logged_in');
 		$this->load->view('page_top.php', array('data' =>$data));
 		$this->load->view('home/home_top.php');
 //		$this->load->view('home', $data);
