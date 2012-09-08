@@ -133,6 +133,9 @@ class User_model extends CI_Model
 		$this->db->select('users.id, users.username, users.first_name, users.last_name, users.email_address, user_avatars.avatar_image_url');
 		$this->db->join('user_avatars', 'user_avatars.user_id = users.id', 'left');
 		$this->db->like('users.email_address', $input['query']);
+		$this->db->or_like('users.first_name', $input['query']);
+		$this->db->or_like('users.last_name', $input['query']);
+		$this->db->or_like('users.username', $input['query']);
 		return $this->db->get('users')->result_array();
 	}
 

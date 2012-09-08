@@ -104,44 +104,6 @@
 	</div>
 </div>
 
-<!-- linkAccounts Modal-->
-<div class="linkAccounts modal hide">
-	<div class="linkAccounts alert alert-info">
-		<h1>Link Accounts <small>to receive XP</small></h1>
-		<ul>
-			<li>
-				<form name="linkAccounts" action="" method="post" class="well linkAccounts">
-					<fieldset>
-						<label>User's First/Last Name</label>
-						<div class="input-append">
-							<input type="text" placeholder="Type something…" class="linkAccounts span3" name="email"><button type="button" class="btn">Search</button><button type="button" class="btn">Options</button>
-						</div>
-					</fieldset>
-				</form>
-			</li>
-			<li class="well linkedData">
-				<table class="table">
-					<thead>
-						<tr class="tbl-header">
-							<th>Username</th>
-							<th>Name</th>
-							<th>Email</th>
-							<th>Statusl</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Row 1</td>
-							<td>Row 1</td>
-							<td>Row 1</td>
-							<td>Row 1</td>
-						</tr>
-					</tbody>        
-				</table>
-			</li>
-		</ul>
-	</div>
-</div>
 
 <!--createPackageModal-->
 <div id="createPackageModal" class="modal hide fade">

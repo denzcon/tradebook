@@ -34,7 +34,6 @@ class User extends MY_Controller
 		$data['is_logged_in'] = $this->session->userdata('is_logged_in');
 		$this->load->view('page_top.php', array('data' => $data));
 		$this->load->view('user', $data);
-		
 	}
 
 	function settings()
@@ -129,7 +128,7 @@ class User extends MY_Controller
 				$response['status'] = true;
 				$response['type'] = $search_type;
 				$response['custom_search_url'] = $this->customSearchURL;
-				
+
 				$response['data'] = json_decode($data['output'], true);
 				$page_index = $this->input->post('page_index');
 				$results_max_page = $this->input->post('result_max_page');
@@ -394,20 +393,27 @@ class User extends MY_Controller
 
 	function linkAccountRequest()
 	{
-		$input = $this->input->get();
-		$target_acounts = $this->user_model->findAccountToLink($input);
-		$suggestion = array();
-		foreach ($target_acounts as $suggestion)
+		if ($this->input->get('query'))
 		{
-			$suggestions[] = $suggestion['first_name'] . ' ' . $suggestion['last_name'];
-			$data[] = $suggestion;
+			$input = $this->input->get();
+			$target_acounts = $this->user_model->findAccountToLink($input);
+			$suggestion = array();
+			foreach ($target_acounts as $suggestion)
+			{
+				$suggestions[] = $suggestion['first_name'] . ' ' . $suggestion['last_name'];
+				$data[] = $suggestion;
+			}
+			$response = array(
+				'query' => $input['query'],
+				'suggestions' => $suggestions,
+				'data' => $data
+			);
+			echo json_encode($response);
 		}
-		$response = array(
-			'query' => $input['query'],
-			'suggestions' => $suggestions,
-			'data' => $data
-		);
-		echo json_encode($response);
+		else
+		{
+			$this->load->view('modals/link_accounts.php');
+		}
 	}
 
 	function getLinkedAccounts()
@@ -426,10 +432,37 @@ class User extends MY_Controller
 		$types = $this->search_types;
 		$this->search_type = $types[$this->input->post('extended_search')];
 	}
-	
+
 	function manage_xp()
 	{
-		$this->load->view('modals/manage_xp.php');
+		$this->db->select('user_id_bravo');
+		$accounts = $this->db->get_where('account_links', array('user_id_alpha' => $this->membershipModel->currentUserId()));
+		foreach ($accounts->result_array() as $account)
+		{
+			$this->db->select('username, first_name, last_name, email_address, xp_value');
+			$this->db->from('users');
+			$this->db->join('users2xp', 'users2xp.user_id = users.id');
+			$this->db->where('users.id', $account['user_id_bravo']);
+			$user = $this->db->get();
+			$user = $user->result_array();
+			$users[] = $user[0];
+		}
+//		$this->debug($accounts->result_array());
+//		$this->db->select('*');
+//		$this->db->from('account_links');
+//		$this->db->where('user_id_alpha', $this->membershipModel->currentUserId());
+//		$this->db->or_where('user_id_bravo', $this->membershipModel->currentUserId());
+//		$this->debug($this->db->get());
+		$this->load->view('modals/manage_xp.php', array('users' => $users));
+	}
+	
+	function linkAccount()
+	{
+		echo json_encode($this->db->insert('account_links', array(
+			'user_id_alpha' => $this->membershipModel->currentUserId(),
+			'user_id_bravo' => $this->input->post('linkedUserId'),
+			'status' => 1
+		)));
 	}
 
 }

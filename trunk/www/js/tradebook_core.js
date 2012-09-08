@@ -16,7 +16,7 @@ $(document).ready(
 				event.preventDefault();
 				$('div.earnXP').modal('show');
 			}
-		);
+			);
 		
 			
 		$('ul.wishList li a.close').click(function(event)
@@ -41,49 +41,6 @@ $(document).ready(
 		//			});
 		});
 		
-		$('a.linkAccounts').click(
-			function(event)
-			{
-				//				event.preventDefault();
-				$('.linkAccounts ul li form fieldset div.alert').remove();
-				$('input.linkAccounts').val('start typing..');
-				//				$.ajax({
-				//					url: 'user/getLinkedaccounts',
-				//					data: data,
-				//					type: 'get',
-				//					success: function(response)
-				//					{
-				//						$('li.linkedData.well').html(response);
-				//					}
-				//				});
-				$('input.linkAccounts').focus(function()
-				{
-					$(this).val('');
-				});
-				$('div.linkAccounts.modal').modal('show');
-				
-				var options, a;
-				options = {
-					serviceUrl:'user/linkAccountRequest',
-					minChars:2,
-					onSelect: function(value, data)
-					{
-						$.ajax({
-							url: 'home/render_partial',
-							data: data,
-							type: 'post',
-							success: function(response)
-							{
-								$('<div class="alert alert-info"></div>').html(response).prependTo($('.linkAccounts ul li form fieldset'));
-							}
-						});
-					}
-
-				};
-				a = $('input.linkAccounts').autocomplete(options);
-				return false; 
-			}
-			);
 
 		
 		$('.item.progress').tooltip();
@@ -855,9 +812,15 @@ $(document).ready(
 		{
 			event.preventDefault();
 			var target = $(this).attr('data-target');
-			var url = $(this).attr('href')
-			$('#myModal').show();
-			$(target).load(url);
+			var url = $(this).attr('href');
+			var success = $(this).attr('data-success');
+			$(target).load(url, function()
+			{
+				if(success =='linkAccountsSuccess')
+				{
+					linkAccountsSuccess();
+				}
+			});
 
 		})
 		function addCommas(nStr)
@@ -881,5 +844,59 @@ $(document).ready(
 		{
 			$('#userConnectModal').modal('hide');
 		});
+		$('input.linkAccounts[name=email]').on('live', function(event)
+		{
+			alert('test');
+		});
+		
+		
+		function linkAccountsSuccess()
+		{
+			$('.linkAccounts ul li form fieldset div.alert').remove();
 
+			var options, a;
+			options = {
+				serviceUrl:'user/linkAccountRequest',
+				minChars:2,
+				onSelect: function(value, data)
+				{
+					$.ajax({
+						url: 'home/render_partial',
+						data: data,
+						type: 'post',
+						success: function(response)
+						{
+							$('<div class="alert alert-info"></div>').html(response).prependTo($('div.well.linkAccounts'));
+							$('form[name=linkAccountTo]').submit(function(event)
+							{
+								event.preventDefault();
+								console.log('here');
+								$.ajax({
+									url : 'user/linkAccount',
+									type : 'post',
+									data : $(this).serialize(),
+									success : function(response)
+									{
+										if(response)
+										{
+											$('div.linkAccounts.modal ul:first').prepend('<li><div class="well alert alert-success">you have successfully updated your linked accounts</div></li>').fadeIn();
+											setTimeout(function()
+											{
+//												$('div.linkAccounts.modal ul li:first').fadeOut();
+												$('#myModal').modal('hide');
+											},
+											6000);
+										}
+									}
+								})
+							});
+						}
+					});
+				}
+
+			};
+			a = $('input.linkAccounts').autocomplete(options);
+			return false; 
+		}
+		
 	});

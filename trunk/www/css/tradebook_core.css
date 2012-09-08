@@ -516,28 +516,16 @@ div.progressBarContainer.userHeader ul li .progressValues span{font-size: 3em; l
 .youtube-wrapper{margin: 0 auto 0 auto; width: 640px; padding: 0 150px; background: black}
 .selected_user_avatar img{}
 .selected_user_avatar{float: left;}
-.selected_user_data ul li{float: none;
-						  line-height: 20px;
-						  position: relative;
-						  white-space: nowrap;}
-.selected_user_data ul li label{float: left;
-								font-weight: bold;
-								margin-bottom: 0;
-								text-align: right;
-								white-space: nowrap;
-								width: 100px;}
-.selected_user_data ul li div{
-	float: left;
-	margin-left: 10px;
-	white-space: nowrap;
-	width: 150px;}
+.selected_user_data ul li{float: none;line-height: 20px;position: relative;white-space: nowrap;clear:both;}
+.selected_user_data ul li label{float: left;font-weight: bold;margin-bottom: 0;text-align: left;white-space: nowrap;width:auto;}
+.selected_user_data ul li div{float: left;margin-left: 10px;white-space: nowrap;width: auto;}
 .selected_user_data{
 	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
 	border: 1px solid #BCE8F1;
 	border-radius: 6px 6px 6px 6px;
 	margin-left: 125px;
 	overflow: auto;
-	padding: 15px;
+	padding: 15px 0 0 8px;
 }
 .user_info_container{overflow: hidden;}
 .fbJewel .jewelCount {
@@ -584,3 +572,4 @@ html .accessible_elem {
   background-position: -56px -85px;
   background-repeat: no-repeat;
 }
+div.selected_user_data ul{margin:0;}
