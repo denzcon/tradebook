@@ -453,7 +453,7 @@ class User extends MY_Controller
 //		$this->db->where('user_id_alpha', $this->membershipModel->currentUserId());
 //		$this->db->or_where('user_id_bravo', $this->membershipModel->currentUserId());
 //		$this->debug($this->db->get());
-		$this->load->view('modals/manage_xp.php', array('users' => $users));
+		$this->load->view('modals/manage_xp.php', array('users' => isset($users) ? $users : null));
 	}
 	
 	function linkAccount()
@@ -464,5 +464,30 @@ class User extends MY_Controller
 			'status' => 1
 		)));
 	}
+	
+	function removeWishItem()
+	{
+		$undo_operation = $this->input->post('undo');
+		$wish_id = $this->input->post('wishId');
+		$this->db->where('id', $this->input->post('wishId'));
+		$status = $this->db->update('wanted', array('status' => $undo_operation ? 'a' : 'd'));
+		echo json_encode(array('success' => $status));
+		return $status;
+	}
 
+	function deleted_items()
+	{
+		if (!$this->UserInfoArray['is_logged_in'])
+		{
+			redirect('/');
+		}
+		$data = array();
+		$data['userInfoArray'] = $this->session->userdata();
+		$data['wants'] = $this->user_model->getUserWishListDeleted();
+		$data['progress'] = $this->progress_model->currentUserProgress();
+//		$this->debug($this->progress_model->currentUserProgress());
+		$data['is_logged_in'] = $this->session->userdata('is_logged_in');
+		$this->load->view('page_top.php', array('data' => $data));
+		$this->load->view('user', $data);
+	}
 }

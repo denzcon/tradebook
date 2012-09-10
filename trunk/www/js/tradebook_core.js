@@ -18,30 +18,53 @@ $(document).ready(
 			}
 			);
 		
-			
+		
 		$('ul.wishList li a.close').click(function(event)
 		{
-			var input = event.currentTarget.next();
-			console.log(input);
-			console.log($(input).closest('input[type="hidden"]'));
-			var wishId = $('input[type="hidden"]').closest(event.currentTarget);
-			var button = event.target;
-		//			var wishId = $(button).closest('input[type="hidden"]').val();
-		//			$.ajax({
-		//				url: 'user/delete_wish_item',
-		//				data: {
-		//					'dta' : 'data'
-		//				},
-		//				type: 'post',
-		//				dataType: 'json',
-		//				success: function()
-		//				{
-		//					console.log(this);
-		//				}
-		//			});
-		});
-		
+			var self = event.target;
+			var data = {
+				wishId : $(event.target).next().closest('input.wishId').val(),
+				undo : false
+			}
+			event.preventDefault();
+			if(confirm('are your sure you want to remove this item?'))
+			{
+				$.ajax({
+					url : 'user/removeWishItem',
+					data : data,
+					dataType : 'json',
+					type : 'post',
+					success : function(response)
+					{
+						if(response.success)
+						{
+							$('ul.wishList').before('<div class="alert alert-success">you have successfully removed this item from your list. Oops! <span class="undo wishListDelete"><a href="#" class="undo">undo</a></div>');
+							$(self).parent().remove();
+							$('div.content div.alert-success span.undo.wishListDelete').click(function()
+							{
+								data.undo = true;
+								$.ajax({
+									url : 'user/removeWishItem',
+									data : data,
+									dataType : 'json',
+									type : 'post',
+									success : function(response)
+									{
+										if(response.success)
+										{
+//											$('div.content div.alert-success').fadeOut(8000, alert('here'));
+//											$('ul.wishList').prepend(undoCache).bind(this);
+											location.reload(true);
+										}
+									}
+								})
+							});
+						}
+					}
 
+				})
+			}
+		})
 		
 		$('.item.progress').tooltip();
 		
@@ -496,6 +519,7 @@ $(document).ready(
 					$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
 				});
 			}
+			
 			$(".itemResultHolder").draggable({
 				revert: "invalid"
 			});
@@ -882,7 +906,7 @@ $(document).ready(
 											$('div.linkAccounts.modal ul:first').prepend('<li><div class="well alert alert-success">you have successfully updated your linked accounts</div></li>').fadeIn();
 											setTimeout(function()
 											{
-//												$('div.linkAccounts.modal ul li:first').fadeOut();
+												//												$('div.linkAccounts.modal ul li:first').fadeOut();
 												$('#myModal').modal('hide');
 											},
 											6000);

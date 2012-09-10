@@ -127,6 +127,38 @@ class User_model extends CI_Model
 		return $user->result_array();
 	}
 
+	function getUserWishListDeleted()
+	{
+		$session_data = $this->session->userdata();
+		$user = $this->db->query('
+			SELECT
+			u.id,
+			u2w.want_id,
+			u2w.user_id,
+			wd.id,
+			wd.title,
+			wd.price,
+			wd.description,
+			wd.preview_image,
+			w2x.xp_value,
+			format(((u2x.xp_value * 100) / (w2x.xp_value)), 0) as percent
+			FROM wanted wd
+			LEFT JOIN user2wants u2w ON u2w.want_id = wd.id
+			LEFT JOIN users u ON u2w.user_id = u.id
+			LEFT JOIN wants2xp w2x ON w2x.wanted_id = wd.id
+			LEFT JOIN users2xp u2x ON u2x.user_id = u.id
+			WHERE u.id=?
+			AND wd.status = \'d\'
+			GROUP BY wd.id
+			ORDER BY  (percent+0) DESC
+			', array($session_data['user_info']['id']));
+		if ($user->num_rows == 0)
+		{
+			return false;
+		}
+		return $user->result_array();
+	}
+
 	function findAccountToLink($input)
 	{
 //		$lookup = $this->db->get_where('users', array('email_address' => $input['query']));
