@@ -55,6 +55,8 @@ $route['user/getUserWishList']			= 'user/getUserWishList';
 $route['user/linkAccountRequest']		= 'user/linkAccountRequest';
 $route['user/manage_xp']				= 'user/manage_xp';
 $route['user/linkAccount']				= 'user/linkAccount';
+$route['user/removeWishItem']			= 'user/removeWishItem';
+$route['user/deleted_items']			= 'user/deleted_items';
 
 
 /* End of file routes.php */
