@@ -30,6 +30,7 @@ class User extends MY_Controller
 		$data['userInfoArray'] = $this->session->userdata();
 		$data['wants'] = $this->user_model->getUserWishList();
 		$data['progress'] = $this->progress_model->currentUserProgress();
+		$data['wish_list'] = true;
 //		$this->debug($this->progress_model->currentUserProgress());
 		$data['is_logged_in'] = $this->session->userdata('is_logged_in');
 		$this->load->view('page_top.php', array('data' => $data));
@@ -485,6 +486,7 @@ class User extends MY_Controller
 		$data['userInfoArray'] = $this->session->userdata();
 		$data['wants'] = $this->user_model->getUserWishListDeleted();
 		$data['progress'] = $this->progress_model->currentUserProgress();
+		$data['wish_list'] = false;
 //		$this->debug($this->progress_model->currentUserProgress());
 		$data['is_logged_in'] = $this->session->userdata('is_logged_in');
 		$this->load->view('page_top.php', array('data' => $data));

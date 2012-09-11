@@ -42,7 +42,7 @@
 				<ul class="wishList">
 					<?php foreach ($wants as $want) : ?>
 						<li>
-							<a data-dismiss="modal" class="close" type="button" style="z-index: 9999; padding: 4px 10px; background: none repeat scroll 0% 0% rgb(221, 221, 221); border: 1px solid rgb(170, 170, 170);">×</a>
+							<a data-dismiss="modal" class="close " type="button" style="z-index: 9999; padding: 4px 10px; background: none repeat scroll 0% 0% rgb(221, 221, 221); border: 1px solid rgb(170, 170, 170);">×</a>
 							<input type="hidden" name="wishId" class="wishId" value="<?= $want['id']; ?>" />
 							<div class="wishListImgContainer">
 								<?php

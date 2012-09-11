@@ -16,10 +16,59 @@ $(document).ready(
 				event.preventDefault();
 				$('div.earnXP').modal('show');
 			}
-			);
+		);
 		
+		$('div.content div.alert-success span.undo.wishListDelete').click(function()
+		{
+			data.undo = true;
+			$.ajax({
+				url : 'user/removeWishItem',
+				data : data,
+				dataType : 'json',
+				type : 'post',
+				success : function(response)
+				{
+					if(response.success)
+					{
+						//											$('div.content div.alert-success').fadeOut(8000, alert('here'));
+						//											$('ul.wishList').prepend(undoCache).bind(this);
+						location.reload(true);
+					}
+				}
+			})
+		});
 		
-		$('ul.wishList li a.close').click(function(event)
+		$('ul.wishList li a.close.restore').click(function(event)
+		{
+			var self = event.target;
+			var data = {
+				wishId : $(event.target).next().closest('input.wishId').val(),
+				undo : false,
+				restore : true
+			}
+			event.preventDefault();
+			if(confirm('are your sure you want to restore this item?'))
+			{
+				$.ajax({
+					url : 'user/restoreWishItem',
+					data : data,
+					dataType : 'json',
+					type : 'post',
+					success : function(response)
+					{
+						if(response.success)
+						{
+							$('ul.wishList').before('<div class="alert alert-success">you have successfully restored this item from your list. Go to your list <span class="restore"><a href="/user" class="undo">now!</a></div>');
+							$(self).parent().remove();
+							location.reload(true);
+						}
+					}
+
+				})
+			}
+		});
+		
+		$('ul.wishList li a.close.remove').click(function(event)
 		{
 			var self = event.target;
 			var data = {
@@ -64,7 +113,7 @@ $(document).ready(
 
 				})
 			}
-		})
+		});
 		
 		$('.item.progress').tooltip();
 		
