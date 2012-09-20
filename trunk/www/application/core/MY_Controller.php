@@ -186,5 +186,10 @@ class MY_Controller extends CI_Controller
 		fwrite($fp, "\n");
 		fclose($fp);
 	}
+	
+	function getGravatarURLForUser($user)
+	{
+		return $url = 'http://www.gravatar.com/avatar/' . md5($user->email_address).'?s=200';
+	}
 
 }

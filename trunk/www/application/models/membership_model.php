@@ -49,6 +49,16 @@ class Membership_model extends CI_Model
 		return $this->currentUserEmailAddress;
 	}
 
+	function currentUserGravatarProfileURL()
+	{
+		return $this->currentUserGravatarProfileURL;
+	}
+	
+	function currentUserGravatarAvatarURL()
+	{
+		return $this->currentUserGravatarAvatarURL;
+	}
+
 	function validate()
 	{
 		$this->db->select('id, username, first_name, last_name, email_address');
@@ -70,6 +80,8 @@ class Membership_model extends CI_Model
 			$this->currentUserFirstName = $results[0]['first_name'];
 			$this->currentUserLastName = $results[0]['last_name'];
 			$this->currentUserEmailAddress = $results[0]['email_address'];
+			$this->currentUserGravatarProfileURL = $results[0]['gravatarProfileURL'];
+			$this->currentUserGravatarAvatarURL = $results[0]['gravatarAvatarURL'];
 			$return = array(
 				'loginStatus'	=> TRUE,
 				'results'		=> $results[0]

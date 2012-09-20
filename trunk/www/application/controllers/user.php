@@ -28,7 +28,9 @@ class User extends MY_Controller
 		}
 		$data = array();
 		$data['userInfoArray'] = $this->session->userdata();
-		$data['wants'] = $this->user_model->getUserWishList();
+		$user = $this->db->get_where('users', array('id' => $this->membershipModel->currentUserId()))->first_row();
+		
+		$data['wants'] = $this->user_model->getUserWishList($user);
 		$data['progress'] = $this->progress_model->currentUserProgress();
 		$data['wish_list'] = true;
 //		$this->debug($this->progress_model->currentUserProgress());
@@ -195,11 +197,31 @@ class User extends MY_Controller
 
 	function member()
 	{
+		if (!isset($this->UserInfoArray['is_logged_in']))
+		{
+			redirect('/');
+		}
 		$data = array();
-		$data['username'] = $this->uri->segment(2);
+		$data['username'] = $this->uri->segment(3);
+		$viewed_user = $this->db->get_where('users', array('username' => $data['username']))->first_row();
+		$viewed_user_array = (array)$viewed_user;
+//		$this->debug($viewed_user);
+		
+		$viewed_user_array['gravatarAvatarURL'] = $this->getGravatarURLForUser($viewed_user);
+		$data['userInfoArray'] =array(
+			'user_info' => $viewed_user_array
+			);
+		
+		$data['wants'] = $this->user_model->getUserWishList($viewed_user);
+		$data['progress'] = $this->progress_model->currentUserProgress($viewed_user);
+		$data['wish_list'] = true;
+		$data['is_logged_in'] = $this->session->userdata('is_logged_in');
+		$this->load->view('page_top.php', array('data' => $data));
+		$this->load->view('page_top.php', array('data' => $data));
+		$this->load->view('user', $data);
 		$this->load->view('page_head_incl');
 		$this->load->view('header_menu_nav');
-		$this->load->view('member/index', $data);
+//		$this->load->view('member/index', $data);
 	}
 
 	function addWishURLAjax()
@@ -456,16 +478,16 @@ class User extends MY_Controller
 //		$this->debug($this->db->get());
 		$this->load->view('modals/manage_xp.php', array('users' => isset($users) ? $users : null));
 	}
-	
+
 	function linkAccount()
 	{
 		echo json_encode($this->db->insert('account_links', array(
-			'user_id_alpha' => $this->membershipModel->currentUserId(),
-			'user_id_bravo' => $this->input->post('linkedUserId'),
-			'status' => 1
-		)));
+					'user_id_alpha' => $this->membershipModel->currentUserId(),
+					'user_id_bravo' => $this->input->post('linkedUserId'),
+					'status' => 1
+				)));
 	}
-	
+
 	function removeWishItem()
 	{
 		$undo_operation = $this->input->post('undo');
@@ -492,4 +514,5 @@ class User extends MY_Controller
 		$this->load->view('page_top.php', array('data' => $data));
 		$this->load->view('user', $data);
 	}
+
 }

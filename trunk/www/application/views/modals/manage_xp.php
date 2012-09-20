@@ -20,7 +20,7 @@
 						<?php foreach ($user as $k => $v): ?>
 							<td>
 								<?php if ($k == 'username'): ?>
-									<a href="#"><?= $v ?></a>
+								<a href="<?= base_url().'user/member/'.$v; ?>"><?= $v ?></a>
 								<?php else: ?>
 									<?= $v ?>
 								<?php endif; ?>

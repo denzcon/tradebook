@@ -4,7 +4,11 @@
 			<div class="well sidebar-nav">
 				<ul class="nav nav-list">
 					<li class="userAvatarSidebar">
+						<?php if(isset($userInfoArray['user_info']['gravatarAvatarURL'])): ?>
 						<img src="<?= $userInfoArray['user_info']['gravatarAvatarURL']; ?>" alt="<?= $userInfoArray['user_info']['first_name'] . ' ' . $userInfoArray['user_info']['last_name']; ?>" />
+						<?php else: ?>
+						<img src="<?= $userInfoArray['user_info']['gravatarAvatarURL']; ?>" alt="<?= $userInfoArray['user_info']['first_name'] . ' ' . $userInfoArray['user_info']['last_name']; ?>" />
+						<?php endif; ?>
 					</li>
 					<li class="nav-header">Actions</li>
 					<li class="active"><a href="<?= base_url().'user/'; ?>">Profile</a></li>
@@ -42,7 +46,7 @@
 				<ul class="wishList">
 					<?php foreach ($wants as $want) : ?>
 						<li>
-							<a data-dismiss="modal" class="close " type="button" style="z-index: 9999; padding: 4px 10px; background: none repeat scroll 0% 0% rgb(221, 221, 221); border: 1px solid rgb(170, 170, 170);">×</a>
+							<a data-dismiss="modal" class="close remove" type="button" style="z-index: 9999; padding: 4px 10px; background: none repeat scroll 0% 0% rgb(221, 221, 221); border: 1px solid rgb(170, 170, 170);">×</a>
 							<input type="hidden" name="wishId" class="wishId" value="<?= $want['id']; ?>" />
 							<div class="wishListImgContainer">
 								<?php

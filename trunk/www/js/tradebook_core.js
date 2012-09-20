@@ -929,7 +929,7 @@ $(document).ready(
 
 			var options, a;
 			options = {
-				serviceUrl:'user/linkAccountRequest',
+				serviceUrl:'/user/linkAccountRequest',
 				minChars:2,
 				onSelect: function(value, data)
 				{

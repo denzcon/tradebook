@@ -9,7 +9,7 @@
 			<li><label>Last Name:</label> <div><?= $last_name; ?></div></li>
 			<li><label>Email Address:</label> <div><?= $email_address; ?></div></li>
 			<li style="clear:both;">
-				<form name="linkAccountTo" action="user/linkAccount" method="post">
+				<form name="linkAccountTo" action="<?= base_url().'/user/linkAccount'; ?>" method="post">
 					<input type="hidden" name="linkedUserId" id="linkedUserId" value="<?= $id; ?>" />
 					<button href="#" class="btn btn-info">Link This Account</button>
 				</form>

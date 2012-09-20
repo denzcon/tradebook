@@ -44,7 +44,7 @@
 				<ul class="nav pull-right">
 					<li>
 						<?php if ($is_logged_in): ?>
-							<a href="/user"><?= $userInfoArray['user_info']['username']; ?></a>
+							<a href="/user"><?= $current_user_info['user_info']['username']; ?></a>
 						<?php else: ?>
 							<a href="#" class="loginLink">Login</a>
 						</li>
@@ -54,13 +54,13 @@
 						</li>
 					<?php endif; ?>
 					<li class="divider-vertical"></li>
-					<?php if (isset($userInfoArray['is_logged_in']) AND $userInfoArray['is_logged_in']) : ?>
+					<?php if (isset($current_user_info['is_logged_in']) AND $current_user_info['is_logged_in']) : ?>
 						<li class="dropdown">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">Account <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="/user/addwish">Add Items to wish list</a></li>
 								<li><a href="/user/settings">Account Settings</a></li>
-								<li><a href="<?= isset($userInfoArray['facebook_data']['login_url']) ? $userInfoArray['facebook_data']['login_url'] : $userInfoArray['facebook_data']['logout_url']; ?>"><?= isset($userInfoArray['facebook_data']['login_url']) ? 'Connect to facebook' : 'logout of facebook'; ?></a></li>
+								<li><a href="<?= isset($current_user_info['facebook_data']['login_url']) ? $current_user_info['facebook_data']['login_url'] : $current_user_info['facebook_data']['logout_url']; ?>"><?= isset($current_user_info['facebook_data']['login_url']) ? 'Connect to facebook' : 'logout of facebook'; ?></a></li>
 								<li class="divider"></li>
 								<li><a href="/logout">Logout</a></li>
 							</ul>

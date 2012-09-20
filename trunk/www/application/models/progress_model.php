@@ -21,9 +21,9 @@ class Progress_model extends CI_Model
 		
 	}
 
-	public function currentUserProgress()
+	public function currentUserProgress($user=null)
 	{
-		$user_xp_value = $this->getUserXp();
+		$user_xp_value = $this->getUserXp($user);
 		$return = array(
 			'xp' => $user_xp_value[0],
 			'rank' => $this->currentRank(),
@@ -51,11 +51,21 @@ class Progress_model extends CI_Model
 		return false;
 	}
 
-	public function getUserXp()
+	public function getUserXp($user=null)
 	{
-		$current_user = $this->session->userdata('user_info');
-		$progress = $this->db->get_where('users2xp', array('user_id' => $current_user['id']));
-		return $progress->result_array();
+		if(is_null($user) OR !isset($user))
+		{
+			$current_user = $this->session->userdata('user_info');
+			$progress = $this->db->get_where('users2xp', array('user_id' => $current_user['id']));
+			return $progress->result_array();
+		}
+		else
+		{
+			$viewed_user = $user;
+			$progress = $this->db->get_where('users2xp', array('user_id' => $viewed_user->id));
+			return $progress->result_array();
+		}
+		
 	}
 
 }
