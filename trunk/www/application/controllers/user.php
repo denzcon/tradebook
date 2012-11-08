@@ -29,7 +29,6 @@ class User extends MY_Controller
 		$data = array();
 		$data['userInfoArray'] = $this->session->userdata();
 		$user = $this->db->get_where('users', array('id' => $this->membershipModel->currentUserId()))->first_row();
-		
 		$data['wants'] = $this->user_model->getUserWishList($user);
 		$data['progress'] = $this->progress_model->currentUserProgress();
 		$data['wish_list'] = true;

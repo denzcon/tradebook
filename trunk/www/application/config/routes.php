@@ -57,6 +57,8 @@ $route['user/manage_xp']				= 'user/manage_xp';
 $route['user/linkAccount']				= 'user/linkAccount';
 $route['user/removeWishItem']			= 'user/removeWishItem';
 $route['user/deleted_items']			= 'user/deleted_items';
+$route['google']						= 'google';
+$route['google/search']						= 'google/search';
 
 
 /* End of file routes.php */

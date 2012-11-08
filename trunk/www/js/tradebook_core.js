@@ -22,7 +22,7 @@ $(document).ready(
 		{
 			data.undo = true;
 			$.ajax({
-				url : 'user/removeWishItem',
+				url : '/user/removeWishItem',
 				data : data,
 				dataType : 'json',
 				type : 'post',
@@ -50,7 +50,7 @@ $(document).ready(
 			if(confirm('are your sure you want to restore this item?'))
 			{
 				$.ajax({
-					url : 'user/restoreWishItem',
+					url : '/user/restoreWishItem',
 					data : data,
 					dataType : 'json',
 					type : 'post',

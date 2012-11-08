@@ -1,3 +1,6 @@
-/sql/
 /nbproject/
-/trunk/www/application/logs/
+/sql/tradebookBK.sql
+/sql/tradebook2.sql
+/trunk/www/application/config/
+!/trunk/www/application/libraries/base_facebook.php
+!/trunk/www/application/libraries/facebook.php
