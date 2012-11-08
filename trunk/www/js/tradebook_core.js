@@ -16,7 +16,7 @@ $(document).ready(
 				event.preventDefault();
 				$('div.earnXP').modal('show');
 			}
-		);
+			);
 		
 		$('div.content div.alert-success span.undo.wishListDelete').click(function()
 		{
@@ -71,48 +71,46 @@ $(document).ready(
 		$('ul.wishList li a.close.remove').click(function(event)
 		{
 			var self = event.target;
+			var cache = self.parent;
 			var data = {
 				wishId : $(event.target).next().closest('input.wishId').val(),
 				undo : false
 			}
 			event.preventDefault();
-			if(confirm('are your sure you want to remove this item?'))
-			{
-				$.ajax({
-					url : 'user/removeWishItem',
-					data : data,
-					dataType : 'json',
-					type : 'post',
-					success : function(response)
+			$.ajax({
+				url : 'user/removeWishItem',
+				data : data,
+				dataType : 'json',
+				type : 'post',
+				success : function(response)
+				{
+					if(response.success)
 					{
-						if(response.success)
+						$('ul.wishList').before('<div class="alert alert-success">you have successfully removed this item from your list. Oops! <span class="undo wishListDelete"><a href="#" class="undo">undo</a></div>');
+						$(self).parent().remove();
+						$('div.content div.alert-success span.undo.wishListDelete').click(function()
 						{
-							$('ul.wishList').before('<div class="alert alert-success">you have successfully removed this item from your list. Oops! <span class="undo wishListDelete"><a href="#" class="undo">undo</a></div>');
-							$(self).parent().remove();
-							$('div.content div.alert-success span.undo.wishListDelete').click(function()
-							{
-								data.undo = true;
-								$.ajax({
-									url : 'user/removeWishItem',
-									data : data,
-									dataType : 'json',
-									type : 'post',
-									success : function(response)
+							data.undo = true;
+							$.ajax({
+								url : 'user/removeWishItem',
+								data : data,
+								dataType : 'json',
+								type : 'post',
+								success : function(response)
+								{
+									if(response.success)
 									{
-										if(response.success)
-										{
-//											$('div.content div.alert-success').fadeOut(8000, alert('here'));
-//											$('ul.wishList').prepend(undoCache).bind(this);
-											location.reload(true);
-										}
+										//											$('div.content div.alert-success').fadeOut(8000, alert('here'));
+										//											$('ul.wishList').prepend(undoCache).bind(this);
+										location.reload(true);
 									}
-								})
-							});
-						}
+								}
+							})
+						});
 					}
+				}
 
-				})
-			}
+			})
 		});
 		
 		$('.item.progress').tooltip();
@@ -637,13 +635,13 @@ $(document).ready(
 				{
 					var supplier_name = item.displayLink;
 					var firstImage = item.image.thumbnailLink;
-					console.log(item);
 					var productLink = item.link;
 					var googleId = item.kind;
 					var price = item.displayLink;
 					var anchor = item.link;
-					var title = item.title;
+					var title = item.htmlTitle;
 					code = $('<img class="'+googleId+'" />').attr("src", firstImage);
+					
 					
 					var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
 				//					var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+item.product.googleId+' productImgAnchor"></a>');
@@ -695,8 +693,10 @@ $(document).ready(
 				hoverClass: "alert-error",
 				activeClass: "alert-success",
 				drop: function( event, ui ) {
+					console.log(ui.draggable.find('img')[0].outerHTML);
+					
 					$('#success_message').fadeIn().delay(messageDelay).fadeOut();
-					var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="itemGoogleId" type="hidden" value="'+ui.draggable.find('input.itemGoogleId').attr('value')+'" /><input class="itemLink" type="hidden" value="'+ui.draggable.find('a').attr('href')+'" /><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
+					var package_qty_input = '<li><span class="packageItemDataContainer"><span class="image_search_thumbnail alert-info pull-left">'+ui.draggable.find('img')[0].outerHTML+'</span><input class="itemLink" type="hidden" value="'+ui.draggable.find('a').attr('href')+'" /><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" />';
 					var content = package_qty_input+'<span class="packageBarItemDescription">'+ui.draggable.find('.itemResultTitle').text()+'</span></span>'+package_remove_button+'</li>';
 					$('.packageDefaultMessage').remove();
 					$( this )
@@ -714,6 +714,8 @@ $(document).ready(
 				}
 			});
 		}
+		
+		
 		$('button.savePackageDropped').click(function(event)
 		{
 			event.preventDefault();
@@ -971,5 +973,79 @@ $(document).ready(
 			a = $('input.linkAccounts').autocomplete(options);
 			return false; 
 		}
-		
+
+		$('#myModal').on('show', function(event)
+		{
+			setTimeout('rebind_scroll()', 1000);
+		//			rebind_scroll();
+
+		});
 	});
+	
+function rebind_scroll()
+{
+	$('.scrollable_input').hover(function()
+	{
+		console.log('in');
+		$(this).bind('mousewheel DOMMouseScroll', function(event)
+		{
+			//			console.log(event.originalEvent.detail, event.originalEvent.type);
+			if(event.originalEvent.type == 'DOMMouseScroll')
+			{
+				
+				var current_user_xp_container = $('.manage_xp_header_user_xp_value span');
+				var current_user_xp_value = current_user_xp_container.text();
+				
+				if (event.originalEvent.detail >= 0) 
+				{
+					console.log(current_user_xp_value);
+					if( +current_user_xp_value >-1)
+					{
+						var math = +$(this).val() - +1;
+						var current_user_xp_value_math = +current_user_xp_value + +1;
+						if(math >-1)
+						{
+							$(this).val(math);
+							current_user_xp_container.text(current_user_xp_value_math);
+						}
+					}
+				
+				}
+				else 
+				{
+					console.log(current_user_xp_value);
+					if( current_user_xp_value >0)
+					{
+						var math = +$(this).val() + +1;
+						var current_user_xp_value_math = +current_user_xp_value - +1;
+						if(math >-1)
+						{
+							$(this).val(math);
+							current_user_xp_container.text(current_user_xp_value_math);
+						}
+						$(this).val(math);
+					}
+				}
+					
+			}
+			else
+			{
+					
+				if (event.originalEvent.wheelDelta >= 0) 
+				{
+					var math = +$(this).val() - +1;
+					if(math >-1)
+					{
+						$(this).val(math);
+					}
+				}
+				else 
+				{
+					var math = +$(this).val() + +1;
+					$(this).val(math);
+				}
+			}
+			
+		});
+	});
+}

@@ -1,8 +1,9 @@
-<div class="modal-header">
+<div class="modal-header" style="height:70px">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<h4>Manage XP <small>on connected accounts</small></h4>
+	<h4 style="display:block;">Manage XP <small>on connected accounts</small></h4>
+	<h1 class="manage_xp_header_user_xp_value"><small style="font-size:12px;">you have: </small><span><?= $current_xp[0]['xp_value'];  ?></span>xp</h1>
 </div>
-<div class="modal-body">
+<div class="modal-body manage_xp">
 	<?php if (isset($users) AND is_array($users)): ?>
 		<table class="table">
 			<thead>
@@ -11,6 +12,7 @@
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th>Email</th>
+					<th>Actions</th>
 					<th>XP</th>
 				</tr>
 			</thead>
@@ -18,9 +20,19 @@
 				<?php foreach ($users as $user): ?>
 					<tr>
 						<?php foreach ($user as $k => $v): ?>
+						
+								<?php if ($k == 'xp_value'): ?>
+							<td>
+								<span>
+									<input type="text" name="addXP" id="addXP" value="0" style="color: rgb(0, 136, 204); font-weight: bold; width: 36px;" class="scrollable_input"/>
+									<i style="float: right;" class="icon icon-arrow-up "></i>
+									<i style="float: right; clear: right; margin-top: -24px;" class="icon icon-arrow-down"></i>
+								</span>
+							</td>
+								<?php endif; ?>
 							<td>
 								<?php if ($k == 'username'): ?>
-								<a href="<?= base_url().'user/member/'.$v; ?>"><?= $v ?></a>
+									<a href="<?= base_url().'user/member/'.$v; ?>"><?= $v ?></a>
 								<?php else: ?>
 									<?= $v ?>
 								<?php endif; ?>

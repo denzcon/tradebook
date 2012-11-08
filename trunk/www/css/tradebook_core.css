@@ -573,3 +573,7 @@ html .accessible_elem {
   background-repeat: no-repeat;
 }
 div.selected_user_data ul{margin:0;}
+div.manage_xp table.table thead tr.tbl-header th{white-space:nowrap;}
+span.image_search_thumbnail img {max-width:140px}
+h1.manage_xp_header_user_xp_value {position: absolute; top: 37px; right: 18px;color: yellowgreen}
+h1.manage_xp_header_user_xp_value span { font-size:2em;}

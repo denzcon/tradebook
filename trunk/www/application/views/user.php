@@ -59,10 +59,12 @@
 							</div>
 							<div class="wishListDataContainer">
 
+								<?php if($want['price']) :  ?>
 								<p>
 									<span class="wishPrice alert-success alert">$<?= number_format($want['price'], 2); ?></span>
 									<a href="#" class="btn btn-success" style="float:right"><i class=" icon-plus-sign icon-white"></i> Checkout</a>
 								</p>
+								<?php endif; ?>
 								<p class="wishTitle"><?= $want['title']; ?></p>
 								<br />
 								<p class="wishDescription"><?= $want['description']; ?></p>
