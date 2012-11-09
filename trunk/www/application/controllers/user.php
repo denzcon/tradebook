@@ -458,6 +458,7 @@ class User extends MY_Controller
 	{
 		$this->db->select('user_id_bravo');
 		$accounts = $this->db->get_where('account_links', array('user_id_alpha' => $this->membershipModel->currentUserId()));
+		
 		foreach ($accounts->result_array() as $account)
 		{
 			$this->db->select('username, first_name, last_name, email_address, xp_value');
@@ -474,9 +475,12 @@ class User extends MY_Controller
 //		$this->db->where('user_id_alpha', $this->membershipModel->currentUserId());
 //		$this->db->or_where('user_id_bravo', $this->membershipModel->currentUserId());
 //		$this->debug($this->db->get());
+//		$this->debug(array(
+//			'current_xp' => Progress_model::getUserXp( $this->membershipModel->currentUserId())
+//		));
 		$this->load->view('modals/manage_xp.php', array(
 			'users' => isset($users) ? $users : null,
-			'current_xp' => Progress_model::getUserXp()
+			'current_xp' => Progress_model::getUserXp( $this->membershipModel->currentUserId())
 		));
 	}
 
@@ -493,13 +497,13 @@ class User extends MY_Controller
 	{
 		$undo_operation = $this->input->post('undo');
 		$response = array(
-			'undo operation' => $undo_operation
+			'undo operation' => $undo_operation,
+			 'status' => $undo_operation ? 'a' : 'd'
 		);
 		$wish_id = $this->input->post('wishId');
 		$this->db->where('id', (int)$this->input->post('wishId'));
 		$status = $this->db->update('wanted', array('status' => $undo_operation ? 'a' : 'd'));
-		
-		echo json_encode(array('success' => $status));
+		echo json_encode(array('success' => $status, 'response' => $response));
 		return $status;
 	}
 

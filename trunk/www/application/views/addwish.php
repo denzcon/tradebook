@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 ?>
-<script type="text/javascript">
-	$(function(){
-	});
+<script type="html/x-mustache-template" id="customSearchResultsTmpl">
+	<div class="itemResultHolder">
+		<img src="{{src}}" class="{{googleId}}" />
+	</div>
 </script>
 <div class="container-fluid">
 

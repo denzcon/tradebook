@@ -1,7 +1,7 @@
 <div class="modal-header" style="height:70px">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	<h4 style="display:block;">Manage XP <small>on connected accounts</small></h4>
-	<h1 class="manage_xp_header_user_xp_value"><small style="font-size:12px;">you have: </small><span><?= $current_xp[0]['xp_value'];  ?></span>xp</h1>
+	<h1 class="manage_xp_header_user_xp_value"><small style="font-size:12px;">you have: </small><span><?= $current_xp['xp_value'];  ?></span>xp</h1>
 </div>
 <div class="modal-body manage_xp">
 	<?php if (isset($users) AND is_array($users)): ?>
