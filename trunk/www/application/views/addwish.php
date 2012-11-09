@@ -6,7 +6,16 @@
 ?>
 <script type="html/x-mustache-template" id="customSearchResultsTmpl">
 	<div class="itemResultHolder">
-		<img src="{{src}}" class="{{googleId}}" />
+		<div class="productImgContainer">
+			<a href="{{imageLink}}" class="{{googleId}} productImgAnchor" target="blank">
+				<img src="{{src}}" class="{{googleId}}" />
+			</a>
+		</div>
+		<h3>test</h3>
+		<h5 class="alert-success">www.domain.com</h5>
+		<h4>test</h4>
+		<p class="itemResultTitle">description</p>
+		<input type="hidden" value="{{googleId}}" class="itemGoogleId" />
 	</div>
 </script>
 <div class="container-fluid">

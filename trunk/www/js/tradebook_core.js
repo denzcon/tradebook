@@ -221,7 +221,7 @@ $(function() {
 			renderSearch(items, json.pagination);
 			var result_count =json.data.currentItemCount;
 			//				console.log(result_count)
-			var total_count = json.data.searchInformation.totalResults;
+			var total_count = json.data.totalItems;
 			$('.total_count').text(addCommas( total_count));
 			if(result_count>10)
 			{
@@ -487,11 +487,12 @@ $(function() {
 		location.reload();
 	}
 
-	$(".itemResultHolder").hasClass("ui-draggable-dragging");
-		
+//	$(".itemResultHolder").hasClass("ui-draggable-dragging");
+	
+	$('#packageBar').draggable();
+	
 	function renderSearch(items, options)
 	{
-		//			console.log(options);
 		var code ='';
 		var viewPrice = '';
 		$("#resultsContainer").html("");
@@ -515,11 +516,9 @@ $(function() {
 		}
 			
 		$('.pagination ul').append('<li><a href="#">Next</a></li>');
-		//			console.log(list);
 		//			$('.pagination').html(list);
 		if(options.api_name == 'shopping')
 		{
-					
 			$.each(items, function(i, item)
 			{
 				var supplier_name = item.product.author.name;
