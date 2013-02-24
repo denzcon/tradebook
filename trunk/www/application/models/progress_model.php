@@ -72,5 +72,19 @@ class Progress_model extends CI_Model
 		}
 		return $return;
 	}
+	
+	public function sendUserXP($data)
+	{
+		foreach ($data as $value)
+		{
+			return $value;
+		}
+		
+	}
+	
+	public function sendUsersXP()
+	{
+		
+	}
 
 }

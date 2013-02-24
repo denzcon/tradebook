@@ -10,6 +10,7 @@
 					<li><a href="/about">About</a></li>
 				</ul>
 				<form action="user/addwish" class="navbar-search pull-left" method="post">
+					<span class="gobutton" style="display:none;">go</span>
 					<input type="text" placeholder="Search" class="search-query span2">
 				</form>
 

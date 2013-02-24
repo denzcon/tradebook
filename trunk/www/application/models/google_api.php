@@ -74,6 +74,18 @@ class Google_api extends CI_Model
 	public function buildCustomSearchUrl($index, $max_results, $api_name= 'customsearch', $searchType = null, $version='v1', $search_string="warm+sweater", $sort='relevancy', $order='descending')
 	{
 		if($searchType =='image') $search_type = "&searchType=".$searchType;
-		return "https://www.googleapis.com/".$api_name."/".$version."?key=".$this->google_custom_search_api_key."&cx=".$this->google_custom_search_cx_key.(isset($search_type) ? $search_type :'')."&country=US&q=".$search_string."&startIndex=".$index."&num=".$max_results."&rankBy=".$sort.":".$order;
+		return "https://www.googleapis.com/".$api_name."/".$version."?key=".$this->google_custom_search_api_key."&cx=".$this->google_custom_search_cx_key.(isset($search_type) ? $search_type :'')."&country=US&q=".$search_string."&startIndex=".$index."&maxResults=".$max_results."&rankBy=".$sort.":".$order;
+	}
+	
+	/**
+	 * GET https://www.googleapis.com/shopping/search/v1/public/products/5968952/gid/5103475116874981233?key=key
+	 */
+	public function buildSpecificProductUrl($account_id, $google_id)
+	{
+//		echo json_encode(array(
+//			'account_id' => $account_id,
+//			'google_id' => $google_id
+//		));
+		return "https://www.googleapis.com/shopping/search/v1/public/products/{$account_id}/gid/{$google_id}?key={$this->google_custom_search_api_key}";
 	}
 }

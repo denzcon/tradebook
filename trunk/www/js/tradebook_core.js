@@ -8,7 +8,18 @@ $(function() {
 	var pages_max		= 10;
 	var siteBaseUrl		= 'http://xphero.me';
 	var messageDelay		= 6000;
-			
+
+	/**
+	 * SiteWide Color picker initialization
+	 */
+	$('input.simple_color').simpleColor({
+		border: 'none',
+		buttonClass: 'hide',
+		defaultColor: 'red',
+		boxHeight: '20px',
+		boxWidth: '20px'
+	});
+
 	$('a.earnXP').click(
 		function(event)
 		{
@@ -88,7 +99,7 @@ $(function() {
 			{
 				if(response.success)
 				{
-					$('ul.wishList').before('<div class="alert alert-success"><span> '+thumbnail[0].outerHTML+' you have successfully removed this item from your list. Oops! <span class="undo wishListDelete"><a href="#" class="undo">undo</a></div>');
+					$('ul.wishList').before('<div class="alert alert-success"><span> <div class="delete_thumbnail">'+thumbnail[0].outerHTML+'</div> you have successfully removed this item from your list. Oops! <span class="undo wishListDelete"><a href="#" class="undo">undo</a></div>');
 					$(self).parent().remove();
 					$('div.content div.alert-success span.undo.wishListDelete').click(function()
 					{
@@ -163,15 +174,17 @@ $(function() {
 			event.preventDefault();
 			search();
 		});
+
 		
 	function search()
 	{
-		if ( !$('#itemSearch').val() ) {
+		if ( !$('#itemSearch').val()) 
+		{
 			$('#error_message').fadeIn().delay(messageDelay).fadeOut();
 			return false;
-
-		} else {	
-				
+		} 
+		else 
+		{	
 			var extended_search = $('input[name=image_search]:checked').val();
 			if(!$('input[name=image_search]:checked').val())
 			{
@@ -487,7 +500,7 @@ $(function() {
 		location.reload();
 	}
 
-//	$(".itemResultHolder").hasClass("ui-draggable-dragging");
+	//	$(".itemResultHolder").hasClass("ui-draggable-dragging");
 	
 	$('#packageBar').draggable();
 	
@@ -521,25 +534,42 @@ $(function() {
 		{
 			$.each(items, function(i, item)
 			{
+				if(item.images)
+				{
+					var firstImage = item.images[0].link;
+					if(item.images[0].status== 'available')
+					{
+						
+					}
+					if(item.pagemap.cse_image)
+					{
+						var thumbImage = item.pagemap.cse_thumbnail[0].src;
+					}
+					if(item.pagemap.metatags)
+					{
+						var metaTags = item.pagemap.metatags[0];
+					}
+				}				
 				var supplier_name = item.product.author.name;
-				var firstImage = item['product']['images'][0]['link'];
 				var productLink = item.product.link;
 				var googleId = item.product.googleId;
 				var price = item['product']['inventories'][0]['price'];
 				var availability = item['product']['inventories'][0]['availability'];
 				var anchor = item.product.link;
-				var title = item['product']['title'];
-				code = $('<img class="'+item.product.googleId+'" />').attr("src", firstImage);
-				var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
-				var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+item.product.googleId+' productImgAnchor"></a>');
-				var viewPrice = $("<h3></h3>").text(price.toFixed(2)).appendTo(current);
-				$('img.'+item.product.googleId).wrap(anchorMarkup);
-				$('a.'+item.product.googleId).wrap('<div class="productImgContainer" />');
-				var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+				var title = item.product.title;
+				var searchResults = $('#customSearchResultsTmpl').mustache({
+					src:firstImage,
+					thumbImage:firstImage,
+					googleId:googleId,
+					productLink:productLink,
+					description:title,
+					price:price,
+					displayLink:supplier_name,
+					title:title
+					
+				});
 				
-				$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
-				$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
-				$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
+				$('#resultsContainer').append(searchResults);
 			});
 		}
 		else
@@ -581,8 +611,9 @@ $(function() {
 			hoverClass: "alert-error",
 			activeClass: "alert-success",
 			drop: function( event, ui ) {
+				console.log(ui);
 				$('#success_message').fadeIn().delay(messageDelay).fadeOut();
-				var package_qty_input = '<li><span class="packageItemDataContainer"><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="itemGoogleId" type="hidden" value="'+ui.draggable.find('input.itemGoogleId').attr('value')+'" /><input class="itemLink" type="hidden" value="'+ui.draggable.find('a').attr('href')+'" /><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
+				var package_qty_input = '<li><span class="packageItemDataContainer"><img src="'+ui.draggable.find('img').outerHTML+'" /><span class="price alert-success pull-left">'+ui.draggable.find('h3').text()+'</span><input class="itemGoogleId" type="hidden" value="'+ui.draggable.find('input.itemGoogleId').attr('value')+'" /><input class="itemLink" type="hidden" value="'+ui.draggable.find('a').attr('href')+'" /><input class="imagePreview" type="hidden" value="'+ui.draggable.find('img').attr('src')+'" /><input type="text" class="input-micro quantity" value="1" style="margin-bottom: 0;">';
 				var content = package_qty_input+'<span class="packageBarItemDescription">'+ui.draggable.find('.itemResultTitle').text()+'</span></span>'+package_remove_button+'</li>';
 				$('.packageDefaultMessage').remove();
 				$( this )
@@ -642,7 +673,7 @@ $(function() {
 				var anchor = item.link;
 				var title = item.htmlTitle;
 				
-				var searchResults = $('#customSearchResultsTmpl').mustache({
+				var searchResults = $('#customImageSearchResultsTmpl').mustache({
 					src:firstImage,
 					googleId:googleId
 				});
@@ -655,24 +686,51 @@ $(function() {
 			$.each(items, function(i, item)
 			{
 				var supplier_name = item.displayLink;
-				var firstImage = '';
+				if(item.pagemap)
+				{
+					if(item.pagemap.cse_thumbnail)
+					{
+						var thumbImage = item.pagemap.cse_thumbnail[0].src;
+						
+					}
+					if(item.pagemap.cse_image)
+					{
+						var firstImage = item.pagemap.cse_image[0].src;
+					}
+					if(item.pagemap.metatags)
+					{
+						var metaTags = item.pagemap.metatags[0];
+					}
+				}
 				var productLink = item.link;
 				var googleId = item.cacheId;
-				var price = item.displayLink;
-				var availability = item.displayLink;
+				var description = item.snippet;
 				var anchor = item.link;
 				var title = item.title;
-				code = $('<img class="'+googleId+'" />').attr("src", firstImage);
-				var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
-				var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+googleId+' productImgAnchor"></a>');
-				var viewPrice = $("<h3></h3>").text(price).appendTo(current);
-				$('img.'+googleId).wrap(anchorMarkup);
-				$('a.'+googleId).wrap('<div class="productImgContainer" />');
-				var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+				var searchResults = $('#customSearchResultsTmpl').mustache({
+					src:firstImage,
+					thumbImage:thumbImage,
+					googleId:googleId,
+					productLink:productLink,
+					description:description,
+					displayLink:supplier_name,
+					title:title
+					
+				});
 				
-				$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
-				$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
-				$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
+				$('#resultsContainer').append(searchResults);	
+				
+			//				code = $('<img class="'+googleId+'" />').attr("src", firstImage);
+			//				var current = $('<div class="itemResultHolder"></div>').html(code).appendTo("#resultsContainer");
+			//				var anchorMarkup = $('<a href="'+productLink+'" target="blank" class="'+googleId+' productImgAnchor"></a>');
+			//				var viewPrice = $("<h3></h3>").text(price).appendTo(current);
+			//				$('img.'+googleId).wrap(anchorMarkup);
+			//				$('a.'+googleId).wrap('<div class="productImgContainer" />');
+			//				var viewPrice = $('<h5 class="alert-success"></h5>').text(availability).appendTo(current);
+			//				
+			//				$('<h4><span class="supplier_name"></span></h4>').text(supplier_name).appendTo(current);
+			//				$('<p class="itemResultTitle"></p>').text(title).appendTo(current);
+			//				$('<input type="hidden" />').attr('value', googleId).addClass('itemGoogleId').appendTo(current);
 			});
 		}
 		$(".itemResultHolder").draggable({
@@ -716,6 +774,11 @@ $(function() {
 		event.preventDefault();
 		$(this).fadeOut();
 		var data ='';
+		var packageNameId = $('input.package_name_id').val();
+		if($('input.package_name_id').val())
+		{
+			data += 'package_name_id='+packageNameId+'&'
+		}
 		$('#packageBarContentContainer ul li').each(function(i, items_list)
 		{
 			var price = $(items_list).find('span.price').text();
@@ -737,8 +800,10 @@ $(function() {
 			}
 		} );
 	});
+	
 	$(".createPackageAnchor").click(function(event)
 	{
+		console.log('clicked');
 		var text = $('.createPackageAnchor').text();
 		if(text == 'Create a Package')
 		{
@@ -751,6 +816,7 @@ $(function() {
 		var input = $('<input type="text" class="span2 packageName" value="'+value+'">')
 		var currentHtml = $('form.namePackage').html();
 		$('form.namePackage').prepend(input);
+		$('div.package_color_picker').show();
 		$('.createPackageAnchor').text('');
 		$('input.packageName').focus();
 		$('a.done').show();
@@ -776,10 +842,14 @@ $(function() {
 			data: data,
 			dataType: 'json',
 			success: function(json){
+//				console.log(json);s
 				$('#resultsContainer').html(json);
+				$('div.package_color_picker').hide();
 				$('.createPackageAnchor').html('');
 				$('input.packageName').remove();
-				$('form.namePackage a.createPackageAnchor').text(json.package_name_from_session)
+				console.log(json);
+				$('form.namePackage input.package_name_id').val(json.current_package.package_id);
+				$('form.namePackage a.createPackageAnchor').text(json.current_package.package_name);
 				$('a.done').hide();
 			}
 		})
@@ -970,22 +1040,56 @@ $(function() {
 	}
 
 	$('#myModal').on('show', function(event)
-	{
+	{ 
 		setTimeout('rebind_scroll(); scroll_blocker()', 1000);
 	//			rebind_scroll();
 
 	});
+	
+	
+	
+	$('form.navbar-search input.search-query, form.navbar-search .gobutton').focus(function()
+	{
+		$('form.navbar-search .gobutton').fadeIn('null',function()
+		{
+			$(this).click(function(event)
+			{
+				event.preventDefault();
+				var query = $('input.search-query').val();
+				window.location = '/user/addwish/'+query;
+			});
+		});
+		
+		$(this).blur(function(){
+			$('form.navbar-search .gobutton').fadeOut();
+		})
+	});
+
+	$('form.navbar-search').submit(function(event)
+	{
+		event.preventDefault();
+	});
 });
 
+$('form.send_xp').submit(function()
+{
+	
+});
+
+function autoSearch()
+{
+	$('input.search_forward').live(function()
+	{
+		$('#addWishItemSearch').trigger('submit');
+	});
+}
 function scroll_blocker()
 {
-	$('body.modal-open').hover(function()
+	if($('body').hasClass('modal-open'))
 	{
 		$('body').css('overflow', 'hidden');
-	}, function()
-	{
-		$('body').css('overflow', 'auto');
-	})
+	}
+	
 }
 
 function rebind_scroll()

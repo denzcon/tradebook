@@ -18,12 +18,12 @@
 					<li><a href="<?= base_url().'user/deleted_items'; ?>" >View Deleted Items</a></li>
 					<li class="nav-header">Help</li>
 					<li><a href="#">Earn XP</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
 				</ul>
+			</div><!--/.well -->
+			<div class="well sidebar-nav current-package">
+				<div class="package-dropzone">
+					<span class="message"><?= $_SESSION['current_package']['package_name']; ?></span>
+				</div>
 			</div><!--/.well -->
         </div>
 		<div class="content span9" style="margin-left: 20px; padding: 0;">
@@ -55,17 +55,21 @@
 									$want['preview_image'] = base_url() . 'images/green_box.png';
 								}
 								?>
-								<img src="<?= $want['preview_image']; ?>" alt="" />
+								<img style="width:80%" src="<?= $want['preview_image']; ?>" />
 							</div>
 							<div class="wishListDataContainer">
-
+								<?php if($want['package_id']): ?>
+								<label class="user-packages">packages: <span class="label label-info"><?= $want['package_name'] ?></span></label>
+								<?php else: ?>
+									<span class="label">Add to a package</span>
+								<?php endif; ?>
+								<p class="wishTitle"><?= preg_replace('/\s+?(\S+)?$/', '', substr($want['title'], 0, 101)); ?></p>
 								<?php if($want['price']) :  ?>
 								<p>
 									<span class="wishPrice alert-success alert">$<?= number_format($want['price'], 2); ?></span>
 									<a href="#" class="btn btn-success" style="float:right"><i class=" icon-plus-sign icon-white"></i> Checkout</a>
 								</p>
 								<?php endif; ?>
-								<p class="wishTitle"><?= $want['title']; ?></p>
 								<br />
 								<p class="wishDescription"><?= $want['description']; ?></p>
 							</div>
@@ -75,7 +79,7 @@
 									<span style="" class="currentXpValue"><?= $progress['xp']['xp_value']; ?>xp</span>
 									<span style="" class="currentXpThreshold"><?= number_format($want['xp_value']); ?>xp</span>
 								</div>
-								<div style="margin-bottom: 9px;" class="item progress progress-success progress-striped" rel="tooltip" title="<?= $want['percent']; ?>%">
+								<div style="margin-bottom: 0;" class="item progress progress-success progress-striped" rel="tooltip" title="<?= $want['percent']; ?>%">
 									<div style="width: <?= $want['percent']; ?>%" class="bar"></div>
 								</div>
 							</div>

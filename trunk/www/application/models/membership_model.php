@@ -158,7 +158,7 @@ class Membership_model extends CI_Model
 		$this->db->where('user2collection.user_id', $user_id);
 		$query = $this->db->get();
 		$return = $query->result_array();
-		if ($query->num_rows == 1)
+		if ($query->num_rows > 0)
 		{
 			$return = array(
 				'status' => true,

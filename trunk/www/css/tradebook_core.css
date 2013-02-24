@@ -21,7 +21,7 @@ body {
 }
 
 .footer_container{display: block;position: absolute;bottom: 0; left: 0;right: 0;background: #555;}
-a:hover{color: #ee3d6b !important;}
+/*a:hover{color: #ee3d6b !important;}*/
 .hiliteTBBlue:hover
 {
 	color: #549cfc !important;
@@ -425,11 +425,11 @@ ul.wishList li{
 	width: 21%;
 	min-width: 186px;
 }
-.wishListImgContainer img{max-width: 180px; max-height: 200px;width: 100%;}
-.wishListImgContainer{text-align: center;min-height: 225px; position: relative; z-index: -1}
+.wishListImgContainer img{ width: 100%;}
+.wishListImgContainer{text-align: center;height: 225px;line-height: 225px; position: relative; z-index: -1;overflow: hidden;}
 ul.wishList{margin: 0}
 .wishListDataContainer{	min-height: 104px;	padding:0px;	position: relative;text-align: left;}
-.wishTitle{font-weight: bold;    clear: both;    margin-top: 14px;}
+.wishTitle{font-weight: bold;    clear: both;    margin-top: 14px;font-size: .7em;color: #444;height: 50px;}
 p.wishDescription{font-size: .8em;line-height: 12px;}
 #packageBarContentContainer h3{}
 span.price{border: 1px solid #D6E9C6;border-radius: 4px 4px 4px 4px;margin-right: 10px;padding: 4px 8px;}
@@ -577,3 +577,27 @@ div.manage_xp table.table thead tr.tbl-header th{white-space:nowrap;}
 span.image_search_thumbnail img {max-width:140px}
 h1.manage_xp_header_user_xp_value {position: absolute; top: 37px; right: 18px;color: yellowgreen}
 h1.manage_xp_header_user_xp_value span { font-size:2em;}
+form.navbar-search .gobutton {
+background: none repeat scroll 0 0 #999999;
+border: 1px solid #888888;
+border-radius: 19px 19px 19px 19px;
+color: white;
+font-size: 12px;
+padding: 0 9px;
+position: absolute;
+right: 5px;
+top: 14%;
+}
+ul.wishList li a.close{position: absolute;right: 10px;float: none;}
+span div.delete_thumbnail{background: none repeat scroll 0 0 white;border: 1px solid #DDDDDD;border-radius: 7px 7px 7px 7px;display: inline-block;overflow: auto;padding: 4px 10px;vertical-align: middle;}
+span.label:hover{text-decoration: none !important;text-shadow: none !important;cursor: pointer}
+div.well.sidebar-nav.current-package{cursor: pointer}
+div.well.sidebar-nav.current-package div.package-dropzone{background: none repeat scroll 0 0 rgba(0,92,255,.4);
+margin: 0 5px;
+border-radius: 3px;
+padding: 20px 0;
+text-align: center;}
+div.well.sidebar-nav.current-package div.package-dropzone span.message{color: white;opacity: .7;-webkit-user-select: none; /* Chrome/Safari */        
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* IE10+ */}
+div.package_color_picker{display:none;}

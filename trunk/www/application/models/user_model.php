@@ -35,8 +35,14 @@ class User_model extends CI_Model
 		$relate_values['service_id'] = $data['workTrade'];
 		$relate_values = array_splice($relate_values, 2);
 		$relate = $this->db->insert('wants2services', $relate_values);
+		$package = $this->db->insert('wants2package', array(
+			'want_id' => $relate_values['want_id'],
+			'package_id' => $data['package_name_id']
+		));
+		$this->session->unset_userdata('current_package');
 		$return['status_want_relate2user'] = $relate;
 		$return['data'] = $data;
+		$return['package'] = $package;
 		return $relate_values;
 	}
 
@@ -112,17 +118,22 @@ class User_model extends CI_Model
 				wd.description,
 				wd.preview_image,
 				w2x.xp_value,
+				w2p.package_id,
+				p.package_name,
 				format(((u2x.xp_value * 100) / (w2x.xp_value)), 0) as percent
 				FROM wanted wd
 				LEFT JOIN user2wants u2w ON u2w.want_id = wd.id
 				LEFT JOIN users u ON u2w.user_id = u.id
 				LEFT JOIN wants2xp w2x ON w2x.wanted_id = wd.id
 				LEFT JOIN users2xp u2x ON u2x.user_id = u.id
+				LEFT JOIN wants2package w2p ON w2p.want_id = wd.id
+				LEFT JOIN package p ON w2p.package_id = p.package_id
 				WHERE u.id=?
 				AND wd.status = \'a\'
 				GROUP BY wd.id
-				ORDER BY  (percent+0) DESC
+				ORDER BY  wd.id DESC
 				', array($user->id ));
+		// to order by percent in the above query just replace the [ORDER BY wd.id DESC] with [ORDER BY (percent+0) DESC]
 		if ($wish_list->num_rows > 0)
 		{
 			return $wish_list->result_array();

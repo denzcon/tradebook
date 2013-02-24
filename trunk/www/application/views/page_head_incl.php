@@ -13,7 +13,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>js/tradebook_core.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>js/mustache.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.mustache.js"></script>
-		
+		<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.simple-color.js"></script>
 		<link href="<?php echo base_url(); ?>css/tradebook_core.css" type="text/css" rel="stylesheet" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome to tradebook</title>

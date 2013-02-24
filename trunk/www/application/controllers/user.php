@@ -30,6 +30,7 @@ class User extends MY_Controller
 		$data['userInfoArray'] = $this->session->userdata();
 		$user = $this->db->get_where('users', array('id' => $this->membershipModel->currentUserId()))->first_row();
 		$data['wants'] = $this->user_model->getUserWishList($user);
+//		$this->debug($data['wants']);
 		$data['progress'] = $this->progress_model->currentUserProgress();
 		$data['wish_list'] = true;
 //		$this->debug($this->progress_model->currentUserProgress());
@@ -61,12 +62,20 @@ class User extends MY_Controller
 		{
 			redirect('/');
 		}
+		$search =$this->uri->segment(3);
+		$data = array();
+		if($search)
+		{
+			$data['search_query'] = $search;
+		}
+		
 		$this->load->model('user_model');
 		$this->load->model('membership_model');
-		$data = array();
 		$data['user_id'] = $this->membership_model->currentUserId();
 		$data['userServices'] = $this->user_model->getServicesForUser($data['user_id']);
-		$data['package_name'] = $this->session->userdata('package_name') ? $this->session->userdata('package_name') : 'Create a package';
+		$current_package = $this->session->userdata('current_package');
+		$data['package_name'] = $current_package['package_id'] ? $current_package['package_name'] : 'Create a package';
+		$data['package_id'] =  $current_package['package_id'] ? $current_package['package_id'] : '';
 		$data['user_info'] = $this->UserInfoArray;
 		$data['userInfoArray'] = $this->session->userdata();
 		$data['is_logged_in'] = $this->UserInfoArray['is_logged_in'];
@@ -74,7 +83,7 @@ class User extends MY_Controller
 		$this->load->view('addwish', $data);
 	}
 
-	function searchWishAjax()
+	function searchWishAjax($input=null)
 	{
 		$type = (string) $this->input->post('type');
 		$this->setSearchType();
@@ -115,7 +124,7 @@ class User extends MY_Controller
 		$order = 'descending';
 		$api_name = 'customsearch';
 		$search_type = $this->getSearchType();
-		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 10, $api_name, $search_type, 'v1', $search_string, $sort, $order);
+		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 20, $api_name, $search_type, 'v1', $search_string, $sort, $order);
 		$this->customSearchURL = $custom_search_url;
 		$data = $this->CURL($custom_search_url);
 		$this->searchResponse($data, $api_name);
@@ -339,21 +348,36 @@ class User extends MY_Controller
 
 	function save_package_name()
 	{
-		$this->session->set_userdata(array('package_name' => trim($this->input->post('packageName'))));
 		$data = array(
 			'user_id' => $this->membershipModel->currentUserId(),
-			'package_name' => $this->input->post('packageName'),
+			'package_name' => trim($this->input->post('packageName', true)),
 		);
 
 		$this->db->insert('package', $data);
+		$package_id = $this->db->insert_id();
+		$package_name = $data['package_name'];
+		if(!$package_id)
+		{
+			$package_query = $this->db->get_where('package', $data);
+			$package = $package_query->row();
+			$package_id = $package->package_id;
+			$package_name = $package->package_name;
+		}
+		$this->session->set_userdata(array(
+				'current_package' => array(
+					'package_id'	=>  $package_id,
+					'package_name'	=>  $package_name
+				)
+			)
+		);
 		echo json_encode(array(
-			'package_name_from_session' => $this->session->userdata('package_name'),
-			'form_post' => $this->input->post()
+			'current_package' => $this->session->userdata('current_package'),
 		));
 	}
 
 	function save_package_data()
 	{
+		$package_id = ($this->input->post('package_name_id') && $this->input->post('package_name_id') !=='') ? $this->input->post('package_name_id') : false;
 		$item_array = array();
 		foreach ($this->input->post() as $key => $post)
 		{
@@ -377,13 +401,19 @@ class User extends MY_Controller
 		foreach ($item_array as $item)
 		{
 			$this->db->insert('wanted', $item);
+			$want_id = $this->db->insert_id();
+			$this->db->insert('wants2package', array(
+					'want_id' => $want_id, 
+					'package_id' => $package_id
+				)
+			);
 			$u2w = array(
 				'user_id' => $this->membershipModel->currentUserId(),
-				'want_id' => $this->db->insert_id()
+				'want_id' => $want_id
 			);
 			$this->db->insert('user2wants', $u2w);
 			$w2xp = array(
-				'wanted_id' => $u2w['want_id'],
+				'wanted_id' => $want_id,
 				'xp_value' => round($item['price'] * $this->default_action_value),
 			);
 			$this->db->insert('wants2xp', $w2xp);
@@ -461,7 +491,7 @@ class User extends MY_Controller
 		
 		foreach ($accounts->result_array() as $account)
 		{
-			$this->db->select('username, first_name, last_name, email_address, xp_value');
+			$this->db->select('user_id,username, first_name, last_name, email_address, xp_value');
 			$this->db->from('users');
 			$this->db->join('users2xp', 'users2xp.user_id = users.id');
 			$this->db->where('users.id', $account['user_id_bravo']);
@@ -496,13 +526,14 @@ class User extends MY_Controller
 	function removeWishItem()
 	{
 		$undo_operation = $this->input->post('undo');
-		$response = array(
-			'undo operation' => $undo_operation,
-			 'status' => $undo_operation ? 'a' : 'd'
-		);
 		$wish_id = $this->input->post('wishId');
 		$this->db->where('id', (int)$this->input->post('wishId'));
 		$status = $this->db->update('wanted', array('status' => $undo_operation ? 'a' : 'd'));
+		$response = array(
+			'undo operation' => $undo_operation,
+			 'status' => $undo_operation ? 'a' : 'd',
+			'last_query' => $this->db->last_query()
+		);
 		echo json_encode(array('success' => $status, 'response' => $response));
 		return $status;
 	}

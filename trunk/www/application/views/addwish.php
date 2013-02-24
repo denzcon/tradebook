@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 ?>
-<script type="html/x-mustache-template" id="customSearchResultsTmpl">
+<script type="html/x-mustache-template" id="customImageSearchResultsTmpl">
 	<div class="itemResultHolder">
 		<div class="productImgContainer">
 			<a href="{{imageLink}}" class="{{googleId}} productImgAnchor" target="blank">
@@ -13,9 +13,39 @@
 		</div>
 		<h3>test</h3>
 		<h5 class="alert-success">www.domain.com</h5>
-		<h4>test</h4>
+		<h4>image</h4>
 		<p class="itemResultTitle">description</p>
 		<input type="hidden" value="{{googleId}}" class="itemGoogleId" />
+	</div>
+</script>
+<script type="html/x-mustache-template" id="customSearchResultsTmpl">
+	<div class="itemResultHolder">
+		<div class="productImgContainer">
+			<a href="{{productLink}}" class="{{googleId}} productImgAnchor" target="blank">
+				<img src="{{thumbImage}}" class="{{googleId}} " />
+			</a>
+		</div>
+		<h5 class="alert-success">{{displayLink}}</h5>
+		<h4>{{title}}</h4>
+		<h5><small>{{price}}</small></h5>
+		<p class="itemResultTitle">{{description}}</p>
+		<input type="hidden" value="{{googleId}}" class="itemGoogleId" />
+	</div>
+</script>
+<script type="html/x-mustache-template" id="customSearchResultsTmpl">
+	<div class="itemResultHolder ui-draggable" style="position: relative;">
+		<div class="productImgContainer">
+			<a class="11369188583342954973 productImgAnchor" target="blank" href="http://www.myotcstore.com/store/p/12380-First-Response-Early-Result-Pregnancy-Test-3-Ea.aspx?utm_source=froogle_otc&amp;utm_medium=cpc&amp;utm_campaign=product&amp;gdftrk=gdfV23047_a_7c861_a_7c4357_a_7c214056"><img class="11369188583342954973" src="http://www.myotcstore.com/store/i/is.aspx?path=/images/F-productimages/FirstResponse/RU214056.jpg&amp;lr=t&amp;bw=250"></a>
+		</div>
+		<h3>16.22</h3>
+		<h5 class="alert-success">
+			inStock
+		</h5>
+		<h4>myotcstore.com</h4>
+		<p class="itemResultTitle">
+			First Response Early Result Pregnancy Test - 3 Ea
+		</p>
+		<input type="hidden" value="11369188583342954973" class="itemGoogleId">
 	</div>
 </script>
 <div class="container-fluid">
@@ -39,7 +69,12 @@
 				<h3 class="alert-heading">
 					<img src="/images/package.png" alt="create a package" width="30px"  style="float: left"/>
 					<form name="namePackage" action="user/save_package_data" class="namePackage" method="post">
+						<input type="hidden" name="package_name_id" id="package_name_id" class="package_name_id" value="<?=$package_id; ?>" />
 						<a href="#" class="createPackageAnchor" style="float: left"><?= $package_name; ?></a>
+						<div class="package_color_picker" style="">
+							<input type="text" name="package_color_input" class="package_color_input simple_color" value="" />
+						</div>
+						
 						<a href="#" class="hide done" style="vertical-align: text-top; line-height: 12px;"><img src="<?= base_url(); ?>images/done_square.png" alt="" /></a>
 					</form>
 				</h3>
@@ -124,15 +159,18 @@
 			<div class="clearfix">
 				<label>Search: </label>
 				<div class="input">
-					<input type="text" name="itemSearch" id="itemSearch" value="" />
+					<input type="text" name="itemSearch" id="itemSearch" value="<?= isset($search_query) ? $search_query : 'prevost'; ?>" />
+					<?php if(isset($search_query)): ?>
+					<input type="hidden" name="search_forward" id="search_forward" value="1" />
+					<?php endif; ?>
 				</div>
 				<div class="controls">
 					<label class="radio">
-						<input type="radio" name="searchType" value="1" checked>
+						<input type="radio" name="searchType" value="1" >
 						Shopping
 					</label>
 					<label class="radio">
-						<input type="radio" name="searchType" value="2" >
+						<input type="radio" name="searchType" value="2" checked>
 						Custom Search
 					</label>
 					<label class="image_search">
