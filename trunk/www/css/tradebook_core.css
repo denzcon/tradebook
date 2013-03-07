@@ -18,6 +18,7 @@ body {
 	right:0;
 	top:0;
 	bottom:0;
+	font-size: 12px;
 }
 
 .footer_container{display: block;position: absolute;bottom: 0; left: 0;right: 0;background: #555;}
@@ -309,7 +310,7 @@ a.logoAnchor:hover
 	border-style: solid;
 	border-width: 1px 0;
 	float: left;
-	height: 365px;
+	height: 475px;
 	padding: 20px 10px 10px;
 	z-index: 1;
 	overflow: hidden;
@@ -412,7 +413,7 @@ form .buttonContainer{margin-top: 10px;}
 	white-space: normal;
 	padding:3px 0 0 0;
 }
-ul.wishList li{
+ul.wishList li.item{
 	border: 1px solid #eee;
 	border-radius: 6px 6px 6px 6px;
 	float: left;
@@ -429,7 +430,7 @@ ul.wishList li{
 .wishListImgContainer{text-align: center;height: 225px;line-height: 225px; position: relative; z-index: -1;overflow: hidden;}
 ul.wishList{margin: 0}
 .wishListDataContainer{	min-height: 104px;	padding:0px;	position: relative;text-align: left;}
-.wishTitle{font-weight: bold;    clear: both;    margin-top: 14px;font-size: .7em;color: #444;height: 50px;}
+.wishTitle{font-weight: bold;    clear: both;    margin-top: 14px;font-size: .9em;color: #444;min-height: 50px;}
 p.wishDescription{font-size: .8em;line-height: 12px;}
 #packageBarContentContainer h3{}
 span.price{border: 1px solid #D6E9C6;border-radius: 4px 4px 4px 4px;margin-right: 10px;padding: 4px 8px;}

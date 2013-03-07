@@ -111,6 +111,8 @@ class User extends MY_Controller
 //		$custom_search_url = $this->google_api->buildCustomSearchUrl(1, 20, 'customsearch', 'v1', $search_string, $sort, $order);
 		$url = $this->google_api->buildShoppingUrl($key, 1, 20, 'shopping', 'search', $search_string, $sort, $order);
 		$this->shoppingSearchURL = $url;
+//		$this->debug($this->shoppingSearchURL);
+//		exit;
 		$data = $this->CURL($url);
 		$this->searchResponse($data, 'shopping');
 	}

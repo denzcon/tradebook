@@ -32,20 +32,20 @@
 		<input type="hidden" value="{{googleId}}" class="itemGoogleId" />
 	</div>
 </script>
-<script type="html/x-mustache-template" id="customSearchResultsTmpl">
+<script type="html/x-mustache-template" id="shoppingSearchResultsTmpl">
 	<div class="itemResultHolder ui-draggable" style="position: relative;">
 		<div class="productImgContainer">
-			<a class="11369188583342954973 productImgAnchor" target="blank" href="http://www.myotcstore.com/store/p/12380-First-Response-Early-Result-Pregnancy-Test-3-Ea.aspx?utm_source=froogle_otc&amp;utm_medium=cpc&amp;utm_campaign=product&amp;gdftrk=gdfV23047_a_7c861_a_7c4357_a_7c214056"><img class="11369188583342954973" src="http://www.myotcstore.com/store/i/is.aspx?path=/images/F-productimages/FirstResponse/RU214056.jpg&amp;lr=t&amp;bw=250"></a>
+			<a class="{{googleId}} productImgAnchor" target="blank" href="{{productLink}}"><img class="{{googleId}}" src="{{src}}"></a>
 		</div>
-		<h3>16.22</h3>
+		<h3>${{price}}</h3>
 		<h5 class="alert-success">
 			inStock
 		</h5>
-		<h4>myotcstore.com</h4>
+		<h4>{{displayLink}}</h4>
 		<p class="itemResultTitle">
-			First Response Early Result Pregnancy Test - 3 Ea
+			{{description}}
 		</p>
-		<input type="hidden" value="11369188583342954973" class="itemGoogleId">
+		<input type="hidden" value="{{googleId}}" class="itemGoogleId">
 	</div>
 </script>
 <div class="container-fluid">

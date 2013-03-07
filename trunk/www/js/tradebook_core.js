@@ -506,6 +506,7 @@ $(function() {
 	
 	function renderSearch(items, options)
 	{
+		console.log(options);
 		var code ='';
 		var viewPrice = '';
 		$("#resultsContainer").html("");
@@ -534,18 +535,19 @@ $(function() {
 		{
 			$.each(items, function(i, item)
 			{
-				if(item.images)
+				if(item.product.images)
 				{
-					var firstImage = item.images[0].link;
-					if(item.images[0].status== 'available')
+					var firstImageLink = item.product.images[0].link;
+					var firstImage = item.product.images[0];
+					if(firstImage.status== 'available')
 					{
 						
 					}
-					if(item.pagemap.cse_image)
+					if(item.pagemap)
 					{
 						var thumbImage = item.pagemap.cse_thumbnail[0].src;
 					}
-					if(item.pagemap.metatags)
+					if(item.pagemap)
 					{
 						var metaTags = item.pagemap.metatags[0];
 					}
@@ -557,13 +559,13 @@ $(function() {
 				var availability = item['product']['inventories'][0]['availability'];
 				var anchor = item.product.link;
 				var title = item.product.title;
-				var searchResults = $('#customSearchResultsTmpl').mustache({
-					src:firstImage,
-					thumbImage:firstImage,
+				var searchResults = $('#shoppingSearchResultsTmpl').mustache({
+					src:firstImageLink,
+					thumbImage:firstImageLink,
 					googleId:googleId,
 					productLink:productLink,
 					description:title,
-					price:price,
+					price:price.toFixed(2),
 					displayLink:supplier_name,
 					title:title
 					

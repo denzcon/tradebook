@@ -22,11 +22,11 @@
 			</div><!--/.well -->
 			<div class="well sidebar-nav current-package">
 				<div class="package-dropzone">
-					<span class="message"><?= $_SESSION['current_package']['package_name']; ?></span>
+					<span class="message"><?= isset($_SESSION['current_package']['package_name']) ? $_SESSION['current_package']['package_name'] : 'drop here' ; ?></span>
 				</div>
 			</div><!--/.well -->
         </div>
-		<div class="content span9" style="margin-left: 20px; padding: 0;">
+		<div class="content span10" style="margin-left: 20px; padding: 0;">
 			<div class="progressBarContainer userHeader">
 				<ul>
 					<li>
@@ -45,7 +45,7 @@
 			<?php if ($wants !== false): ?>
 				<ul class="wishList">
 					<?php foreach ($wants as $want) : ?>
-						<li>
+						<li class="item">
 							<a data-dismiss="modal" class="close remove" type="button" style="z-index: 9999; padding: 4px 10px; background: none repeat scroll 0% 0% rgb(221, 221, 221); border: 1px solid rgb(170, 170, 170);">×</a>
 							<input type="hidden" name="wishId" class="wishId" value="<?= $want['id']; ?>" />
 							<div class="wishListImgContainer">
@@ -62,6 +62,14 @@
 								<label class="user-packages">packages: <span class="label label-info"><?= $want['package_name'] ?></span></label>
 								<?php else: ?>
 									<span class="label">Add to a package</span>
+                <a href="#" data-toggle="dropdown" role="button" id="drop4" class="dropdown-toggle">Dropdown <b class="caret"></b></a>
+                <ul aria-labelledby="drop4" role="menu" class="dropdown-menu" id="menu1">
+                  <li role="presentation"><a href="#" tabindex="-1" role="menuitem">Action</a></li>
+                  <li role="presentation"><a href="#" tabindex="-1" role="menuitem">Another action</a></li>
+                  <li role="presentation"><a href="#" tabindex="-1" role="menuitem">Something else here</a></li>
+                  <li class="divider" role="presentation"></li>
+                  <li role="presentation"><a href="#" tabindex="-1" role="menuitem">Separated link</a></li>
+                </ul>
 								<?php endif; ?>
 								<p class="wishTitle"><?= preg_replace('/\s+?(\S+)?$/', '', substr($want['title'], 0, 101)); ?></p>
 								<?php if($want['price']) :  ?>
